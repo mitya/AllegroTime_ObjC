@@ -21,6 +21,9 @@
 		32BD4D95151F4AE20033BDDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D7A151F4AE20033BDDE /* CoreData.framework */; };
 		32BD4D9D151F4AE20033BDDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */; };
 		32BD4DA0151F4AE20033BDDE /* AllegroTimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */; };
+		32BD4DAB151F4BD80033BDDE /* TestView1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4DAA151F4BD80033BDDE /* TestView1.xib */; };
+		32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DAF151F56ED0033BDDE /* MainViewController.m */; };
+		32BD4DB2151F56ED0033BDDE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4DB0151F56ED0033BDDE /* MainViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,19 +42,23 @@
 		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		32BD4D78151F4AE20033BDDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32BD4D7A151F4AE20033BDDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */ = {isa = PBXFileReference; path = "AllegroTime-Info.plist"; sourceTree = "<group>"; };
+		32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AllegroTime-Info.plist"; sourceTree = "<group>"; };
 		32BD4D80151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		32BD4D82151F4AE20033BDDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */ = {isa = PBXFileReference; path = "AllegroTime-Prefix.pch"; sourceTree = "<group>"; };
-		32BD4D85151F4AE20033BDDE /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AllegroTime-Prefix.pch"; sourceTree = "<group>"; };
+		32BD4D85151F4AE20033BDDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		32BD4D86151F4AE20033BDDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AllegroTime.xcdatamodel; sourceTree = "<group>"; };
 		32BD4D90151F4AE20033BDDE /* AllegroTimeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllegroTimeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		32BD4D9A151F4AE20033BDDE /* AllegroTimeTests-Info.plist */ = {isa = PBXFileReference; path = "AllegroTimeTests-Info.plist"; sourceTree = "<group>"; };
+		32BD4D9A151F4AE20033BDDE /* AllegroTimeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AllegroTimeTests-Info.plist"; sourceTree = "<group>"; };
 		32BD4D9C151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32BD4D9E151F4AE20033BDDE /* AllegroTimeTests.h */ = {isa = PBXFileReference; path = AllegroTimeTests.h; sourceTree = "<group>"; };
+		32BD4D9E151F4AE20033BDDE /* AllegroTimeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AllegroTimeTests.h; sourceTree = "<group>"; };
 		32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllegroTimeTests.m; sourceTree = "<group>"; };
+		32BD4DAA151F4BD80033BDDE /* TestView1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestView1.xib; sourceTree = "<group>"; };
+		32BD4DAE151F56ED0033BDDE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		32BD4DAF151F56ED0033BDDE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		32BD4DB0151F56ED0033BDDE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +90,7 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
+				32BD4DA9151F4BB20033BDDE /* Experiments */,
 				32BD4D7C151F4AE20033BDDE /* AllegroTime */,
 				32BD4D98151F4AE20033BDDE /* AllegroTimeTests */,
 				32BD4D73151F4AE20033BDDE /* Frameworks */,
@@ -114,10 +122,13 @@
 		32BD4D7C151F4AE20033BDDE /* AllegroTime */ = {
 			isa = PBXGroup;
 			children = (
+				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
 				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
 				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
 				32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */,
-				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
+				32BD4DAE151F56ED0033BDDE /* MainViewController.h */,
+				32BD4DAF151F56ED0033BDDE /* MainViewController.m */,
+				32BD4DB0151F56ED0033BDDE /* MainViewController.xib */,
 			);
 			path = AllegroTime;
 			sourceTree = "<group>";
@@ -150,6 +161,15 @@
 				32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		32BD4DA9151F4BB20033BDDE /* Experiments */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4DAA151F4BD80033BDDE /* TestView1.xib */,
+			);
+			name = Experiments;
+			path = AllegroTime;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +243,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				32BD4D81151F4AE20033BDDE /* InfoPlist.strings in Resources */,
+				32BD4DAB151F4BD80033BDDE /* TestView1.xib in Resources */,
+				32BD4DB2151F56ED0033BDDE /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +282,7 @@
 				32BD4D83151F4AE20033BDDE /* main.m in Sources */,
 				32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */,
 				32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */,
+				32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +344,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -340,7 +363,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
