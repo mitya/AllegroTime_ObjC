@@ -24,6 +24,8 @@
 		32BD4DAB151F4BD80033BDDE /* TestView1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4DAA151F4BD80033BDDE /* TestView1.xib */; };
 		32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DAF151F56ED0033BDDE /* MainViewController.m */; };
 		32BD4DB2151F56ED0033BDDE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4DB0151F56ED0033BDDE /* MainViewController.xib */; };
+		32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDDF /* Models.m */; };
+		32BD4DB2151F56ED0033BDE1 /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDDF /* Models.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		32BD4DAE151F56ED0033BDDE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		32BD4DAF151F56ED0033BDDE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		32BD4DB0151F56ED0033BDDE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		32BD4DB2151F56ED0033BDDF /* Models.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Models.m; sourceTree = "<group>"; };
+		32BD4DB2151F56ED0033BDE2 /* Models.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,8 @@
 		32BD4D7C151F4AE20033BDDE /* AllegroTime */ = {
 			isa = PBXGroup;
 			children = (
+				32BD4DB2151F56ED0033BDE2 /* Models.h */,
+				32BD4DB2151F56ED0033BDDF /* Models.m */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
 				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
 				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
@@ -283,6 +289,7 @@
 				32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */,
 				32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */,
 				32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */,
+				32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32BD4DA0151F4AE20033BDDE /* AllegroTimeTests.m in Sources */,
+				32BD4DB2151F56ED0033BDE1 /* Models.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
