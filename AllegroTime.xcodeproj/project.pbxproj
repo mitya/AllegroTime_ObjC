@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		32BD4D75151F4AE20033BDDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D74151F4AE20033BDDE /* UIKit.framework */; };
+		32BD4D77151F4AE20033BDDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D76151F4AE20033BDDE /* Foundation.framework */; };
+		32BD4D79151F4AE20033BDDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D78151F4AE20033BDDE /* CoreGraphics.framework */; };
+		32BD4D7B151F4AE20033BDDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D7A151F4AE20033BDDE /* CoreData.framework */; };
+		32BD4D81151F4AE20033BDDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */; };
+		32BD4D83151F4AE20033BDDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D82151F4AE20033BDDE /* main.m */; };
+		32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D86151F4AE20033BDDE /* AppDelegate.m */; };
+		32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */; };
+		32BD4D92151F4AE20033BDDE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */; };
+		32BD4D93151F4AE20033BDDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D74151F4AE20033BDDE /* UIKit.framework */; };
+		32BD4D94151F4AE20033BDDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D76151F4AE20033BDDE /* Foundation.framework */; };
+		32BD4D95151F4AE20033BDDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D7A151F4AE20033BDDE /* CoreData.framework */; };
+		32BD4D9D151F4AE20033BDDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */; };
+		32BD4DA0151F4AE20033BDDE /* AllegroTimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		32BD4D96151F4AE20033BDDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32BD4D67151F4AE20033BDDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 32BD4D6F151F4AE20033BDDE;
+			remoteInfo = AllegroTime;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		32BD4D74151F4AE20033BDDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		32BD4D78151F4AE20033BDDE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		32BD4D7A151F4AE20033BDDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */ = {isa = PBXFileReference; path = "AllegroTime-Info.plist"; sourceTree = "<group>"; };
+		32BD4D80151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32BD4D82151F4AE20033BDDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */ = {isa = PBXFileReference; path = "AllegroTime-Prefix.pch"; sourceTree = "<group>"; };
+		32BD4D85151F4AE20033BDDE /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		32BD4D86151F4AE20033BDDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AllegroTime.xcdatamodel; sourceTree = "<group>"; };
+		32BD4D90151F4AE20033BDDE /* AllegroTimeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllegroTimeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		32BD4D9A151F4AE20033BDDE /* AllegroTimeTests-Info.plist */ = {isa = PBXFileReference; path = "AllegroTimeTests-Info.plist"; sourceTree = "<group>"; };
+		32BD4D9C151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32BD4D9E151F4AE20033BDDE /* AllegroTimeTests.h */ = {isa = PBXFileReference; path = AllegroTimeTests.h; sourceTree = "<group>"; };
+		32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllegroTimeTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		32BD4D6D151F4AE20033BDDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4D75151F4AE20033BDDE /* UIKit.framework in Frameworks */,
+				32BD4D77151F4AE20033BDDE /* Foundation.framework in Frameworks */,
+				32BD4D79151F4AE20033BDDE /* CoreGraphics.framework in Frameworks */,
+				32BD4D7B151F4AE20033BDDE /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32BD4D8C151F4AE20033BDDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4D92151F4AE20033BDDE /* SenTestingKit.framework in Frameworks */,
+				32BD4D93151F4AE20033BDDE /* UIKit.framework in Frameworks */,
+				32BD4D94151F4AE20033BDDE /* Foundation.framework in Frameworks */,
+				32BD4D95151F4AE20033BDDE /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		32BD4D65151F4AE20033BDDE = {
+			isa = PBXGroup;
+			children = (
+				32BD4D7C151F4AE20033BDDE /* AllegroTime */,
+				32BD4D98151F4AE20033BDDE /* AllegroTimeTests */,
+				32BD4D73151F4AE20033BDDE /* Frameworks */,
+				32BD4D71151F4AE20033BDDE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		32BD4D71151F4AE20033BDDE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D70151F4AE20033BDDE /* AllegroTime.app */,
+				32BD4D90151F4AE20033BDDE /* AllegroTimeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32BD4D73151F4AE20033BDDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D74151F4AE20033BDDE /* UIKit.framework */,
+				32BD4D76151F4AE20033BDDE /* Foundation.framework */,
+				32BD4D78151F4AE20033BDDE /* CoreGraphics.framework */,
+				32BD4D7A151F4AE20033BDDE /* CoreData.framework */,
+				32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32BD4D7C151F4AE20033BDDE /* AllegroTime */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
+				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
+				32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */,
+				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
+			);
+			path = AllegroTime;
+			sourceTree = "<group>";
+		};
+		32BD4D7D151F4AE20033BDDE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */,
+				32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */,
+				32BD4D82151F4AE20033BDDE /* main.m */,
+				32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		32BD4D98151F4AE20033BDDE /* AllegroTimeTests */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D9E151F4AE20033BDDE /* AllegroTimeTests.h */,
+				32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */,
+				32BD4D99151F4AE20033BDDE /* Supporting Files */,
+			);
+			path = AllegroTimeTests;
+			sourceTree = "<group>";
+		};
+		32BD4D99151F4AE20033BDDE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				32BD4D9A151F4AE20033BDDE /* AllegroTimeTests-Info.plist */,
+				32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		32BD4D6F151F4AE20033BDDE /* AllegroTime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32BD4DA3151F4AE20033BDDE /* Build configuration list for PBXNativeTarget "AllegroTime" */;
+			buildPhases = (
+				32BD4D6C151F4AE20033BDDE /* Sources */,
+				32BD4D6D151F4AE20033BDDE /* Frameworks */,
+				32BD4D6E151F4AE20033BDDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AllegroTime;
+			productName = AllegroTime;
+			productReference = 32BD4D70151F4AE20033BDDE /* AllegroTime.app */;
+			productType = "com.apple.product-type.application";
+		};
+		32BD4D8F151F4AE20033BDDE /* AllegroTimeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32BD4DA6151F4AE20033BDDE /* Build configuration list for PBXNativeTarget "AllegroTimeTests" */;
+			buildPhases = (
+				32BD4D8B151F4AE20033BDDE /* Sources */,
+				32BD4D8C151F4AE20033BDDE /* Frameworks */,
+				32BD4D8D151F4AE20033BDDE /* Resources */,
+				32BD4D8E151F4AE20033BDDE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				32BD4D97151F4AE20033BDDE /* PBXTargetDependency */,
+			);
+			name = AllegroTimeTests;
+			productName = AllegroTimeTests;
+			productReference = 32BD4D90151F4AE20033BDDE /* AllegroTimeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		32BD4D67151F4AE20033BDDE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 32BD4D6A151F4AE20033BDDE /* Build configuration list for PBXProject "AllegroTime" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 32BD4D65151F4AE20033BDDE;
+			productRefGroup = 32BD4D71151F4AE20033BDDE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				32BD4D6F151F4AE20033BDDE /* AllegroTime */,
+				32BD4D8F151F4AE20033BDDE /* AllegroTimeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		32BD4D6E151F4AE20033BDDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4D81151F4AE20033BDDE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32BD4D8D151F4AE20033BDDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4D9D151F4AE20033BDDE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32BD4D8E151F4AE20033BDDE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		32BD4D6C151F4AE20033BDDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4D83151F4AE20033BDDE /* main.m in Sources */,
+				32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */,
+				32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32BD4D8B151F4AE20033BDDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32BD4DA0151F4AE20033BDDE /* AllegroTimeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		32BD4D97151F4AE20033BDDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 32BD4D6F151F4AE20033BDDE /* AllegroTime */;
+			targetProxy = 32BD4D96151F4AE20033BDDE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32BD4D80151F4AE20033BDDE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32BD4D9C151F4AE20033BDDE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		32BD4DA1151F4AE20033BDDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		32BD4DA2151F4AE20033BDDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		32BD4DA4151F4AE20033BDDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AllegroTime/AllegroTime-Prefix.pch";
+				INFOPLIST_FILE = "AllegroTime/AllegroTime-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		32BD4DA5151F4AE20033BDDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AllegroTime/AllegroTime-Prefix.pch";
+				INFOPLIST_FILE = "AllegroTime/AllegroTime-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		32BD4DA7151F4AE20033BDDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AllegroTime.app/AllegroTime";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AllegroTime/AllegroTime-Prefix.pch";
+				INFOPLIST_FILE = "AllegroTimeTests/AllegroTimeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		32BD4DA8151F4AE20033BDDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AllegroTime.app/AllegroTime";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AllegroTime/AllegroTime-Prefix.pch";
+				INFOPLIST_FILE = "AllegroTimeTests/AllegroTimeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		32BD4D6A151F4AE20033BDDE /* Build configuration list for PBXProject "AllegroTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32BD4DA1151F4AE20033BDDE /* Debug */,
+				32BD4DA2151F4AE20033BDDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32BD4DA3151F4AE20033BDDE /* Build configuration list for PBXNativeTarget "AllegroTime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32BD4DA4151F4AE20033BDDE /* Debug */,
+				32BD4DA5151F4AE20033BDDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		32BD4DA6151F4AE20033BDDE /* Build configuration list for PBXNativeTarget "AllegroTimeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32BD4DA7151F4AE20033BDDE /* Debug */,
+				32BD4DA8151F4AE20033BDDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */,
+			);
+			currentVersion = 32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */;
+			path = AllegroTime.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 32BD4D67151F4AE20033BDDE /* Project object */;
+}
