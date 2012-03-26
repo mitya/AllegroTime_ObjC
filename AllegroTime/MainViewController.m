@@ -8,14 +8,15 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 #import "MainViewController.h"
+#import "Models.h"
 
 @interface MainViewController ()
 
 @end
 
-NSString const *CrossingNameCellID = @"CrossingNameCell";
-NSString const *CrossingStateCellID = @"CrossingStateCell";
-NSString const *DefaultWithTriangleCellID = @"DefaultWithTriangleCell";
+NSString *CrossingNameCellID = @"CrossingNameCell";
+NSString *CrossingStateCellID = @"CrossingStateCell";
+NSString *DefaultWithTriangleCellID = @"DefaultWithTriangleCell";
 
 const int MainViewCrossingStateSection = 0;
 const int MainViewCrossingStateSectionTitleRow = 0;
@@ -73,7 +74,7 @@ const int MainViewCrossingActionsSection = 1;
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
       }
-      cell.textLabel.text = @"Переезд на Удельной";
+      cell.textLabel.text = self.currentCrossing.name;
     } else if (indexPath.row == MainViewCrossingStateSectionStateRow) {
       cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
       if (!cell) {
@@ -83,7 +84,9 @@ const int MainViewCrossingActionsSection = 1;
         cell.textLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:0 alpha:1];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
       }
-      cell.textLabel.text = @"Будет закрыт через 3 часа в 17:45";
+      //cell.textLabel.text = @"Будет закрыт через 3 часа в 17:45";
+      //cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт через %@ часа в %@", self.currentCrossing.timeLeftText, self.currentCrossing.nextTime];
+      cell.textLabel.text = [NSString stringWithFormat:@"Переезд будет закрыт в %@", self.currentCrossing.nextTime];
     }
   } else if (indexPath.section == MainViewCrossingActionsSection) {
     if (indexPath.row == 0) {
@@ -133,6 +136,12 @@ const int MainViewCrossingActionsSection = 1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+}
+
+#pragma mark - model
+
+- (Crossing *)currentCrossing {
+  return [ModelManager currentCrossing];
 }
 
 @end

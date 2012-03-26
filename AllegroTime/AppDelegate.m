@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "Models.h"
+#import "Helpers.h"
 
 @implementation AppDelegate
 
@@ -17,6 +19,8 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [ModelManager prepare];
+
   UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithStyle:UITableViewStyleGrouped]];
   
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

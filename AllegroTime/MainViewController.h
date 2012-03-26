@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UITableViewController
+@class Crossing;
 
+@interface MainViewController : UITableViewController
+- (Crossing *)currentCrossing;
 @end

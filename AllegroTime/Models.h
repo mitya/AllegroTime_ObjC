@@ -17,12 +17,13 @@ typedef enum {
 @property (strong) NSString *time;
 @property (assign) Crossing *crossing;
 @property ClosingDirection direction;
+@property int timeInMinutes;
 
 - (NSString *)soonestTime;
 + (id)closingWithCrossingName:(NSString *)crossingName time:(NSString *)time direction:(ClosingDirection)direction;
-+ (void)seed;
 
 @end
+
 
 @interface Crossing :NSObject
 
@@ -31,15 +32,21 @@ typedef enum {
 @property (strong) NSString *name;
 @property (strong) NSMutableArray *closings;
 
-+ (void)seed;
-+ (Crossing *)crossingWithName:(NSString *)aName;
+- (Closing *)nextClosing;
+- (NSString *)nextTime;
+
++ (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
 + (Crossing *)getCrossingWithName:(NSString *)name;
 
 @end
 
+
 @interface ModelManager : NSObject
 
-+ (void)initialize;
++ (void)prepare;
+
++ (NSMutableArray *)Crossings;
++ (NSMutableArray *)closings;
 + (Crossing *)currentCrossing;
 + (Crossing *)closestCrossing;
 + (NSString *)geolocationState;
