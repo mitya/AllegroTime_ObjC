@@ -13,14 +13,14 @@
 
 @end
 
-static NSString *CrossingNameCellID = @"CrossingNameCell";
-static NSString *CrossingStateCellID = @"CrossingStateCell";
-static NSString *DefaultWithTriangleCellID = @"DefaultWithTriangleCell";
+NSString const *CrossingNameCellID = @"CrossingNameCell";
+NSString const *CrossingStateCellID = @"CrossingStateCell";
+NSString const *DefaultWithTriangleCellID = @"DefaultWithTriangleCell";
 
-int MainViewCrossingStateSection = 0;
-int MainViewCrossingStateSectionTitleRow = 0;
-int MainViewCrossingStateSectionStateRow = 1;
-int MainViewCrossingActionsSection = 1;
+const int MainViewCrossingStateSection = 0;
+const int MainViewCrossingStateSectionTitleRow = 0;
+const int MainViewCrossingStateSectionStateRow = 1;
+const int MainViewCrossingActionsSection = 1;
 
 @implementation MainViewController
 
@@ -50,15 +50,22 @@ int MainViewCrossingActionsSection = 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == 0)
-    return 2;
-  else if (section == 1)
-    return 1;
+
+  switch (section) {
+    case MainViewCrossingStateSection:
+      return 2;
+      break;
+    case MainViewCrossingActionsSection:
+      return 1;
+      break;
+    default:
+      return 0;
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell;
-  if (indexPath.section == MainViewCrossingStateSection ) {
+  if (indexPath.section == MainViewCrossingStateSection) {
     if (indexPath.row == MainViewCrossingStateSectionTitleRow) {
       cell = [tableView dequeueReusableCellWithIdentifier:CrossingNameCellID];
       if (!cell) {
