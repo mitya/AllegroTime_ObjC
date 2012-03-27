@@ -7,8 +7,10 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <CoreLocation/CoreLocation.h>
 #import "MainViewController.h"
 #import "Models.h"
+#import "Helpers.h"
 
 @interface MainViewController ()
 
@@ -23,7 +25,9 @@ const int MainViewCrossingStateSectionTitleRow = 0;
 const int MainViewCrossingStateSectionStateRow = 1;
 const int MainViewCrossingActionsSection = 1;
 
-@implementation MainViewController
+@implementation MainViewController {
+  CLLocationManager *locationManager;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style {
   self = [super initWithStyle:style];
@@ -34,6 +38,13 @@ const int MainViewCrossingActionsSection = 1;
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = @"Время Аллегро";
+
+  locationManager = [[CLLocationManager alloc] init];
+  locationManager.delegate = self;
+  locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+  [locationManager startUpdatingLocation];
+  NSLog(@"locationManager.locationServicesEnabled: %c", CLLocationManager.locationServicesEnabled);
+
 }
 
 - (void)viewDidUnload {
@@ -70,11 +81,12 @@ const int MainViewCrossingActionsSection = 1;
     if (indexPath.row == MainViewCrossingStateSectionTitleRow) {
       cell = [tableView dequeueReusableCellWithIdentifier:CrossingNameCellID];
       if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingNameCellID];
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingNameCellID];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
       }
-      cell.textLabel.text = self.currentCrossing.name;
+      cell.textLabel.text = @"Переезд";
+      cell.detailTextLabel.text = self.currentCrossing.name;
+
     } else if (indexPath.row == MainViewCrossingStateSectionStateRow) {
       cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
       if (!cell) {
@@ -107,15 +119,16 @@ const int MainViewCrossingActionsSection = 1;
   if (section == MainViewCrossingStateSection) {
     UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, tableView.bounds.size.width - 30, 25)];
-    label.text = @"Определение ближайшего переезда...";
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, tableView.bounds.size.width - 30, 25)];
+    label.text = @"Поиск ближайшего переезда...";
     label.textColor = [UIColor darkGrayColor];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:14];
     label.textAlignment = UITextAlignmentCenter;
 
+    CGSize labelSize = [label.text sizeWithFont:label.font];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(tableView.bounds.size.width - spinner.frame.size.width, label.center.y);
+    spinner.center = CGPointMake(labelSize.width + (label.frame.size.width - labelSize.width) / 2 + spinner.frame.size.width, label.center.y);
     [spinner startAnimating];
 
     [header addSubview:label];
@@ -136,6 +149,13 @@ const int MainViewCrossingActionsSection = 1;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+}
+
+#pragma mark - location management
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+  //NSLog(@"oldLocation: %@", oldLocation);
+  //NSLog(@"newLocation: %@", newLocation);
 }
 
 #pragma mark - model

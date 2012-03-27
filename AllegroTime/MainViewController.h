@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class Crossing;
 
-@interface MainViewController : UITableViewController
+@interface MainViewController : UITableViewController <CLLocationManagerDelegate>
 - (Crossing *)currentCrossing;
 @end
