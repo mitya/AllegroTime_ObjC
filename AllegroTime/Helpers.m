@@ -42,7 +42,24 @@ void gDump(id object) {
 @implementation NSArray (My)
 
 - (id)firstObject {
+  if (self.count == 0)
+    return nil;
   return [self objectAtIndex:0];
+}
+
+- (id)minimumObject:(double (^)(id object))block {
+  double minValue = block([self firstObject]);
+  id minObject = [self firstObject];
+
+  for (id object in self) {
+    double value = block(object);
+    if (value < minValue) {
+      minValue = value;
+      minObject = object;
+    }
+  }
+
+  return minObject;
 }
 
 @end
@@ -81,5 +98,23 @@ void gDump(id object) {
   else
     return 0;
 
+}
+
++ (UILabel *)labelForTableViewFooter {
+  UILabel *label = [[UILabel alloc] init];
+  label.backgroundColor = [UIColor clearColor];
+  label.font = [UIFont systemFontOfSize:15];
+  label.textColor = [UIColor colorWithRed:0.298039 green:0.337255 blue:0.423529 alpha:1];
+  label.shadowColor = [UIColor colorWithWhite:1 alpha:1];
+  label.shadowOffset = CGSizeMake(0, 1);
+  label.textAlignment = UITextAlignmentCenter;
+  return label;
+}
+
++ (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label {
+  CGSize labelSize = [label.text sizeWithFont:label.font];
+  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  spinner.center = CGPointMake(labelSize.width + (label.frame.size.width - labelSize.width) / 2 + spinner.frame.size.width, label.center.y);
+  return spinner;
 }
 @end

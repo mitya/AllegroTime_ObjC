@@ -4,6 +4,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 typedef enum {
   ClosingDirectionToFinland = 1,
@@ -45,12 +46,13 @@ typedef enum {
 
 + (void)prepare;
 
-+ (NSMutableArray *)Crossings;
++ (NSMutableArray *)crossings;
 + (NSMutableArray *)closings;
 + (Crossing *)currentCrossing;
 + (Crossing *)closestCrossing;
 + (NSString *)geolocationState;
 
++ (Crossing *)crossingClosestTo:(CLLocation *)location;
 @end
 
 

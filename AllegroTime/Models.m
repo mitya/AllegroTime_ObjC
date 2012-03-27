@@ -3,11 +3,12 @@
 //
 
 
+#import <CoreLocation/CoreLocation.h>
 #import "Helpers.h"
 #import "Models.h"
 
-static NSMutableArray *ModelManagerCrossings;
-static NSMutableArray *ModelManagerClosings;
+static NSMutableArray *ModelManager_Crossings;
+static NSMutableArray *ModelManager_Closings;
 
 /******************************************************************************/
 
@@ -69,12 +70,7 @@ static NSMutableArray *ModelManagerClosings;
 - (Closing *)nextClosing {
   int currentTime = [Helpers currentTimeInMinutes];
 
-  NSLog(@"currentTime = %li", currentTime);
-
-
   for (Closing *closing in self.closings) {
-    NSLog(@"closing.timeInMinutes = %li", closing.timeInMinutes);
-
     if (closing.timeInMinutes > currentTime)
       return closing;
   }
@@ -102,7 +98,7 @@ static NSMutableArray *ModelManagerClosings;
 }
 
 + (Crossing *)getCrossingWithName:(NSString *)name {
-  for (Crossing *crossing in ModelManager.Crossings) {
+  for (Crossing *crossing in ModelManager.crossings) {
     if ([crossing.name isEqualToString:name])
       return crossing;
   }
@@ -119,12 +115,12 @@ static NSMutableArray *ModelManagerClosings;
 
 #pragma mark - app state
 
-+ (NSMutableArray *)Crossings {
-  return ModelManagerCrossings;
++ (NSMutableArray *)crossings {
+  return ModelManager_Crossings;
 }
 
 + (NSMutableArray *)closings {
-  return ModelManagerClosings;
+  return ModelManager_Closings;
 }
 
 + (Crossing *)closestCrossing {
@@ -144,13 +140,12 @@ static NSMutableArray *ModelManagerClosings;
 + (void)prepare {
   [self createData];
 
-  //gLog("allCrossings", [ModelManager allCrossings]);
-  //gLog("allClosings", [ModelManager allClosings]);
-  gLog("current", [ModelManager closestCrossing]);
+  //qq_log("allCrossings", [ModelManager crossings], _cmd);
+  //qq_log("allClosings", [ModelManager closings], _cmd);
 }
 
 + (void)createData {
-  ModelManagerCrossings = [NSMutableArray arrayWithObjects:
+  ModelManager_Crossings = [NSMutableArray arrayWithObjects:
       [Crossing crossingWithName:@"Удельная" latitude:60.017533 longitude:30.313379],
       [Crossing crossingWithName:@"Поклонногорская" latitude:60.025533 longitude:30.309113],
       [Crossing crossingWithName:@"Озерки - Шувалово" latitude:60.042087 longitude:30.300095],
@@ -160,7 +155,7 @@ static NSMutableArray *ModelManagerClosings;
       [Crossing crossingWithName:@"Дибуны" latitude:60.121706 longitude:30.130231],
       nil];
 
-  ModelManagerClosings = [NSMutableArray arrayWithObjects:
+  ModelManager_Closings = [NSMutableArray arrayWithObjects:
       [Closing closingWithCrossingName:@"Удельная" time:@"12:00" direction:ClosingDirectionToFinland],
       [Closing closingWithCrossingName:@"Удельная" time:@"15:00" direction:ClosingDirectionToFinland],
       [Closing closingWithCrossingName:@"Удельная" time:@"18:00" direction:ClosingDirectionToFinland],
@@ -185,12 +180,29 @@ static NSMutableArray *ModelManagerClosings;
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"15:00" direction:ClosingDirectionToRussia],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"18:00" direction:ClosingDirectionToRussia],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"21:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"12:00" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"15:00" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"18:00" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"21:00" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"12:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"15:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"18:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"21:00" direction:ClosingDirectionToRussia],
       nil];
 
-  [ModelManagerClosings sortUsingComparator:^NSComparisonResult(Closing *obj1, Closing *obj2) {
+  [ModelManager_Closings sortUsingComparator:^NSComparisonResult(Closing *obj1, Closing *obj2) {
     return [Helpers compareInteger:obj1.timeInMinutes with:obj2.timeInMinutes];
+
   }];
 }
 
++ (Crossing *)crossingClosestTo:(CLLocation *)location {
+  return [ModelManager_Crossings minimumObject:^(Crossing *crossing){
+    CLLocation *currentLocation = [[CLLocation alloc] initWithLatitude:crossing.latitude longitude:crossing.longitude];
+    double distance = [currentLocation distanceFromLocation:location];
+    //NSLog(@"%s crossing:'%@' distance:%f", _cmd, crossing.name, distance);
+    return distance;
+  }];
+}
 
 @end

@@ -16,18 +16,22 @@
 
 @end
 
-NSString *CrossingNameCellID = @"CrossingNameCell";
-NSString *CrossingStateCellID = @"CrossingStateCell";
-NSString *DefaultWithTriangleCellID = @"DefaultWithTriangleCell";
+NSString *CrossingNameCellID = @"crossing-name-cell";
+NSString *CrossingStateCellID = @"crossing-state-cell";
+NSString *DefaultWithTriangleCellID = @"default-with-triangle-cell";
 
-const int MainViewCrossingStateSection = 0;
-const int MainViewCrossingStateSectionTitleRow = 0;
-const int MainViewCrossingStateSectionStateRow = 1;
-const int MainViewCrossingActionsSection = 1;
+const int MainView_CrossingStateSection = 0;
+const int MainView_CrossingStateSection_TitleRow = 0;
+const int MainView_CrossingStateSection_StateRow = 1;
+const int MainView_CrossingActionsSection = 1;
 
-@implementation MainViewController {
-  CLLocationManager *locationManager;
-}
+@implementation MainViewController
+
+@synthesize locationState;
+@synthesize currentCrossing;
+@synthesize locationManager;
+
+#pragma mark - lifecycle
 
 - (id)initWithStyle:(UITableViewStyle)style {
   self = [super initWithStyle:style];
@@ -39,17 +43,31 @@ const int MainViewCrossingActionsSection = 1;
   [super viewDidLoad];
   self.title = @"Время Аллегро";
 
-  locationManager = [[CLLocationManager alloc] init];
-  locationManager.delegate = self;
-  locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-  [locationManager startUpdatingLocation];
-  NSLog(@"locationManager.locationServicesEnabled: %c", CLLocationManager.locationServicesEnabled);
+  // set up a location manager
 
 }
 
 - (void)viewDidUnload {
   [super viewDidUnload];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+
+  if (CLLocationManager.locationServicesEnabled) {
+    [self.locationManager startMonitoringSignificantLocationChanges];
+    self.locationState = LocationStateSearching;
+  } else {
+    self.locationState = LocationStateNotAvailable;
+  }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+  [self.locationManager stopMonitoringSignificantLocationChanges];
+  self.locationState = LocationStateNotAvailable;
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -62,106 +80,158 @@ const int MainViewCrossingActionsSection = 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
   switch (section) {
-    case MainViewCrossingStateSection:
+    case MainView_CrossingStateSection:
       return 2;
-      break;
-    case MainViewCrossingActionsSection:
+    case MainView_CrossingActionsSection:
       return 1;
-      break;
-    default:
-      return 0;
   }
+  return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell;
-  if (indexPath.section == MainViewCrossingStateSection) {
-    if (indexPath.row == MainViewCrossingStateSectionTitleRow) {
-      cell = [tableView dequeueReusableCellWithIdentifier:CrossingNameCellID];
-      if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingNameCellID];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  switch (indexPath.section) {
+    case MainView_CrossingStateSection:
+      switch (indexPath.row) {
+        case MainView_CrossingStateSection_TitleRow:
+          cell = [tableView dequeueReusableCellWithIdentifier:CrossingNameCellID];
+          if (!cell) {
+            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingNameCellID];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          }
+          cell.textLabel.text = @"Переезд";
+          cell.detailTextLabel.text = self.currentCrossing.name;
+          break;
+        case MainView_CrossingStateSection_StateRow:
+          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
+          if (!cell) {
+            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateCellID];
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+            cell.textLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:0 alpha:1];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+          }
+          //cell.textLabel.text = @"Будет закрыт через 3 часа в 17:45";
+          //cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт через %@ часа в %@", self.currentCrossing.timeLeftText, self.currentCrossing.nextTime];
+          cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт в %@", self.currentCrossing.nextTime];
+          break;
       }
-      cell.textLabel.text = @"Переезд";
-      cell.detailTextLabel.text = self.currentCrossing.name;
+      break;
+    case MainView_CrossingActionsSection:
+      switch (indexPath.row) {
+        case 0:
+          cell = [tableView dequeueReusableCellWithIdentifier:DefaultWithTriangleCellID];
+          if (!cell) {
+            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DefaultWithTriangleCellID];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    } else if (indexPath.row == MainViewCrossingStateSectionStateRow) {
-      cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
-      if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateCellID];
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.textLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-        cell.textLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:0 alpha:1];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+          }
+          cell.textLabel.text = @"Расписание";
+          break;
       }
-      //cell.textLabel.text = @"Будет закрыт через 3 часа в 17:45";
-      //cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт через %@ часа в %@", self.currentCrossing.timeLeftText, self.currentCrossing.nextTime];
-      cell.textLabel.text = [NSString stringWithFormat:@"Переезд будет закрыт в %@", self.currentCrossing.nextTime];
-    }
-  } else if (indexPath.section == MainViewCrossingActionsSection) {
-    if (indexPath.row == 0) {
-      cell = [tableView dequeueReusableCellWithIdentifier:DefaultWithTriangleCellID];
-      if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DefaultWithTriangleCellID];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-      }
-      cell.textLabel.text = @"Расписание";
-
-    }
   }
 
   return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  if (section == MainViewCrossingStateSection) {
-    UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
+  switch (section) {
+    case MainView_CrossingStateSection:
+      switch (locationState) {
+        case LocationStateNotAvailable: {
+          UILabel *label = [Helpers labelForTableViewFooter];
+          label.frame = CGRectMake(15, 0, tableView.bounds.size.width - 30, 30);
+          label.text = @"Ближайший переезд не определен";
+          return label;
+        }
 
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, tableView.bounds.size.width - 30, 25)];
-    label.text = @"Поиск ближайшего переезда...";
-    label.textColor = [UIColor darkGrayColor];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:14];
-    label.textAlignment = UITextAlignmentCenter;
+        case LocationStateSearching: {
+          UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
 
-    CGSize labelSize = [label.text sizeWithFont:label.font];
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(labelSize.width + (label.frame.size.width - labelSize.width) / 2 + spinner.frame.size.width, label.center.y);
-    [spinner startAnimating];
+          UILabel *label = [Helpers labelForTableViewFooter];
+          label.frame = CGRectMake(5, 0, tableView.bounds.size.width - 30, 30);
+          label.text = @"Поиск ближайшего переезда...";
 
-    [header addSubview:label];
-    [header addSubview:spinner];
 
-    return header;
-  } else {
-    return nil;
+          UIActivityIndicatorView *spinner = [Helpers spinnerAfterCenteredLabel:label];
+          [spinner startAnimating];
+
+
+          [header addSubview:label];
+          [header addSubview:spinner];
+
+          return header;
+        }
+      }
   }
+  return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  if (section == MainViewCrossingStateSection) {
-    return 25;
-  } else {
-    return 0;
+  switch (section) {
+    case MainView_CrossingStateSection:
+      switch (locationState) {
+        case LocationStateNotAvailable:
+        case LocationStateSearching:
+          return 30;
+      }
   }
+  return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+  if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
+    return @"Ближайший переезд не определен";
+  return nil;
+}
+
+
 #pragma mark - location management
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-  //NSLog(@"oldLocation: %@", oldLocation);
-  //NSLog(@"newLocation: %@", newLocation);
+  // * check if the data are fresh enought: abs(newLocation.timestamp.timeIntervalSinceNow) > 60.0
+  // * unsubscribe from the further updates if the GPS is used once the precise and recent data are gathered
+
+  self.locationState = LocationStateSet;
+  self.currentCrossing = [ModelManager crossingClosestTo:newLocation];
+  NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude);
 }
 
 #pragma mark - model
 
 - (Crossing *)currentCrossing {
-  return [ModelManager currentCrossing];
+  if (currentCrossing)
+    return currentCrossing;
+  else
+    return [ModelManager currentCrossing];
+}
+
+- (void)setCurrentCrossing:(Crossing *)aCrossing {
+  if (currentCrossing != aCrossing) {
+    currentCrossing = aCrossing;
+    [self.tableView reloadData];
+  }
+}
+
+- (void)setLocationState:(LocationState)aLocationState {
+  if (locationState != aLocationState) {
+    locationState = aLocationState;
+    [self.tableView reloadData];
+  }
+}
+
+- (CLLocationManager *)locationManager {
+  if (!locationManager) {
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    // locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    // locationManager.distanceFilter = 300;
+  }
+  return locationManager;
 }
 
 @end

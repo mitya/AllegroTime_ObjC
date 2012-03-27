@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-
-@class Crossing;
+#import "Helpers.h"
+#import "Models.h"
 
 @interface MainViewController : UITableViewController <CLLocationManagerDelegate>
-- (Crossing *)currentCrossing;
+@property (nonatomic, assign) LocationState locationState;
+@property (nonatomic, strong) Crossing *currentCrossing;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
 @end

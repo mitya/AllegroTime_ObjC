@@ -4,6 +4,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 void gDump(id object);
 
@@ -19,6 +20,9 @@ void gLogSelector(SEL selector);
 
 @interface NSArray (My)
 - (id)firstObject;
+
+- (id)minimumObject:(double (^)(id))block;
+
 @end
 
 @interface Helpers
@@ -26,4 +30,14 @@ void gLogSelector(SEL selector);
 + (NSInteger)currentTimeInMinutes;
 
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
+
++ (UILabel *)labelForTableViewFooter;
+
++ (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;
 @end
+
+typedef enum {
+  LocationStateNotAvailable = 1,
+  LocationStateSearching = 2,
+  LocationStateSet = 3
+} LocationState;
