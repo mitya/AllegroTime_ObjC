@@ -32,12 +32,15 @@ void gDump(id object) {
   NSLog(@"%@", object);
 }
 
+/******************************************************************************/
+
 @implementation NSString (My)
 - (NSString *)format:(id)objects, ... {
   return [NSString stringWithFormat:self, objects];
 }
 @end
 
+/******************************************************************************/
 
 @implementation NSArray (My)
 
@@ -64,6 +67,7 @@ void gDump(id object) {
 
 @end
 
+/******************************************************************************/
 
 @implementation Helper
 

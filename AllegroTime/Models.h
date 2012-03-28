@@ -6,6 +6,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+/******************************************************************************/
+
 typedef enum {
   ClosingDirectionToFinland = 1,
   ClosingDirectionToRussia = 2
@@ -22,6 +24,8 @@ typedef enum {
 
 @class Crossing;
 
+/******************************************************************************/
+
 @interface Closing : NSObject
 
 @property (strong) NSString *time;
@@ -34,34 +38,47 @@ typedef enum {
 
 @end
 
+/******************************************************************************/
 
 @interface Crossing :NSObject
 
-@property float latitude;
-@property float longitude;
-@property (strong) NSString *name;
-@property (strong) NSMutableArray *closings;
-@property (readonly) Closing *nextClosing;
-@property (readonly) Closing *previousClosing;
-@property (readonly) CrossingState state;
-@property (readonly) int minutesTillNextClosing;
+@property (nonatomic) float latitude;
+@property (nonatomic) float longitude;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSMutableArray *closings;
+@property (nonatomic, readonly) Closing *nextClosing;
+@property (nonatomic, readonly) Closing *previousClosing;
+@property (nonatomic, readonly) CrossingState state;
+@property (nonatomic, readonly) int minutesTillNextClosing;
+@property (nonatomic, readonly) BOOL isClosest;
 
 + (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
 + (Crossing *)getCrossingWithName:(NSString *)name;
 
 @end
 
+/******************************************************************************/
 
 @interface ModelManager : NSObject
 
+@property (nonatomic, strong) NSMutableArray *crossings;
+@property (nonatomic, strong) NSMutableArray * closings;
+@property (nonatomic, strong) Crossing* closestCrossing;
+@property (nonatomic, strong) Crossing* selectedCrossing;
+@property (nonatomic, readonly) Crossing* currentCrossing;
+@property (nonatomic, readonly) Crossing* defaultCrossing;
+
+- (Crossing *)crossingClosestTo:(CLLocation *)location;
+
 + (void)prepare;
-+ (NSMutableArray *)crossings;
-+ (NSMutableArray *)closings;
-+ (Crossing *)currentCrossing;
-+ (Crossing *)closestCrossing;
-+ (NSString *)geolocationState;
-+ (Crossing *)crossingClosestTo:(CLLocation *)location;
+
+//+ (NSMutableArray *)crossings;
+//+ (NSMutableArray *)closings;
+//+ (Crossing *)currentCrossing;
+//+ (Crossing *)closestCrossing;
+//+ (void)setSelectedCrossing:(Crossing *)crossing;
+//+ (NSString *)geolocationState;
 
 @end
 
-
+ModelManager *model;

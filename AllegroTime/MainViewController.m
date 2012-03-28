@@ -11,15 +11,7 @@
 #import "MainViewController.h"
 #import "Models.h"
 #import "Helpers.h"
-
-@interface MainViewController ()
-
-@end
-
-NSString *CrossingNameCellID = @"crossing-name-cell";
-NSString *CrossingStateCellID = @"crossing-state-cell";
-NSString *CrossingStateDetailsCellID = @"crossing-state-details-cell";
-NSString *DefaultWithTriangleCellID = @"default-with-triangle-cell";
+#import "CrossingListController.h"
 
 const int MainView_CrossingStateSection = 0;
 const int MainView_CrossingStateSection_TitleRow = 0;
@@ -30,20 +22,14 @@ const int MainView_CrossingActionsSection = 1;
 @implementation MainViewController
 
 @synthesize locationState;
-@synthesize currentCrossing;
 @synthesize locationManager;
 
 #pragma mark - lifecycle
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  self = [super initWithStyle:style];
-  if (self) {}
-  return self;
-}
-
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = @"Время Аллегро";
+  self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
 }
 
 - (void)viewDidUnload {
@@ -53,18 +39,17 @@ const int MainView_CrossingActionsSection = 1;
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-  if (CLLocationManager.locationServicesEnabled) {
+  [self.tableView reloadData];
+
+  if (CLLocationManager.locationServicesEnabled)
     [self.locationManager startMonitoringSignificantLocationChanges];
-    self.locationState = LocationStateSearching;
-  } else {
-    self.locationState = LocationStateNotAvailable;
-  }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  [self.locationManager stopMonitoringSignificantLocationChanges];
-  self.locationState = LocationStateNotAvailable;
+
+  if (CLLocationManager.locationServicesEnabled)
+    [self.locationManager stopMonitoringSignificantLocationChanges];
 }
 
 
@@ -89,6 +74,11 @@ const int MainView_CrossingActionsSection = 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  static NSString *CrossingNameCellID = @"crossing-name-cell";
+  static NSString *CrossingStateCellID = @"crossing-state-cell";
+  static NSString *CrossingStateDetailsCellID = @"crossing-state-details-cell";
+  static NSString *DefaultWithTriangleCellID = @"default-with-triangle-cell";
+
   UITableViewCell *cell;
   switch (indexPath.section) {
     case MainView_CrossingStateSection:
@@ -100,7 +90,7 @@ const int MainView_CrossingActionsSection = 1;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
           }
           cell.textLabel.text = @"Переезд";
-          cell.detailTextLabel.text = self.currentCrossing.name;
+          cell.detailTextLabel.text = model.currentCrossing.name;
           break;
         case MainView_CrossingStateSection_StateRow: {
           cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateDetailsCellID];
@@ -127,10 +117,10 @@ const int MainView_CrossingActionsSection = 1;
           UILabel *topLabel = (UILabel *) [cell viewWithTag:1];
           UILabel *bottomLabel = (UILabel *) [cell viewWithTag:2];
 
-          Closing *nextClosing = self.currentCrossing.nextClosing;
+          Closing *nextClosing = model.currentCrossing.nextClosing;
 
           topLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
-          if (self.currentCrossing.state == CrossingStateClosed) {
+          if (model.currentCrossing.state == CrossingStateClosed) {
             bottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
           } else {
             bottomLabel.text = [NSString stringWithFormat:@"Переезд закроют примерно в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
@@ -147,18 +137,18 @@ const int MainView_CrossingActionsSection = 1;
             cell.textLabel.textAlignment = UITextAlignmentCenter;
             cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
           }
-          switch (self.currentCrossing.state) {
+          switch (model.currentCrossing.state) {
             case CrossingStateClear:
               cell.textLabel.textColor = [Helper greenColor];
               cell.textLabel.text = @"До закрытия более часа";
               break;
             case CrossingStateSoon:
               cell.textLabel.textColor = [Helper greenColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:self.currentCrossing.minutesTillNextClosing]];
+              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateVerySoon:
               cell.textLabel.textColor = [UIColor redColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:self.currentCrossing.minutesTillNextClosing]];
+              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateClosing:
               cell.textLabel.textColor = [UIColor redColor];
@@ -238,15 +228,26 @@ const int MainView_CrossingActionsSection = 1;
   return 0;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
   if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
     return @"Ближайший переезд не определен";
   if (section == MainView_CrossingActionsSection)
     return @"Приложение показывает только перекрытие перездов для прохода Аллегро, переезд может оказаться закрытым раньше и открытым позже из-за прохода электричек и товарных поездов.";
   return nil;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  switch (indexPath.section) {
+    case MainView_CrossingStateSection: {
+      switch (indexPath.row) {
+        case MainView_CrossingStateSection_TitleRow: {
+          CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+          [self.navigationController pushViewController:crossingsController animated:YES];
+        }
+      }
+    }
+  }
 }
 
 
@@ -257,25 +258,15 @@ const int MainView_CrossingActionsSection = 1;
   // * unsubscribe from the further updates if the GPS is used once the precise and recent data are gathered
 
   self.locationState = LocationStateSet;
-  self.currentCrossing = [ModelManager crossingClosestTo:newLocation];
-  NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+
+  model.closestCrossing = [model crossingClosestTo:newLocation];
+  if (!model.selectedCrossing)
+    [self.tableView reloadData];
+
+  NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f closest:%@", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
 }
 
 #pragma mark - model
-
-- (Crossing *)currentCrossing {
-  if (currentCrossing)
-    return currentCrossing;
-  else
-    return [ModelManager currentCrossing];
-}
-
-- (void)setCurrentCrossing:(Crossing *)aCrossing {
-  if (currentCrossing != aCrossing) {
-    currentCrossing = aCrossing;
-    [self.tableView reloadData];
-  }
-}
 
 - (void)setLocationState:(LocationState)aLocationState {
   if (locationState != aLocationState) {
@@ -286,7 +277,7 @@ const int MainView_CrossingActionsSection = 1;
 
 - (CLLocationManager *)locationManager {
   if (!locationManager) {
-    locationManager = [[CLLocationManager alloc] init];
+    locationManager = [CLLocationManager new];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     locationManager.distanceFilter = 300;
