@@ -65,7 +65,7 @@ void gDump(id object) {
 @end
 
 
-@implementation Helpers
+@implementation Helper
 
 + (NSInteger)parseStringAsHHMM:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@":"];
@@ -117,4 +117,19 @@ void gDump(id object) {
   spinner.center = CGPointMake(labelSize.width + (label.frame.size.width - labelSize.width) / 2 + spinner.frame.size.width, label.center.y);
   return spinner;
 }
+
++ (NSString *)formatTimeInMunutesAsHHMM:(int)minutesSinceMidnight {
+  int hours = minutesSinceMidnight / 60;
+  int minutes = minutesSinceMidnight - hours * 60;
+  return [NSString stringWithFormat:@"%02i:%02i", hours, minutes];
+}
+
++ (UIColor *)greenColor {
+  return [UIColor colorWithRed:0 green:0.5 blue:0 alpha:1];
+}
+
++ (UIColor *)yellowColor {
+  return [UIColor colorWithRed:1 green:0.6 blue:0 alpha:1];
+}
+
 @end

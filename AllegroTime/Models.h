@@ -11,6 +11,15 @@ typedef enum {
   ClosingDirectionToRussia = 2
 } ClosingDirection ;
 
+typedef enum {
+  CrossingStateClear,
+  CrossingStateSoon,
+  CrossingStateVerySoon,
+  CrossingStateClosing,
+  CrossingStateClosed,
+  CrosingsStateJustOpened
+} CrossingState;
+
 @class Crossing;
 
 @interface Closing : NSObject
@@ -19,8 +28,8 @@ typedef enum {
 @property (assign) Crossing *crossing;
 @property ClosingDirection direction;
 @property int timeInMinutes;
+@property (readonly) int stopTimeInMinutes;
 
-- (NSString *)soonestTime;
 + (id)closingWithCrossingName:(NSString *)crossingName time:(NSString *)time direction:(ClosingDirection)direction;
 
 @end
@@ -32,9 +41,10 @@ typedef enum {
 @property float longitude;
 @property (strong) NSString *name;
 @property (strong) NSMutableArray *closings;
-
-- (Closing *)nextClosing;
-- (NSString *)nextTime;
+@property (readonly) Closing *nextClosing;
+@property (readonly) Closing *previousClosing;
+@property (readonly) CrossingState state;
+@property (readonly) int minutesTillNextClosing;
 
 + (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
 + (Crossing *)getCrossingWithName:(NSString *)name;
@@ -45,14 +55,13 @@ typedef enum {
 @interface ModelManager : NSObject
 
 + (void)prepare;
-
 + (NSMutableArray *)crossings;
 + (NSMutableArray *)closings;
 + (Crossing *)currentCrossing;
 + (Crossing *)closestCrossing;
 + (NSString *)geolocationState;
-
 + (Crossing *)crossingClosestTo:(CLLocation *)location;
+
 @end
 
 

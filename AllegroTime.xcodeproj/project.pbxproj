@@ -42,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		327E9C6C1523176A0096DC0A /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D74151F4AE20033BDDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -152,6 +153,7 @@
 		32BD4D7D151F4AE20033BDDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				327E9C6C1523176A0096DC0A /* Locations.gpx */,
 				32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */,
 				32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */,
 				32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */,
@@ -312,9 +314,9 @@
 			files = (
 				32BD4D83151F4AE20033BDDE /* main.m in Sources */,
 				32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */,
+				32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */,
 				32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */,
 				32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */,
-				32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */,
 				32BD4DB2151F56ED0033BDE4 /* Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

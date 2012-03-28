@@ -18,11 +18,13 @@
 
 NSString *CrossingNameCellID = @"crossing-name-cell";
 NSString *CrossingStateCellID = @"crossing-state-cell";
+NSString *CrossingStateDetailsCellID = @"crossing-state-details-cell";
 NSString *DefaultWithTriangleCellID = @"default-with-triangle-cell";
 
 const int MainView_CrossingStateSection = 0;
 const int MainView_CrossingStateSection_TitleRow = 0;
 const int MainView_CrossingStateSection_StateRow = 1;
+const int MainView_CrossingStateSection_StateDetailsRow = 2;
 const int MainView_CrossingActionsSection = 1;
 
 @implementation MainViewController
@@ -42,9 +44,6 @@ const int MainView_CrossingActionsSection = 1;
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = @"Время Аллегро";
-
-  // set up a location manager
-
 }
 
 - (void)viewDidUnload {
@@ -82,7 +81,7 @@ const int MainView_CrossingActionsSection = 1;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   switch (section) {
     case MainView_CrossingStateSection:
-      return 2;
+      return 3;
     case MainView_CrossingActionsSection:
       return 1;
   }
@@ -103,18 +102,77 @@ const int MainView_CrossingActionsSection = 1;
           cell.textLabel.text = @"Переезд";
           cell.detailTextLabel.text = self.currentCrossing.name;
           break;
-        case MainView_CrossingStateSection_StateRow:
+        case MainView_CrossingStateSection_StateRow: {
+          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateDetailsCellID];
+          if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateDetailsCellID];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 280, 18)];
+            topLabel.tag = 1;
+            topLabel.textAlignment = UITextAlignmentCenter;
+            topLabel.font = [UIFont systemFontOfSize:13];
+            topLabel.textColor = [UIColor blackColor];
+
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, 280, 18)];
+            bottomLabel.tag = 2;
+            bottomLabel.textAlignment = UITextAlignmentCenter;
+            bottomLabel.font = [UIFont systemFontOfSize:12];
+            bottomLabel.textColor = [UIColor grayColor];
+
+            [cell.contentView addSubview:topLabel];
+            [cell.contentView addSubview:bottomLabel];
+          }
+
+          UILabel *topLabel = (UILabel *) [cell viewWithTag:1];
+          UILabel *bottomLabel = (UILabel *) [cell viewWithTag:2];
+
+          Closing *nextClosing = self.currentCrossing.nextClosing;
+
+          topLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
+          if (self.currentCrossing.state == CrossingStateClosed) {
+            bottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
+          } else {
+            bottomLabel.text = [NSString stringWithFormat:@"Переезд закроют примерно в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
+          }
+
+          break;
+        }
+
+        case MainView_CrossingStateSection_StateDetailsRow:
           cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
           if (!cell) {
             cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateCellID];
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.textLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-            cell.textLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:0 alpha:1];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
           }
-          //cell.textLabel.text = @"Будет закрыт через 3 часа в 17:45";
-          //cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт через %@ часа в %@", self.currentCrossing.timeLeftText, self.currentCrossing.nextTime];
-          cell.textLabel.text = [NSString stringWithFormat:@"Будет закрыт в %@", self.currentCrossing.nextTime];
+          switch (self.currentCrossing.state) {
+            case CrossingStateClear:
+              cell.textLabel.textColor = [Helper greenColor];
+              cell.textLabel.text = @"Осталось более часа";
+              break;
+            case CrossingStateSoon:
+              cell.textLabel.textColor = [Helper yellowColor];
+              cell.textLabel.text = [NSString stringWithFormat:@"Осталось около %i минут", self.currentCrossing.minutesTillNextClosing];
+              break;
+            case CrossingStateVerySoon:
+              cell.textLabel.textColor = [UIColor redColor];
+              cell.textLabel.text = [NSString stringWithFormat:@"Осталось около %i минут", self.currentCrossing.minutesTillNextClosing];
+              break;
+            case CrossingStateClosing:
+              cell.textLabel.textColor = [UIColor redColor];
+              cell.textLabel.text = @"Сейчас закроют";
+              break;
+            case CrossingStateClosed:
+              cell.textLabel.textColor = [UIColor redColor];
+              cell.textLabel.text = @"Переезд закрыт";
+              break;
+            case CrosingsStateJustOpened:
+              cell.textLabel.textColor = [Helper yellowColor];
+              cell.textLabel.text = @"Предыдущий только что прошёл";
+              break;
+          }
           break;
       }
       break;
@@ -127,7 +185,7 @@ const int MainView_CrossingActionsSection = 1;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
           }
-          cell.textLabel.text = @"Расписание";
+          cell.textLabel.text = @"Расписание Аллегро";
           break;
       }
   }
@@ -140,7 +198,7 @@ const int MainView_CrossingActionsSection = 1;
     case MainView_CrossingStateSection:
       switch (locationState) {
         case LocationStateNotAvailable: {
-          UILabel *label = [Helpers labelForTableViewFooter];
+          UILabel *label = [Helper labelForTableViewFooter];
           label.frame = CGRectMake(15, 0, tableView.bounds.size.width - 30, 30);
           label.text = @"Ближайший переезд не определен";
           return label;
@@ -149,12 +207,12 @@ const int MainView_CrossingActionsSection = 1;
         case LocationStateSearching: {
           UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
 
-          UILabel *label = [Helpers labelForTableViewFooter];
+          UILabel *label = [Helper labelForTableViewFooter];
           label.frame = CGRectMake(5, 0, tableView.bounds.size.width - 30, 30);
           label.text = @"Поиск ближайшего переезда...";
 
 
-          UIActivityIndicatorView *spinner = [Helpers spinnerAfterCenteredLabel:label];
+          UIActivityIndicatorView *spinner = [Helper spinnerAfterCenteredLabel:label];
           [spinner startAnimating];
 
 
@@ -228,8 +286,8 @@ const int MainView_CrossingActionsSection = 1;
   if (!locationManager) {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    // locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    // locationManager.distanceFilter = 300;
+    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    locationManager.distanceFilter = 300;
   }
   return locationManager;
 }

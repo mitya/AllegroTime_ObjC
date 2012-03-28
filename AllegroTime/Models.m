@@ -21,8 +21,8 @@ static NSMutableArray *ModelManager_Closings;
 @synthesize direction;
 @synthesize timeInMinutes;
 
-- (NSString *)soonestTime {
-  return @"12:55";
+- (int)stopTimeInMinutes {
+  return timeInMinutes - 10;
 }
 
 - (NSString *)directionCode {
@@ -46,7 +46,7 @@ static NSMutableArray *ModelManager_Closings;
   Closing *closing = [[Closing alloc] init];
   closing.crossing = crossing;
   closing.time = time;
-  closing.timeInMinutes = [Helpers parseStringAsHHMM:time];
+  closing.timeInMinutes = [Helper parseStringAsHHMM:time];
   closing.direction = direction;
 
   [crossing.closings addObject:closing];
@@ -67,19 +67,69 @@ static NSMutableArray *ModelManager_Closings;
 @synthesize longitude;
 @synthesize closings;
 
+
+// - осталось более часа — зеленый
+// - осталось примерно 55/50/.../20 минут — желтый
+// - осталось примерно 15/10/5 минут — красный
+// - вероятно уже закрыт — красный
+// - Аллегро только что прошел — желтый
+- (CrossingState)state {
+  int nextClosingTime = self.nextClosing.stopTimeInMinutes;
+  int prevClosingTime = self.previousClosing.timeInMinutes;
+  int nextTrainTime = self.nextClosing.timeInMinutes;
+  int currentTime = Helper.currentTimeInMinutes;
+
+  NSLog(@"[%s] nextClosingTime:%li", _cmd, nextClosingTime);
+  NSLog(@"[%s] currentTime:%li", _cmd, currentTime);
+
+
+  if (prevClosingTime <= currentTime && currentTime - prevClosingTime < 10)
+    return CrosingsStateJustOpened;
+  if (nextTrainTime < currentTime) // next train will be tomorrow
+    return CrossingStateClear;
+  if (nextClosingTime < currentTime) // just closed
+    return CrossingStateClosed;
+  if (nextClosingTime - currentTime > 60)
+    return CrossingStateClear;
+  if (nextClosingTime - currentTime > 20)
+    return CrossingStateSoon;
+  if (nextClosingTime - currentTime > 5)
+    return CrossingStateVerySoon;
+  if (nextClosingTime - currentTime > 0)
+    return CrossingStateClosing;
+  return CrossingStateClosed;
+}
+
 - (Closing *)nextClosing {
-  int currentTime = [Helpers currentTimeInMinutes];
+  int currentTime = [Helper currentTimeInMinutes];
 
   for (Closing *closing in self.closings) {
-    if (closing.timeInMinutes > currentTime)
+    if (closing.timeInMinutes >= currentTime)
       return closing;
   }
 
   return self.closings.firstObject;
 }
 
-- (NSString *)nextTime {
-  return self.nextClosing.time;
+- (Closing *)previousClosing {
+  int currentTime = [Helper currentTimeInMinutes];
+
+  for (Closing *closing in self.closings.reverseObjectEnumerator) {
+    if (closing.timeInMinutes < currentTime)
+      return closing;
+  }
+
+  return self.closings.lastObject;
+}
+
+- (int)minutesTillNextClosing {
+  int nextClosingTime = self.nextClosing.stopTimeInMinutes;
+  int currentTime = [Helper currentTimeInMinutes];
+  if (nextClosingTime > currentTime) {
+    return nextClosingTime -  currentTime;
+  } else {
+    return 24 * 60 + nextClosingTime - currentTime;
+  }
 }
 
 - (NSString *)description {
@@ -156,22 +206,22 @@ static NSMutableArray *ModelManager_Closings;
       nil];
 
   ModelManager_Closings = [NSMutableArray arrayWithObjects:
-      [Closing closingWithCrossingName:@"Удельная" time:@"12:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Удельная" time:@"15:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Удельная" time:@"18:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Удельная" time:@"21:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Удельная" time:@"12:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Удельная" time:@"15:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Удельная" time:@"18:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Удельная" time:@"21:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"12:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"15:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"18:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"21:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"12:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"15:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"18:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Поклонногорская" time:@"21:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Удельная" time:@"06:57" direction:ClosingDirectionToFinland],  // inconsistent
+      [Closing closingWithCrossingName:@"Удельная" time:@"11:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Удельная" time:@"15:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Удельная" time:@"20:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Удельная" time:@"10:36" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Удельная" time:@"14:21" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Удельная" time:@"19:21" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Удельная" time:@"23:21" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"06:47" direction:ClosingDirectionToFinland], // inconsistent
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"11:33" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"15:33" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"20:33" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"10:35" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"14:20" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"19:20" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Поклонногорская" time:@"23:20" direction:ClosingDirectionToRussia],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"12:00" direction:ClosingDirectionToFinland],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"15:00" direction:ClosingDirectionToFinland],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"18:00" direction:ClosingDirectionToFinland],
@@ -180,20 +230,21 @@ static NSMutableArray *ModelManager_Closings;
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"15:00" direction:ClosingDirectionToRussia],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"18:00" direction:ClosingDirectionToRussia],
       [Closing closingWithCrossingName:@"Озерки - Шувалово" time:@"21:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"12:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"15:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"18:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"21:00" direction:ClosingDirectionToFinland],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"12:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"15:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"18:00" direction:ClosingDirectionToRussia],
-      [Closing closingWithCrossingName:@"Дибуны" time:@"21:00" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"06:57" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"11:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"15:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"20:32" direction:ClosingDirectionToFinland],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"10:36" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"14:21" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"19:21" direction:ClosingDirectionToRussia],
+      [Closing closingWithCrossingName:@"Дибуны" time:@"23:21" direction:ClosingDirectionToRussia],
       nil];
 
-  [ModelManager_Closings sortUsingComparator:^NSComparisonResult(Closing *obj1, Closing *obj2) {
-    return [Helpers compareInteger:obj1.timeInMinutes with:obj2.timeInMinutes];
-
-  }];
+  for (Crossing *crossing in [self crossings]) {
+    [crossing.closings sortUsingComparator:^NSComparisonResult(Closing *obj1, Closing *obj2) {
+      return [Helper compareInteger:obj1.timeInMinutes with:obj2.timeInMinutes];
+    }];
+  }
 }
 
 + (Crossing *)crossingClosestTo:(CLLocation *)location {

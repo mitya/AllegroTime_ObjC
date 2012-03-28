@@ -25,7 +25,7 @@ void gLogSelector(SEL selector);
 
 @end
 
-@interface Helpers
+@interface Helper
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
 + (NSInteger)currentTimeInMinutes;
 
@@ -34,6 +34,13 @@ void gLogSelector(SEL selector);
 + (UILabel *)labelForTableViewFooter;
 
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;
+
++ (NSString *)formatTimeInMunutesAsHHMM:(int)minutesSinceMidnight;
+
++ (UIColor *)greenColor;
+
++ (UIColor *)yellowColor;
+
 @end
 
 typedef enum {
