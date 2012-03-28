@@ -77,26 +77,16 @@ static NSMutableArray *ModelManager_Closings;
   int nextClosingTime = self.nextClosing.stopTimeInMinutes;
   int prevClosingTime = self.previousClosing.timeInMinutes;
   int nextTrainTime = self.nextClosing.timeInMinutes;
+  int timeTillNextClosing = self.minutesTillNextClosing;
   int currentTime = Helper.currentTimeInMinutes;
 
-  NSLog(@"[%s] nextClosingTime:%li", _cmd, nextClosingTime);
-  NSLog(@"[%s] currentTime:%li", _cmd, currentTime);
-
-
-  if (prevClosingTime <= currentTime && currentTime - prevClosingTime < 10)
-    return CrosingsStateJustOpened;
-  if (nextTrainTime < currentTime) // next train will be tomorrow
-    return CrossingStateClear;
-  if (nextClosingTime < currentTime) // just closed
-    return CrossingStateClosed;
-  if (nextClosingTime - currentTime > 60)
-    return CrossingStateClear;
-  if (nextClosingTime - currentTime > 20)
-    return CrossingStateSoon;
-  if (nextClosingTime - currentTime > 5)
-    return CrossingStateVerySoon;
-  if (nextClosingTime - currentTime > 0)
-    return CrossingStateClosing;
+  if (prevClosingTime <= currentTime && currentTime - prevClosingTime < 10) return CrosingsStateJustOpened;
+  if (nextTrainTime < currentTime) return CrossingStateClear; // next train will be tomorrow
+  if (nextClosingTime < currentTime) return CrossingStateClosed; // just closed
+  if (timeTillNextClosing > 60) return CrossingStateClear;
+  if (timeTillNextClosing > 20) return CrossingStateSoon;
+  if (timeTillNextClosing >  5) return CrossingStateVerySoon;
+  if (timeTillNextClosing >  0) return CrossingStateClosing;
   return CrossingStateClosed;
 }
 

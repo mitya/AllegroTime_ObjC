@@ -150,15 +150,15 @@ const int MainView_CrossingActionsSection = 1;
           switch (self.currentCrossing.state) {
             case CrossingStateClear:
               cell.textLabel.textColor = [Helper greenColor];
-              cell.textLabel.text = @"Осталось более часа";
+              cell.textLabel.text = @"До закрытия более часа";
               break;
             case CrossingStateSoon:
-              cell.textLabel.textColor = [Helper yellowColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"Осталось около %i минут", self.currentCrossing.minutesTillNextClosing];
+              cell.textLabel.textColor = [Helper greenColor];
+              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:self.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateVerySoon:
               cell.textLabel.textColor = [UIColor redColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"Осталось около %i минут", self.currentCrossing.minutesTillNextClosing];
+              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:self.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateClosing:
               cell.textLabel.textColor = [UIColor redColor];
@@ -244,6 +244,8 @@ const int MainView_CrossingActionsSection = 1;
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
   if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
     return @"Ближайший переезд не определен";
+  if (section == MainView_CrossingActionsSection)
+    return @"Приложение показывает только перекрытие перездов для прохода Аллегро, переезд может оказаться закрытым раньше и открытым позже из-за прохода электричек и товарных поездов.";
   return nil;
 }
 

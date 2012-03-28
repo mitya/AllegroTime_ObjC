@@ -132,4 +132,10 @@ void gDump(id object) {
   return [UIColor colorWithRed:1 green:0.6 blue:0 alpha:1];
 }
 
++ (int)roundToFive:(int)value {
+  int remainder = value - value / 5 * 5;
+  int remainderInverse = 5 - remainder;
+  return remainder <= 2 ? value - remainder : value + remainderInverse;
+}
+
 @end

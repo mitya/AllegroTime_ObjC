@@ -41,6 +41,9 @@ void gLogSelector(SEL selector);
 
 + (UIColor *)yellowColor;
 
++ (int)roundToFive:(int)value;
+
+
 @end
 
 typedef enum {
