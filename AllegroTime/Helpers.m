@@ -142,4 +142,13 @@ void gDump(id object) {
   return remainder <= 2 ? value - remainder : value + remainderInverse;
 }
 
++ (NSTimeInterval)timeTillFullMinute {
+  NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:NSSecondCalendarUnit fromDate:[NSDate date]];
+  return 60 - dateComponents.second;
+}
+
++ (NSDate *)nextFullMinuteDate {
+  return [NSDate dateWithTimeIntervalSinceNow:[self timeTillFullMinute]];
+}
+
 @end

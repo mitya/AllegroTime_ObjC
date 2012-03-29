@@ -14,4 +14,6 @@
 @interface MainViewController : UITableViewController <CLLocationManagerDelegate>
 @property (nonatomic, assign) LocationState locationState;
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSTimer *timer;
+
 @end

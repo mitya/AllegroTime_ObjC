@@ -19,10 +19,14 @@ const int MainView_CrossingStateSection_StateRow = 1;
 const int MainView_CrossingStateSection_StateDetailsRow = 2;
 const int MainView_CrossingActionsSection = 1;
 
-@implementation MainViewController
+@implementation MainViewController {
+  NSTimer *timer;
+}
 
 @synthesize locationState;
 @synthesize locationManager;
+@synthesize timer;
+
 
 #pragma mark - lifecycle
 
@@ -43,6 +47,9 @@ const int MainView_CrossingActionsSection = 1;
 
   if (CLLocationManager.locationServicesEnabled)
     [self.locationManager startMonitoringSignificantLocationChanges];
+
+  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
+  timer.fireDate = [Helper nextFullMinuteDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -50,6 +57,8 @@ const int MainView_CrossingActionsSection = 1;
 
   if (CLLocationManager.locationServicesEnabled)
     [self.locationManager stopMonitoringSignificantLocationChanges];
+
+  [timer invalidate];
 }
 
 
@@ -92,7 +101,8 @@ const int MainView_CrossingActionsSection = 1;
           cell.textLabel.text = @"Переезд";
           cell.detailTextLabel.text = model.currentCrossing.name;
           break;
-        case MainView_CrossingStateSection_StateRow: {
+        case MainView_CrossingStateSection_StateRow:
+        {
           cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateDetailsCellID];
           if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateDetailsCellID];
@@ -187,14 +197,16 @@ const int MainView_CrossingActionsSection = 1;
   switch (section) {
     case MainView_CrossingStateSection:
       switch (locationState) {
-        case LocationStateNotAvailable: {
+        case LocationStateNotAvailable:
+        {
           UILabel *label = [Helper labelForTableViewFooter];
           label.frame = CGRectMake(15, 0, tableView.bounds.size.width - 30, 30);
           label.text = @"Ближайший переезд не определен";
           return label;
         }
 
-        case LocationStateSearching: {
+        case LocationStateSearching:
+        {
           UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
 
           UILabel *label = [Helper labelForTableViewFooter];
@@ -239,9 +251,11 @@ const int MainView_CrossingActionsSection = 1;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.section) {
-    case MainView_CrossingStateSection: {
+    case MainView_CrossingStateSection:
+    {
       switch (indexPath.row) {
-        case MainView_CrossingStateSection_TitleRow: {
+        case MainView_CrossingStateSection_TitleRow:
+        {
           CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
           [self.navigationController pushViewController:crossingsController animated:YES];
         }
@@ -250,8 +264,12 @@ const int MainView_CrossingActionsSection = 1;
   }
 }
 
+#pragma mark - handlers
 
-#pragma mark - location management
+- (void)timerTicked:(NSTimer *)theTimer {
+  NSLog(@"[%s] Date date:%@", _cmd, [NSDate date]);
+  [self.tableView reloadData];
+}
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   // * check if the data are fresh enought: abs(newLocation.timestamp.timeIntervalSinceNow) > 60.0
@@ -266,7 +284,7 @@ const int MainView_CrossingActionsSection = 1;
   NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f closest:%@", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
 }
 
-#pragma mark - model
+#pragma mark - properties
 
 - (void)setLocationState:(LocationState)aLocationState {
   if (locationState != aLocationState) {

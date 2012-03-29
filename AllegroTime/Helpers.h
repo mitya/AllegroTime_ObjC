@@ -44,6 +44,10 @@ void gLogSelector(SEL selector);
 + (int)roundToFive:(int)value;
 
 
++ (NSTimeInterval)timeTillFullMinute;
+
++ (NSDate *)nextFullMinuteDate;
+
 @end
 
 typedef enum {
