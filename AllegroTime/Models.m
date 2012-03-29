@@ -144,7 +144,8 @@
       return crossing;
   }
 
-  NSAssert(NO, [@"Crossing should always be found, name = " stringByAppendingString:name]);
+  NSLog(@"[%s] crossing is not found for name = '%@'", sel_getName(_cmd), name);
+
   return nil;
 }
 
@@ -178,6 +179,15 @@
   if (self.selectedCrossing) return self.selectedCrossing;
   if (self.closestCrossing) return self.closestCrossing;
   return self.defaultCrossing;
+}
+
+- (Crossing *)selectedCrossing {
+  NSString *crossingName = [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedCrossing"];
+  return crossingName ? [Crossing getCrossingWithName:crossingName] : nil;
+}
+
+- (void)setSelectedCrossing:(Crossing *)aCrossing {
+  [[NSUserDefaults standardUserDefaults] setObject:aCrossing.name forKey:@"selectedCrossing"];
 }
 
 #pragma mark - methods

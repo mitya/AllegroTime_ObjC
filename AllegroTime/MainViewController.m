@@ -160,7 +160,7 @@ const int MainView_CrossingActionsSection = 1;
               break;
             case CrosingsStateJustOpened:
               cell.textLabel.textColor = [Helper yellowColor];
-              cell.textLabel.text = @"Предыдущий только что прошёл";
+              cell.textLabel.text = @"Переезд только что открыли";
               break;
           }
           break;
