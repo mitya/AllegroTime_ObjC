@@ -5,6 +5,7 @@
 
 #import "CrossingScheduleController.h"
 #import "Models.h"
+#import "TrainScheduleController.h"
 
 
 @implementation CrossingScheduleController
@@ -23,24 +24,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *ScheduleCellID = @"ScheduleCell";
-
-  Closing *closing = [crossing.closings objectAtIndex:indexPath.row];
-
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ScheduleCellID];
   if (!cell) {
     cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:ScheduleCellID];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
-    cell.textLabel.textColor = [UIColor blackColor];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-    cell.detailTextLabel.textColor = [UIColor grayColor];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
+    cell.detailTextLabel.textColor = [UIColor grayColor];
   }
 
-  cell.textLabel.text = closing.time;
-  cell.textLabel.textColor = closing.toRussia ? [UIColor colorWithRed:0 green:0 blue:0.5 alpha:1] : [UIColor colorWithRed:0 green:0.3 blue:0 alpha:1];
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"№%i %@ СПб", closing.trainNumber, closing.toRussia ? @"на" : @"от"];
+  Closing *closing = [crossing.closings objectAtIndex:indexPath.row];
+  cell.textLabel.text = closing.toRussia ? [NSString stringWithFormat:@"%@ ↶", closing.time] : closing.time; // ↺ ← →
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"№%i", closing.trainNumber];
 
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  TrainScheduleController *trainScheduleController = [[TrainScheduleController alloc] initWithStyle:UITableViewStyleGrouped];
+  trainScheduleController.sampleClosing = [self.crossing.closings objectAtIndex:indexPath.row];
+  [self.navigationController pushViewController:trainScheduleController animated:YES];
 }
 
 @end

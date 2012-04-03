@@ -36,27 +36,19 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *ClosestCrossingCellID = @"ClosestCrossingCell";
   static NSString *CrossingCellID = @"CrossingCell";
   UITableViewCell *cell;
 
   Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
 
-  if (crossing.isClosest) {
-    cell = [tableView dequeueReusableCellWithIdentifier:ClosestCrossingCellID];
-    if (!cell) {
-      cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ClosestCrossingCellID];
-      cell.detailTextLabel.text = @"Ближний";
-      cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-    }
-  } else {
-    cell = [tableView dequeueReusableCellWithIdentifier:CrossingCellID];
-    if (!cell) {
-      cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ClosestCrossingCellID];
-    }
+  cell = [tableView dequeueReusableCellWithIdentifier:CrossingCellID];
+  if (!cell) {
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingCellID];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
   }
 
   cell.textLabel.text = crossing.name;
+  cell.detailTextLabel.text = crossing.isClosest ? @"Ближний" : nil;
   if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
     cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
   } else {
