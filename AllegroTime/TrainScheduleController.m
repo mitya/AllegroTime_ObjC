@@ -27,6 +27,7 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
   if (!cell) {
     cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellID];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
   }

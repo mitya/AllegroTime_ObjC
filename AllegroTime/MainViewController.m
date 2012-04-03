@@ -247,7 +247,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
     return @"Ближайший переезд не определен";
   if (section == MainView_CrossingActionsSection)
-    return @"Приложение показывает только перекрытие перездов для прохода Аллегро, переезд может оказаться закрытым раньше и открытым позже из-за прохода электричек и товарных поездов.";
+    return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов.";
   return nil;
 }
 
