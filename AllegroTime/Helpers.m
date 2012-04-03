@@ -50,12 +50,12 @@ void gDump(id object) {
   return [self objectAtIndex:0];
 }
 
-- (id)minimumObject:(double (^)(id object))block {
-  double minValue = block([self firstObject]);
+- (id)minimumObject:(double (^)(id object))valueSelector {
+  double minValue = valueSelector([self firstObject]);
   id minObject = [self firstObject];
 
   for (id object in self) {
-    double value = block(object);
+    double value = valueSelector(object);
     if (value < minValue) {
       minValue = value;
       minObject = object;
@@ -63,6 +63,14 @@ void gDump(id object) {
   }
 
   return minObject;
+}
+
+- (id)detectObject:(BOOL (^)(id object))predicate {
+  for (id object in self) {
+    if (predicate(object))
+      return object;
+  }
+  return nil;
 }
 
 @end

@@ -12,12 +12,14 @@
 #import "Models.h"
 #import "Helpers.h"
 #import "CrossingListController.h"
+#import "CrossingScheduleController.h"
 
 const int MainView_CrossingStateSection = 0;
 const int MainView_CrossingStateSection_TitleRow = 0;
 const int MainView_CrossingStateSection_StateRow = 1;
 const int MainView_CrossingStateSection_StateDetailsRow = 2;
 const int MainView_CrossingActionsSection = 1;
+const int MainView_CrossingActionsSection_ScheduleRow = 0;
 
 @implementation MainViewController {
   NSTimer *timer;
@@ -34,6 +36,7 @@ const int MainView_CrossingActionsSection = 1;
   [super viewDidLoad];
   self.title = @"Время Аллегро";
   self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
+  self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
 }
 
 - (void)viewDidUnload {
@@ -252,15 +255,28 @@ const int MainView_CrossingActionsSection = 1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.section) {
     case MainView_CrossingStateSection:
-    {
       switch (indexPath.row) {
         case MainView_CrossingStateSection_TitleRow:
         {
           CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+          crossingsController.target = self;
+          crossingsController.action = @selector(changeSelectedCrossing:);
+          crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
           [self.navigationController pushViewController:crossingsController animated:YES];
         }
       }
-    }
+      break;
+    case MainView_CrossingActionsSection:
+      switch (indexPath.row) {
+        case MainView_CrossingActionsSection_ScheduleRow:
+        {
+          CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+          crossingsController.target = self;
+          crossingsController.action = @selector(showScheduleForCrossing:);
+          crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          [self.navigationController pushViewController:crossingsController animated:YES];
+        }
+      }
   }
 }
 
@@ -283,6 +299,18 @@ const int MainView_CrossingActionsSection = 1;
 
   NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f closest:%@", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
 }
+
+- (void)showScheduleForCrossing:(Crossing *)crossing {
+  CrossingScheduleController *scheduleController = [[CrossingScheduleController alloc] initWithStyle:UITableViewStyleGrouped];
+  scheduleController.crossing = crossing;
+  [self.navigationController pushViewController:scheduleController animated:YES];
+}
+
+- (void)changeSelectedCrossing:(Crossing *)crossing {
+  model.selectedCrossing = crossing;
+  [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - properties
 

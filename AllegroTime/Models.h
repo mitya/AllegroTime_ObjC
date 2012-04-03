@@ -33,6 +33,8 @@ typedef enum {
 @property ClosingDirection direction;
 @property int timeInMinutes;
 @property (readonly) int stopTimeInMinutes;
+@property (readonly) BOOL toRussia;
+@property (readonly) int trainNumber;
 
 + (id)closingWithCrossingName:(NSString *)crossingName time:(NSString *)time direction:(ClosingDirection)direction;
 

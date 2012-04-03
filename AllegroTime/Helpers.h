@@ -23,6 +23,9 @@ void gLogSelector(SEL selector);
 
 - (id)minimumObject:(double (^)(id))block;
 
+- (id)detectObject:(BOOL (^)(id))predicate;
+
+
 @end
 
 @interface Helper

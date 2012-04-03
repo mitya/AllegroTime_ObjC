@@ -29,6 +29,7 @@
 		32BD4DB2151F56ED0033BDE4 /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDE3 /* Helpers.m */; };
 		32F4F04E15211E9E00C58E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04D15211E9E00C58E6A /* CoreLocation.framework */; };
 		32F4F05015211EA500C58E6A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04F15211EA500C58E6A /* MapKit.framework */; };
+		32F4F05015211EA500C58E6C /* CrossingScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E6B /* CrossingScheduleController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		32BD4DB2151F56ED0033BDE5 /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
 		32F4F04D15211E9E00C58E6A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		32F4F04F15211EA500C58E6A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		32F4F05015211EA500C58E6B /* CrossingScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingScheduleController.m; sourceTree = "<group>"; };
+		32F4F05015211EA500C58E6D /* CrossingScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingScheduleController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +150,8 @@
 				32BD4DAF151F56ED0033BDDE /* MainViewController.m */,
 				327E9C9B15236C250096DC0A /* CrossingListController.h */,
 				327E9C9C15236C250096DC0A /* CrossingListController.m */,
+				32F4F05015211EA500C58E6D /* CrossingScheduleController.h */,
+				32F4F05015211EA500C58E6B /* CrossingScheduleController.m */,
 			);
 			name = UI;
 			path = AllegroTime;
@@ -320,6 +325,7 @@
 				32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */,
 				32BD4DB2151F56ED0033BDE4 /* Helpers.m in Sources */,
 				327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */,
+				32F4F05015211EA500C58E6C /* CrossingScheduleController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

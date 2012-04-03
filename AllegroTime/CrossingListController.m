@@ -8,11 +8,17 @@
 
 #import "CrossingListController.h"
 #import "Models.h"
+#import "MainViewController.h"
 
 @implementation CrossingListController
+@synthesize target;
+@synthesize action;
+@synthesize accessoryType;
+
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.title = @"Переезды";
 }
 
 - (void)viewDidUnload {
@@ -24,10 +30,6 @@
 }
 
 #pragma mark - table view
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return model.crossings.count;
@@ -55,7 +57,11 @@
   }
 
   cell.textLabel.text = crossing.name;
-  cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
+    cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+  } else {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  }
 
   return cell;
 }
@@ -63,20 +69,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-  int indexOfOldCrossing = [model.crossings indexOfObject:model.selectedCrossing];
-  NSIndexPath *oldSelectionIndexPath = [NSIndexPath indexPathForRow:indexOfOldCrossing inSection:0];
-  if (indexOfOldCrossing == indexPath.row)
-    return;
+  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
+    for (UITableViewCell *cell in self.tableView.visibleCells)
+      if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        cell.accessoryType = UITableViewCellAccessoryNone;
 
-  model.selectedCrossing = [model.crossings objectAtIndex:indexPath.row];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+  }
 
-  UITableViewCell *const oldSelection = [tableView cellForRowAtIndexPath:oldSelectionIndexPath];
-  oldSelection.accessoryType = UITableViewCellAccessoryNone;
-
-  UITableViewCell *const newSelection = [tableView cellForRowAtIndexPath:indexPath];
-  newSelection.accessoryType = UITableViewCellAccessoryCheckmark;
-
-  [self.navigationController popViewControllerAnimated:YES];
+  if (self.target && self.action) {
+    Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
+    [self.target performSelector:self.action withObject:crossing];
+  }
 }
 
 @end

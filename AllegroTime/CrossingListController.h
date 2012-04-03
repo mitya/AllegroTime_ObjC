@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MainViewController;
+
 @interface CrossingListController : UITableViewController
 
+@property (nonatomic, strong) MainViewController *target;
+@property (nonatomic, assign) SEL action;
+@property (nonatomic, assign) UITableViewCellAccessoryType accessoryType;
 @end
