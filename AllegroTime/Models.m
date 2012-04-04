@@ -73,6 +73,8 @@
 @synthesize latitude;
 @synthesize longitude;
 @synthesize closings;
+@synthesize distance;
+
 
 
 // - осталось более часа — зеленый
@@ -135,6 +137,15 @@
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name, latitude, longitude, closings.count];
+}
+
+- (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction {
+  Closing *closing = [Closing new];
+  closing.crossing = self;
+  closing.time = time;
+  closing.timeInMinutes = [Helper parseStringAsHHMM:time];
+  closing.direction = direction;
+  [self.closings addObject:closing];
 }
 
 #pragma mark - static
@@ -219,7 +230,49 @@
 
 - (id)init {
   self = [super init];
+  [self loadFile];
+  return self;
+}
 
+- (void) loadFile {
+  crossings = [NSMutableArray arrayWithCapacity:30];
+
+  NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"Schedule" ofType:@"csv"];
+  NSString *dataString = [NSString stringWithContentsOfFile:dataPath encoding:NSUTF8StringEncoding error:NULL];
+  NSArray *dataRows = [dataString componentsSeparatedByString:@"\n"];
+
+  for (NSString *dataRow in dataRows) {
+    NSArray *components = [dataRow componentsSeparatedByString:@","];
+
+    Crossing *crossing = [Crossing new];
+    crossing.name = [components objectAtIndex:0];
+    crossing.distance = [[components objectAtIndex:1] intValue];
+    crossing.latitude = [[components objectAtIndex:2] floatValue];
+    crossing.longitude = [[components objectAtIndex:3] floatValue];
+    crossing.closings = [NSMutableArray arrayWithCapacity:8];
+
+    unsigned int lastDatumIndex = 3;
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 1] direction: ClosingDirectionToFinland];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 2] direction: ClosingDirectionToRussia];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 3] direction: ClosingDirectionToFinland];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 4] direction: ClosingDirectionToRussia];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 5] direction: ClosingDirectionToFinland];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 6] direction: ClosingDirectionToRussia];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 7] direction: ClosingDirectionToFinland];
+    [crossing addClosingWithTime:[components objectAtIndex:lastDatumIndex + 8] direction: ClosingDirectionToRussia];
+
+    [crossings addObject:crossing];
+  }
+
+  closings = [NSMutableArray arrayWithCapacity:crossings.count * 8];
+  for (Crossing *crossing in crossings) {
+    [closings addObjectsFromArray:crossing.closings];
+  }
+}
+
+- (void) loadPredefinedData {
+  // [Crossing crossingWithName:@"Солнечное" latitude:60.15951 longitude:29.937442], // не существует
+  // [Crossing crossingWithName:@"Ушково" latitude:60.221009 longitude:29.623949],  // не существует
   crossings = [NSMutableArray arrayWithObjects:
       [Crossing crossingWithName:@"Удельная" latitude:60.017533 longitude:30.313379],
       [Crossing crossingWithName:@"Поклонногорская" latitude:60.025533 longitude:30.309113],
@@ -229,16 +282,16 @@
       [Crossing crossingWithName:@"Песочная" latitude:60.118323 longitude:30.147631],
       [Crossing crossingWithName:@"Дибуны" latitude:60.121706 longitude:30.130231],
       [Crossing crossingWithName:@"Белоостровское шоссе" latitude:60.146049 longitude:30.006676],
-      //[Crossing crossingWithName:@"Белоостров" latitude:60.134852 longitude:30.063732],
-      //[Crossing crossingWithName:@"Солнечное" latitude:60.15951 longitude:29.937442],
-      //[Crossing crossingWithName:@"Репино" latitude:60.174512 longitude:29.860736],
-      //[Crossing crossingWithName:@"Комарово" latitude:60.186113 longitude:29.800448],
-      //[Crossing crossingWithName:@"Ушково" latitude:60.221009 longitude:29.623949],
-      //[Crossing crossingWithName:@"Рощинское шоссе" latitude:60.227382 longitude:29.612833],
-      //[Crossing crossingWithName:@"Рощино" latitude:60.251283 longitude:29.572106],
-      //[Crossing crossingWithName:@"Горьковское" latitude:60.294546 longitude:29.493518],
+      [Crossing crossingWithName:@"Белоостров" latitude:60.134852 longitude:30.063732],
+      [Crossing crossingWithName:@"Репино" latitude:60.174512 longitude:29.860736],
+      [Crossing crossingWithName:@"Комарово" latitude:60.186113 longitude:29.800448],
+      [Crossing crossingWithName:@"Рощинское шоссе" latitude:60.227382 longitude:29.612833],
+      [Crossing crossingWithName:@"Рощино" latitude:60.251283 longitude:29.572106],
+      [Crossing crossingWithName:@"Горьковское" latitude:60.294546 longitude:29.493518],
       nil];
 
+
+  // http://ozd.rzd.ru/static/public/ozd?STRUCTURE_ID=4735
   closings = [NSMutableArray arrayWithObjects:
       [Closing closingWithCrossingName:@"Удельная" time:@"06:46" direction:ClosingDirectionToFinland],
       [Closing closingWithCrossingName:@"Удельная" time:@"11:32" direction:ClosingDirectionToFinland],
@@ -319,8 +372,6 @@
       return [Helper compareInteger:obj1.timeInMinutes with:obj2.timeInMinutes];
     }];
   }
-
-  return self;
 }
 
 @end

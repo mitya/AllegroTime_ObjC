@@ -54,9 +54,12 @@ typedef enum {
 @property (nonatomic, readonly) int minutesTillNextClosing;
 @property (nonatomic, readonly) BOOL isClosest;
 
+@property (nonatomic, assign) int distance;
+
 + (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
 + (Crossing *)getCrossingWithName:(NSString *)name;
 
+- (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction;
 @end
 
 /******************************************************************************/
