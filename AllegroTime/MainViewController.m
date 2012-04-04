@@ -111,13 +111,13 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateDetailsCellID];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 280, 18)];
+            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, [Helper tableViewCellWidth] - 20, 18)];
             topLabel.tag = 1;
             topLabel.textAlignment = UITextAlignmentCenter;
             topLabel.font = [UIFont systemFontOfSize:13];
             topLabel.textColor = [UIColor blackColor];
 
-            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, 280, 18)];
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, [Helper tableViewCellWidth] - 20, 18)];
             bottomLabel.tag = 2;
             bottomLabel.textAlignment = UITextAlignmentCenter;
             bottomLabel.font = [UIFont systemFontOfSize:12];
@@ -136,7 +136,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
           if (model.currentCrossing.state == CrossingStateClosed) {
             bottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
           } else {
-            bottomLabel.text = [NSString stringWithFormat:@"Переезд закроют примерно в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
+            bottomLabel.text = [NSString stringWithFormat:@"Переезд закроют в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
           }
 
           break;
@@ -200,14 +200,6 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   switch (section) {
     case MainView_CrossingStateSection:
       switch (locationState) {
-        case LocationStateNotAvailable:
-        {
-          UILabel *label = [Helper labelForTableViewFooter];
-          label.frame = CGRectMake(15, 0, tableView.bounds.size.width - 30, 30);
-          label.text = @"Ближайший переезд не определен";
-          return label;
-        }
-
         case LocationStateSearching:
         {
           UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
@@ -235,7 +227,6 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   switch (section) {
     case MainView_CrossingStateSection:
       switch (locationState) {
-        case LocationStateNotAvailable:
         case LocationStateSearching:
           return 30;
       }
@@ -245,9 +236,9 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
   if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
-    return @"Ближайший переезд не определен";
+    return @"Не удалось определить ближайший переезд";
   if (section == MainView_CrossingActionsSection)
-    return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов.";
+    return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";
   return nil;
 }
 

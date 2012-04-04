@@ -123,6 +123,10 @@ void gDump(id object) {
   return label;
 }
 
++(float)tableViewCellWidth {
+  return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 680 : 300;
+}
+
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label {
   CGSize labelSize = [label.text sizeWithFont:label.font];
   UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

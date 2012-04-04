@@ -36,6 +36,8 @@ void gLogSelector(SEL selector);
 
 + (UILabel *)labelForTableViewFooter;
 
++ (float)tableViewCellWidth;
+
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;
 
 + (NSString *)formatTimeInMunutesAsHHMM:(int)minutesSinceMidnight;
