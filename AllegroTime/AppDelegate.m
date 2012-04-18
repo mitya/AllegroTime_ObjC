@@ -21,10 +21,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [ModelManager prepare];
 
-  NSLog(@"[%s] ModelManager:%@", _cmd, model);
-
-      NSLog(@"%s ModelManage.closestCrossing:%@", _cmd, model.closestCrossing);
-
   UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithStyle:UITableViewStyleGrouped]];
   
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

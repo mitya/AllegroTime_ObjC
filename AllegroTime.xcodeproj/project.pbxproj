@@ -51,6 +51,7 @@
 /* Begin PBXFileReference section */
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
 		327E9C9C15236C250096DC0A /* CrossingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingListController.m; sourceTree = "<group>"; };
+		32B750E6153EDA4900A881B2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D74151F4AE20033BDDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,6 +122,7 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
+				32B750E6153EDA4900A881B2 /* QuartzCore.framework */,
 				32F4F04B1520AA6000C58E6A /* Core */,
 				32BD4D7C151F4AE20033BDDE /* UI */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,

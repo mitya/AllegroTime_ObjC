@@ -114,13 +114,13 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
             UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, [Helper tableViewCellWidth] - 20, 18)];
             topLabel.tag = 1;
             topLabel.textAlignment = UITextAlignmentCenter;
-            topLabel.font = [UIFont systemFontOfSize:13];
+            topLabel.font = [UIFont systemFontOfSize:17];
             topLabel.textColor = [UIColor blackColor];
 
             UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, [Helper tableViewCellWidth] - 20, 18)];
             bottomLabel.tag = 2;
             bottomLabel.textAlignment = UITextAlignmentCenter;
-            bottomLabel.font = [UIFont systemFontOfSize:12];
+            bottomLabel.font = [UIFont systemFontOfSize:14];
             bottomLabel.textColor = [UIColor grayColor];
 
             [cell.contentView addSubview:topLabel];
@@ -143,39 +143,50 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
         }
 
         case MainView_CrossingStateSection_StateDetailsRow:
-          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
+          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];          
           if (!cell) {
             cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateCellID];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:17];
           }
+
+          cell.backgroundColor = [UIColor whiteColor];
+          cell.textLabel.textColor = [UIColor blackColor];
+          
           switch (model.currentCrossing.state) {
             case CrossingStateClear:
-              cell.textLabel.textColor = [Helper greenColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];              
+              cell.textLabel.textColor = [UIColor whiteColor];
               cell.textLabel.text = @"До закрытия более часа";
               break;
             case CrossingStateSoon:
-              cell.textLabel.textColor = [Helper greenColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];              
+              cell.textLabel.textColor = [UIColor whiteColor];
               cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateVerySoon:
-              cell.textLabel.textColor = [UIColor redColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];              
+              cell.textLabel.textColor = [UIColor whiteColor];
               cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
               break;
             case CrossingStateClosing:
-              cell.textLabel.textColor = [UIColor redColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];              
+              cell.textLabel.textColor = [UIColor whiteColor];
               cell.textLabel.text = @"Сейчас закроют";
               break;
             case CrossingStateClosed:
-              cell.textLabel.textColor = [UIColor redColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];              
+              cell.textLabel.textColor = [UIColor whiteColor];
               cell.textLabel.text = @"Переезд закрыт";
               break;
             case CrosingsStateJustOpened:
-              cell.textLabel.textColor = [Helper yellowColor];
+              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]];
+              cell.textLabel.textColor = [UIColor darkGrayColor];
               cell.textLabel.text = @"Переезд только что открыли";
               break;
-          }
+          }          
+          
           break;
       }
       break;
@@ -218,6 +229,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 
           return header;
         }
+        default: return nil;
       }
   }
   return nil;
@@ -227,8 +239,8 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   switch (section) {
     case MainView_CrossingStateSection:
       switch (locationState) {
-        case LocationStateSearching:
-          return 30;
+        case LocationStateSearching: return 30;
+        default: return 0;
       }
   }
   return 0;
@@ -274,7 +286,6 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
-  NSLog(@"[%s] Date date:%@", _cmd, [NSDate date]);
   [self.tableView reloadData];
 }
 
