@@ -15,19 +15,23 @@
 		32BD4D81151F4AE20033BDDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */; };
 		32BD4D83151F4AE20033BDDE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D82151F4AE20033BDDE /* main.m */; };
 		32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D86151F4AE20033BDDE /* AppDelegate.m */; };
-		32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */; };
 		32BD4D92151F4AE20033BDDE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */; };
 		32BD4D93151F4AE20033BDDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D74151F4AE20033BDDE /* UIKit.framework */; };
 		32BD4D94151F4AE20033BDDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D76151F4AE20033BDDE /* Foundation.framework */; };
 		32BD4D95151F4AE20033BDDE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D7A151F4AE20033BDDE /* CoreData.framework */; };
 		32BD4D9D151F4AE20033BDDE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4D9B151F4AE20033BDDE /* InfoPlist.strings */; };
 		32BD4DA0151F4AE20033BDDE /* AllegroTimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */; };
-		32BD4DAB151F4BD80033BDDE /* TestView1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32BD4DAA151F4BD80033BDDE /* TestView1.xib */; };
 		32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DAF151F56ED0033BDDE /* MainViewController.m */; };
 		32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDDF /* Models.m */; };
 		32BD4DB2151F56ED0033BDE1 /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDDF /* Models.m */; };
 		32BD4DB2151F56ED0033BDE4 /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 32BD4DB2151F56ED0033BDE3 /* Helpers.m */; };
-		32CA8C8C152CDC39000FA61C /* Schedule.csv in Resources */ = {isa = PBXBuildFile; fileRef = 32CA8C8B152CDC39000FA61C /* Schedule.csv */; };
+		32DE886C153EC7F700D130FB /* Icon-iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE886B153EC7F700D130FB /* Icon-iPhone.png */; };
+		32DE886E153EC7FC00D130FB /* Icon-iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE886D153EC7FC00D130FB /* Icon-iPhone@2x.png */; };
+		32DE8870153EC80400D130FB /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE886F153EC80400D130FB /* Icon-iPad.png */; };
+		32DE8872153EC80800D130FB /* Icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8871153EC80800D130FB /* Icon-iPad@2x.png */; };
+		32DE8875153EC84600D130FB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8874153EC84600D130FB /* Default.png */; };
+		32DE8877153EC84800D130FB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8876153EC84800D130FB /* Default@2x.png */; };
+		32DE8879153EC90F00D130FB /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8878153EC90F00D130FB /* Data */; };
 		32F4F04E15211E9E00C58E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04D15211E9E00C58E6A /* CoreLocation.framework */; };
 		32F4F05015211EA500C58E6A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04F15211EA500C58E6A /* MapKit.framework */; };
 		32F4F05015211EA500C58E6C /* CrossingScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E6B /* CrossingScheduleController.m */; };
@@ -45,7 +49,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		327E9C6C1523176A0096DC0A /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Locations.gpx; path = AllegroTime/Locations.gpx; sourceTree = "<group>"; };
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
 		327E9C9C15236C250096DC0A /* CrossingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingListController.m; sourceTree = "<group>"; };
 		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,22 +62,26 @@
 		32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AllegroTime-Prefix.pch"; sourceTree = "<group>"; };
 		32BD4D85151F4AE20033BDDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		32BD4D86151F4AE20033BDDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AllegroTime.xcdatamodel; sourceTree = "<group>"; };
 		32BD4D90151F4AE20033BDDE /* AllegroTimeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllegroTimeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D91151F4AE20033BDDE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		32BD4D9A151F4AE20033BDDE /* AllegroTimeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AllegroTimeTests-Info.plist"; sourceTree = "<group>"; };
 		32BD4D9C151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		32BD4D9E151F4AE20033BDDE /* AllegroTimeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AllegroTimeTests.h; sourceTree = "<group>"; };
 		32BD4D9F151F4AE20033BDDE /* AllegroTimeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllegroTimeTests.m; sourceTree = "<group>"; };
-		32BD4DAA151F4BD80033BDDE /* TestView1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestView1.xib; sourceTree = "<group>"; };
 		32BD4DAE151F56ED0033BDDE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		32BD4DAF151F56ED0033BDDE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		32BD4DB2151F56ED0033BDDF /* Models.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Models.m; sourceTree = "<group>"; };
 		32BD4DB2151F56ED0033BDE2 /* Models.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
 		32BD4DB2151F56ED0033BDE3 /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
 		32BD4DB2151F56ED0033BDE5 /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
-		32CA8C8B152CDC39000FA61C /* Schedule.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Schedule.csv; sourceTree = "<group>"; };
-		32CA8C8E152CDF8B000FA61C /* schedule.numbers */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = schedule.numbers; path = AllegroTime/schedule.numbers; sourceTree = "<group>"; };
+		32DE8869153EC78E00D130FB /* Artefacts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Artefacts; sourceTree = "<group>"; };
+		32DE886B153EC7F700D130FB /* Icon-iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPhone.png"; sourceTree = "<group>"; };
+		32DE886D153EC7FC00D130FB /* Icon-iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPhone@2x.png"; sourceTree = "<group>"; };
+		32DE886F153EC80400D130FB /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad.png"; sourceTree = "<group>"; };
+		32DE8871153EC80800D130FB /* Icon-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad@2x.png"; sourceTree = "<group>"; };
+		32DE8874153EC84600D130FB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		32DE8876153EC84800D130FB /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		32DE8878153EC90F00D130FB /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		32F4F04D15211E9E00C58E6A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		32F4F04F15211EA500C58E6A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		32F4F05015211EA500C58E6B /* CrossingScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingScheduleController.m; sourceTree = "<group>"; };
@@ -114,14 +121,15 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
-				32BD4DA9151F4BB20033BDDE /* Experiments */,
 				32F4F04B1520AA6000C58E6A /* Core */,
 				32BD4D7C151F4AE20033BDDE /* UI */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
 				32BD4D98151F4AE20033BDDE /* Tests */,
 				32BD4D73151F4AE20033BDDE /* Frameworks */,
 				32BD4D71151F4AE20033BDDE /* Products */,
-				32CA8C90152CDFAF000FA61C /* Non-bundled Files */,
+				32DE8873153EC81D00D130FB /* Images */,
+				32DE8869153EC78E00D130FB /* Artefacts */,
+				32DE8878153EC90F00D130FB /* Data */,
 			);
 			sourceTree = "<group>";
 		};
@@ -169,7 +177,6 @@
 		32BD4D7D151F4AE20033BDDE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				32CA8C8B152CDC39000FA61C /* Schedule.csv */,
 				32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */,
 				32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */,
 				32BD4D82151F4AE20033BDDE /* main.m */,
@@ -199,23 +206,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		32BD4DA9151F4BB20033BDDE /* Experiments */ = {
+		32DE8873153EC81D00D130FB /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				32BD4DAA151F4BD80033BDDE /* TestView1.xib */,
+				32DE8876153EC84800D130FB /* Default@2x.png */,
+				32DE8874153EC84600D130FB /* Default.png */,
+				32DE8871153EC80800D130FB /* Icon-iPad@2x.png */,
+				32DE886F153EC80400D130FB /* Icon-iPad.png */,
+				32DE886D153EC7FC00D130FB /* Icon-iPhone@2x.png */,
+				32DE886B153EC7F700D130FB /* Icon-iPhone.png */,
 			);
-			name = Experiments;
-			path = AllegroTime;
-			sourceTree = "<group>";
-		};
-		32CA8C90152CDFAF000FA61C /* Non-bundled Files */ = {
-			isa = PBXGroup;
-			children = (
-				32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */,
-				32CA8C8E152CDF8B000FA61C /* schedule.numbers */,
-				327E9C6C1523176A0096DC0A /* Locations.gpx */,
-			);
-			name = "Non-bundled Files";
+			name = Images;
 			sourceTree = "<group>";
 		};
 		32F4F04B1520AA6000C58E6A /* Core */ = {
@@ -301,8 +302,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				32BD4D81151F4AE20033BDDE /* InfoPlist.strings in Resources */,
-				32BD4DAB151F4BD80033BDDE /* TestView1.xib in Resources */,
-				32CA8C8C152CDC39000FA61C /* Schedule.csv in Resources */,
+				32DE886C153EC7F700D130FB /* Icon-iPhone.png in Resources */,
+				32DE886E153EC7FC00D130FB /* Icon-iPhone@2x.png in Resources */,
+				32DE8870153EC80400D130FB /* Icon-iPad.png in Resources */,
+				32DE8872153EC80800D130FB /* Icon-iPad@2x.png in Resources */,
+				32DE8875153EC84600D130FB /* Default.png in Resources */,
+				32DE8877153EC84800D130FB /* Default@2x.png in Resources */,
+				32DE8879153EC90F00D130FB /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +346,6 @@
 				32BD4D83151F4AE20033BDDE /* main.m in Sources */,
 				32BD4D87151F4AE20033BDDE /* AppDelegate.m in Sources */,
 				32BD4DB2151F56ED0033BDE0 /* Models.m in Sources */,
-				32BD4D8A151F4AE20033BDDE /* AllegroTime.xcdatamodeld in Sources */,
 				32BD4DB1151F56ED0033BDDE /* MainViewController.m in Sources */,
 				32BD4DB2151F56ED0033BDE4 /* Helpers.m in Sources */,
 				327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */,
@@ -522,20 +527,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		32BD4D88151F4AE20033BDDE /* AllegroTime.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */,
-			);
-			currentVersion = 32BD4D89151F4AE20033BDDE /* AllegroTime.xcdatamodel */;
-			name = AllegroTime.xcdatamodeld;
-			path = AllegroTime/AllegroTime.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 32BD4D67151F4AE20033BDDE /* Project object */;
 }

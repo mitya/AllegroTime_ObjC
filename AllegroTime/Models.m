@@ -237,9 +237,12 @@
 - (void) loadFile {
   crossings = [NSMutableArray arrayWithCapacity:30];
 
-  NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"Schedule" ofType:@"csv"];
+  NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"Data/Schedule" ofType:@"csv"];
   NSString *dataString = [NSString stringWithContentsOfFile:dataPath encoding:NSUTF8StringEncoding error:NULL];
   NSArray *dataRows = [dataString componentsSeparatedByString:@"\n"];
+  
+  NSLog(dataPath);
+  NSLog(@"len = %i", dataString.length);
 
   for (NSString *dataRow in dataRows) {
     NSArray *components = [dataRow componentsSeparatedByString:@","];
