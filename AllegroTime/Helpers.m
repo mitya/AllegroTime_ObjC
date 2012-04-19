@@ -38,6 +38,18 @@ void gDump(id object) {
 - (NSString *)format:(id)objects, ... {
   return [NSString stringWithFormat:self, objects];
 }
+
+- (NSString *)transliterated {
+  NSMutableString *buffer = [self mutableCopy];
+  CFMutableStringRef bufferRef = (__bridge CFMutableStringRef)buffer;
+  CFStringTransform(bufferRef, NULL, kCFStringTransformToLatin, false);
+  CFStringTransform(bufferRef, NULL, kCFStringTransformStripCombiningMarks, false);
+  CFStringTransform(bufferRef, NULL, kCFStringTransformStripDiacritics, false);      
+  [buffer replaceOccurrencesOfString:@"ʹ" withString:@"" options:0 range:NSMakeRange(0, buffer.length)];
+  [buffer replaceOccurrencesOfString:@"–" withString:@"-" options:0 range:NSMakeRange(0, buffer.length)];
+  return buffer;
+}
+
 @end
 
 /******************************************************************************/

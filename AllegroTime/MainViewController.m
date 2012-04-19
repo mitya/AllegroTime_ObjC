@@ -29,18 +29,18 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 @synthesize locationManager;
 @synthesize timer;
 
-
 #pragma mark - lifecycle
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
+  [super viewDidLoad];  
+//  self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Data/Images/Screen Shot 2012-04-18 at 18.01.08.png"]];
+//  self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/Screen Shot 2012-04-18 at 18.02.10.png"]];
   self.title = @"Время Аллегро";
   self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
-}
-
-- (void)viewDidUnload {
-  [super viewDidUnload];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,22 +48,14 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 
   [self.tableView reloadData];
 
-  if (CLLocationManager.locationServicesEnabled)
-    [self.locationManager startMonitoringSignificantLocationChanges];
-
-  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
-  timer.fireDate = [Helper nextFullMinuteDate];
+  [self startStuff];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
 
-  if (CLLocationManager.locationServicesEnabled)
-    [self.locationManager stopMonitoringSignificantLocationChanges];
-
-  [timer invalidate];
+  [self stopStuff];
 }
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -116,13 +108,15 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
             topLabel.textAlignment = UITextAlignmentCenter;
             topLabel.font = [UIFont systemFontOfSize:17];
             topLabel.textColor = [UIColor blackColor];
+            topLabel.backgroundColor = [UIColor clearColor];
 
             UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, [Helper tableViewCellWidth] - 20, 18)];
             bottomLabel.tag = 2;
             bottomLabel.textAlignment = UITextAlignmentCenter;
             bottomLabel.font = [UIFont systemFontOfSize:14];
             bottomLabel.textColor = [UIColor grayColor];
-
+            bottomLabel.backgroundColor = [UIColor clearColor];
+            
             [cell.contentView addSubview:topLabel];
             [cell.contentView addSubview:bottomLabel];
           }
@@ -254,7 +248,6 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   return nil;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.section) {
     case MainView_CrossingStateSection:
@@ -286,6 +279,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
+  NSLog(@"timerTicked %@", [NSDate new]);
   [self.tableView reloadData];
 }
 
@@ -299,7 +293,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   if (!model.selectedCrossing)
     [self.tableView reloadData];
 
-  NSLog(@"%s newLocation.horizontalAccuracy:%f coordinate:%f,%f closest:%@", _cmd, newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
+  NSLog(@"newLocation acc:%.1f coord:%f,%f %@", newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
 }
 
 - (void)showScheduleForCrossing:(Crossing *)crossing {
@@ -309,10 +303,41 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 }
 
 - (void)changeSelectedCrossing:(Crossing *)crossing {
-  model.selectedCrossing = crossing;
+  if (crossing.isClosest) {
+    model.selectedCrossing = nil;
+    model.closestCrossing = crossing;
+  }    
+  else {
+    model.selectedCrossing = crossing;
+  }    
+  
   [self.navigationController popViewControllerAnimated:YES];
+  [self.tableView reloadData];
 }
 
+- (void)applicationDidEnterBackground {
+  [self stopStuff];
+}
+
+- (void)applicationWillEnterForeground {
+  [self startStuff];
+}
+
+- (void)stopStuff {
+  NSLog(@"stop stuff");
+  [locationManager stopMonitoringSignificantLocationChanges];
+  [timer invalidate];    
+}
+
+- (void)startStuff {
+  NSLog(@"start stuff");  
+  if (CLLocationManager.locationServicesEnabled) {
+    [self.locationManager startMonitoringSignificantLocationChanges];
+  } 
+  
+  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
+  timer.fireDate = [Helper nextFullMinuteDate];  
+}
 
 #pragma mark - properties
 
@@ -327,8 +352,8 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
   if (!locationManager) {
     locationManager = [CLLocationManager new];
     locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    locationManager.distanceFilter = 300;
+//    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+//    locationManager.distanceFilter = 300;
   }
   return locationManager;
 }

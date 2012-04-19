@@ -72,6 +72,7 @@ typedef enum {
 @property (nonatomic, strong) Crossing* selectedCrossing;
 @property (nonatomic, readonly) Crossing* currentCrossing;
 @property (nonatomic, readonly) Crossing* defaultCrossing;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (Crossing *)crossingClosestTo:(CLLocation *)location;
 

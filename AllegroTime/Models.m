@@ -136,7 +136,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name, latitude, longitude, closings.count];
+  return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name.transliterated, latitude, longitude, closings.count];
 }
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction {
@@ -178,6 +178,7 @@
 
 #pragma mark - properties
 
+@synthesize locationManager;
 @synthesize crossings;
 @synthesize closings;
 @synthesize closestCrossing;
@@ -210,6 +211,16 @@
 - (void)setSelectedCrossing:(Crossing *)aCrossing {
   [[NSUserDefaults standardUserDefaults] setObject:aCrossing.name forKey:@"selectedCrossing"];
 }
+
+//- (CLLocationManager *)locationManager {
+//  if (!locationManager) {
+//    locationManager = [CLLocationManager new];
+//    //    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+//    //    locationManager.distanceFilter = 300;
+//  }
+//  return locationManager;
+//}
+
 
 #pragma mark - methods
 

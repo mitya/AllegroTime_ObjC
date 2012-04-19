@@ -16,6 +16,7 @@ void gLogSelector(SEL selector);
 
 @interface NSString (My)
 - (NSString *)format:(id)objects, ...;
+- (NSString *)transliterated;
 @end
 
 @interface NSArray (My)
