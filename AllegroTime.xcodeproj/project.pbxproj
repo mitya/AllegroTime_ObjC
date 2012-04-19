@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3212FF7715405E4400463E72 /* CrossingMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3212FF7615405E4400463E72 /* CrossingMapController.m */; };
 		327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327E9C9C15236C250096DC0A /* CrossingListController.m */; };
+		32A5624D15409A860079939C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8878153EC90F00D130FB /* Data */; };
 		32BD4D75151F4AE20033BDDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D74151F4AE20033BDDE /* UIKit.framework */; };
 		32BD4D77151F4AE20033BDDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D76151F4AE20033BDDE /* Foundation.framework */; };
 		32BD4D79151F4AE20033BDDE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D78151F4AE20033BDDE /* CoreGraphics.framework */; };
@@ -31,7 +33,6 @@
 		32DE8872153EC80800D130FB /* Icon-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8871153EC80800D130FB /* Icon-iPad@2x.png */; };
 		32DE8875153EC84600D130FB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8874153EC84600D130FB /* Default.png */; };
 		32DE8877153EC84800D130FB /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8876153EC84800D130FB /* Default@2x.png */; };
-		32DE8879153EC90F00D130FB /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8878153EC90F00D130FB /* Data */; };
 		32F4F04E15211E9E00C58E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04D15211E9E00C58E6A /* CoreLocation.framework */; };
 		32F4F05015211EA500C58E6A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F4F04F15211EA500C58E6A /* MapKit.framework */; };
 		32F4F05015211EA500C58E6C /* CrossingScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E6B /* CrossingScheduleController.m */; };
@@ -49,9 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3212FF7515405E4400463E72 /* CrossingMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingMapController.h; sourceTree = "<group>"; };
+		3212FF7615405E4400463E72 /* CrossingMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingMapController.m; sourceTree = "<group>"; };
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
 		327E9C9C15236C250096DC0A /* CrossingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingListController.m; sourceTree = "<group>"; };
-		32B750E6153EDA4900A881B2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D74151F4AE20033BDDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -122,7 +124,6 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
-				32B750E6153EDA4900A881B2 /* QuartzCore.framework */,
 				32F4F04B1520AA6000C58E6A /* Core */,
 				32BD4D7C151F4AE20033BDDE /* UI */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
@@ -167,6 +168,8 @@
 				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
 				32BD4DAE151F56ED0033BDDE /* MainViewController.h */,
 				32BD4DAF151F56ED0033BDDE /* MainViewController.m */,
+				3212FF7515405E4400463E72 /* CrossingMapController.h */,
+				3212FF7615405E4400463E72 /* CrossingMapController.m */,
 				327E9C9B15236C250096DC0A /* CrossingListController.h */,
 				327E9C9C15236C250096DC0A /* CrossingListController.m */,
 				32F4F05015211EA500C58E6D /* CrossingScheduleController.h */,
@@ -310,7 +313,7 @@
 				32DE8872153EC80800D130FB /* Icon-iPad@2x.png in Resources */,
 				32DE8875153EC84600D130FB /* Default.png in Resources */,
 				32DE8877153EC84800D130FB /* Default@2x.png in Resources */,
-				32DE8879153EC90F00D130FB /* Data in Resources */,
+				32A5624D15409A860079939C /* Data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +356,7 @@
 				327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */,
 				32F4F05015211EA500C58E6C /* CrossingScheduleController.m in Sources */,
 				32F4F05015211EA500C58E6F /* TrainScheduleController.m in Sources */,
+				3212FF7715405E4400463E72 /* CrossingMapController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,6 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 /******************************************************************************/
 
@@ -21,6 +22,12 @@ typedef enum {
   CrossingStateClosed,
   CrosingsStateJustOpened
 } CrossingState;
+
+typedef enum {
+  StateColorGreen,
+  StateColorYellow,
+  StateColorRed
+} StateColor;
 
 @class Crossing;
 
@@ -42,12 +49,14 @@ typedef enum {
 
 /******************************************************************************/
 
-@interface Crossing :NSObject
+@interface Crossing : NSObject <MKAnnotation>
 
 @property (nonatomic) float latitude;
 @property (nonatomic) float longitude;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableArray *closings;
+@property (nonatomic, readonly) StateColor stateColor;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly) Closing *nextClosing;
 @property (nonatomic, readonly) Closing *previousClosing;
 @property (nonatomic, readonly) CrossingState state;

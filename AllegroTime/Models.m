@@ -65,7 +65,7 @@
 
 /******************************************************************************/
 
-@implementation Crossing : NSObject
+@implementation Crossing
 
 #pragma mark - properties
 
@@ -74,8 +74,6 @@
 @synthesize longitude;
 @synthesize closings;
 @synthesize distance;
-
-
 
 // - осталось более часа — зеленый
 // - осталось примерно 55/50/.../20 минут — желтый
@@ -98,6 +96,27 @@
   if (timeTillNextClosing >  0) return CrossingStateClosing;
   return CrossingStateClosed;
 }
+
+- (StateColor)stateColor {
+  switch (self.state) {
+    case CrossingStateClear: return StateColorGreen;
+    case CrossingStateSoon: return StateColorGreen;
+    case CrossingStateVerySoon: return StateColorRed;
+    case CrossingStateClosing: return StateColorRed;
+    case CrossingStateClosed: return StateColorRed;
+    case CrosingsStateJustOpened: return StateColorYellow;
+    default: return StateColorGreen;
+  }
+}
+
+- (CLLocationCoordinate2D) coordinate {
+  return CLLocationCoordinate2DMake(latitude, longitude);
+}
+
+- (NSString *)title {
+  return name;
+}
+
 
 - (Closing *)nextClosing {
   int currentTime = [Helper currentTimeInMinutes];
@@ -136,7 +155,7 @@
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name.transliterated, latitude, longitude, closings.count];
+  return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name, latitude, longitude, closings.count];
 }
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction {

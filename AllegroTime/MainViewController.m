@@ -13,6 +13,7 @@
 #import "Helpers.h"
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
+#import "CrossingMapController.h"
 
 const int MainView_CrossingStateSection = 0;
 const int MainView_CrossingStateSection_TitleRow = 0;
@@ -20,6 +21,7 @@ const int MainView_CrossingStateSection_StateRow = 1;
 const int MainView_CrossingStateSection_StateDetailsRow = 2;
 const int MainView_CrossingActionsSection = 1;
 const int MainView_CrossingActionsSection_ScheduleRow = 0;
+const int MainView_CrossingActionsSection_MapRow = 1;
 
 @implementation MainViewController {
   NSTimer *timer;
@@ -72,7 +74,7 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
     case MainView_CrossingStateSection:
       return 3;
     case MainView_CrossingActionsSection:
-      return 1;
+      return 2;
   }
   return 0;
 }
@@ -185,15 +187,18 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
       }
       break;
     case MainView_CrossingActionsSection:
+      cell = [tableView dequeueReusableCellWithIdentifier:DefaultWithTriangleCellID];
+      if (!cell) {
+        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DefaultWithTriangleCellID];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      }
+
       switch (indexPath.row) {
         case 0:
-          cell = [tableView dequeueReusableCellWithIdentifier:DefaultWithTriangleCellID];
-          if (!cell) {
-            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DefaultWithTriangleCellID];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-          }
           cell.textLabel.text = @"Расписание Аллегро";
+          break;
+        case 1:
+          cell.textLabel.text = @"Карта переездов";          
           break;
       }
   }
@@ -264,13 +269,17 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
       break;
     case MainView_CrossingActionsSection:
       switch (indexPath.row) {
-        case MainView_CrossingActionsSection_ScheduleRow:
-        {
+        case MainView_CrossingActionsSection_ScheduleRow: {
           CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
           crossingsController.target = self;
           crossingsController.action = @selector(showScheduleForCrossing:);
           crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
           [self.navigationController pushViewController:crossingsController animated:YES];
+          break;
+        }
+        case MainView_CrossingActionsSection_MapRow: {
+          CrossingMapController* mapController = [[CrossingMapController alloc] init];
+          [self.navigationController pushViewController:mapController animated:YES];          
         }
       }
   }
@@ -324,13 +333,11 @@ const int MainView_CrossingActionsSection_ScheduleRow = 0;
 }
 
 - (void)stopStuff {
-  NSLog(@"stop stuff");
   [locationManager stopMonitoringSignificantLocationChanges];
   [timer invalidate];    
 }
 
 - (void)startStuff {
-  NSLog(@"start stuff");  
   if (CLLocationManager.locationServicesEnabled) {
     [self.locationManager startMonitoringSignificantLocationChanges];
   } 
