@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 #import "CrossingListController.h"
 #import "Models.h"
 #import "MainViewController.h"

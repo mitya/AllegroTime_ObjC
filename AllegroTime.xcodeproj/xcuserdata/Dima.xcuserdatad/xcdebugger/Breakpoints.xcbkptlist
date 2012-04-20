@@ -13,7 +13,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "295"
          endingLineNumber = "295"
-         landmarkName = "-locationManager:didUpdateToLocation:fromLocation:"
+         landmarkName = "-timerTicked:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "341"
          endingLineNumber = "341"
-         landmarkName = "-startStuff"
+         landmarkName = "-stopStuff"
          landmarkType = "5">
          <Actions>
             <BreakpointActionProxy
@@ -48,8 +48,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "335"
          endingLineNumber = "335"
-         landmarkName = "-stopStuff"
-         landmarkType = "5">
+         landmarkName = "@implementation MainViewController"
+         landmarkType = "3">
          <Actions>
             <BreakpointActionProxy
                ActionType = "Xcode.BreakpointAction.Log">

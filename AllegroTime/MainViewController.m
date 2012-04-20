@@ -47,9 +47,8 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-
   [self.tableView reloadData];
-
+  [self.navigationController setToolbarHidden:YES animated:YES];
   [self startStuff];
 }
 
@@ -288,7 +287,7 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
-  NSLog(@"timerTicked %@", [NSDate new]);
+  NSLog(@"timerTicked блять %@", [NSDate new]);  
   [self.tableView reloadData];
 }
 
