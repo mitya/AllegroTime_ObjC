@@ -12,6 +12,7 @@
 #import "CrossingScheduleController.h"
 
 static MKCoordinateRegion CrossingMapController_LastRegion;
+static MKMapType CrossingMapController_LastMapType = MKMapTypeStandard;
 
 @interface CrossingMapController ()
 @property (nonatomic, strong) MKMapView *map;
@@ -24,6 +25,7 @@ static MKCoordinateRegion CrossingMapController_LastRegion;
   self.map = [[MKMapView alloc] init];
   self.map.showsUserLocation = YES;
   self.map.delegate = self;
+  self.map.mapType = CrossingMapController_LastMapType;
   self.view = self.map;
 }
 
@@ -33,11 +35,12 @@ static MKCoordinateRegion CrossingMapController_LastRegion;
   NSArray *segmentedItems = [NSArray arrayWithObjects:@"Standard", @"Hybrid", @"Satellite", nil];
   UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedItems];
   segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-  segmentedControl.selectedSegmentIndex = 0;
+  segmentedControl.selectedSegmentIndex = CrossingMapController_LastMapType;
   [segmentedControl addTarget:self action:@selector(changeMapType:) forControlEvents:UIControlEventValueChanged];
 
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
   self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
+
   //self.toolbarItems = [NSArray arrayWithObjects:
   //    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
   //    [[UIBarButtonItem alloc] initWithCustomView:segmentedControl],
@@ -51,6 +54,7 @@ static MKCoordinateRegion CrossingMapController_LastRegion;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
   if (CrossingMapController_LastRegion.span.latitudeDelta != 0) {
     [map setRegion:CrossingMapController_LastRegion animated:YES];
   } else {
@@ -61,6 +65,7 @@ static MKCoordinateRegion CrossingMapController_LastRegion;
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   CrossingMapController_LastRegion = map.region;
+  CrossingMapController_LastMapType = map.mapType;
 }
 
 #pragma mark - map view
