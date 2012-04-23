@@ -12,7 +12,17 @@ void MXLogArray(char const *desc, NSArray *array);
 void MXLogString(char const *string);
 void MXLogSelector(SEL selector);
 
+// UI
 UIColor *MXCellGradientColorFor(UIColor *color);
+NSString *MXFormatDate(NSDate *date, NSString *format);
+
+// Logging
+
+NSMutableArray *MXConsoleGet();
+void MXConsoleWrite(NSString *string);
+void MXConsoleFormat(NSString *format, ...);
+
+// Core extensions
 
 @interface NSString (My)
 - (NSString *)format:(id)objects, ...;
@@ -24,6 +34,8 @@ UIColor *MXCellGradientColorFor(UIColor *color);
 - (id)minimumObject:(double (^)(id))block;
 - (id)detectObject:(BOOL (^)(id))predicate;
 @end
+
+// General helpers
 
 @interface Helper
 + (NSInteger)parseStringAsHHMM:(NSString *)string;

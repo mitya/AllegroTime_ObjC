@@ -38,6 +38,7 @@
 		32F4F05015211EA500C58E72 /* Crossing.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E71 /* Crossing.m */; };
 		32F4F05015211EA500C58E74 /* Closing.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E73 /* Closing.m */; };
 		32F4F05015211EA500C58E76 /* ModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E75 /* ModelManager.m */; };
+		32F4F05015211EA500C58E78 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E77 /* LogViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,8 @@
 		32F4F05015211EA500C58E71 /* Crossing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crossing.m; sourceTree = "<group>"; };
 		32F4F05015211EA500C58E73 /* Closing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Closing.m; sourceTree = "<group>"; };
 		32F4F05015211EA500C58E75 /* ModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelManager.m; sourceTree = "<group>"; };
+		32F4F05015211EA500C58E77 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
+		32F4F05015211EA500C58E79 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +168,8 @@
 		32BD4D7C151F4AE20033BDDE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				32F4F05015211EA500C58E79 /* LogViewController.h */,
+				32F4F05015211EA500C58E77 /* LogViewController.m */,
 				32F4F05015211EA500C58E70 /* TrainScheduleController.h */,
 				32F4F05015211EA500C58E6E /* TrainScheduleController.m */,
 				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
@@ -364,6 +369,7 @@
 				32F4F05015211EA500C58E72 /* Crossing.m in Sources */,
 				32F4F05015211EA500C58E74 /* Closing.m in Sources */,
 				32F4F05015211EA500C58E76 /* ModelManager.m in Sources */,
+				32F4F05015211EA500C58E78 /* LogViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

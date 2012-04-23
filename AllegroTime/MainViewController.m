@@ -11,6 +11,7 @@
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
 #import "CrossingMapController.h"
+#import "LogViewController.h"
 
 const int MainView_CrossingStateSection = 0;
 const int MainView_CrossingStateSection_TitleRow = 0;
@@ -20,10 +21,13 @@ const int MainView_CrossingActionsSection = 1;
 const int MainView_CrossingActionsSection_ScheduleRow = 0;
 const int MainView_CrossingActionsSection_MapRow = 1;
 
-@implementation MainViewController {
-  NSTimer *timer;
-}
+@interface MainViewController ()
+@property (nonatomic, assign) LocationState locationState;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSTimer *timer;
+@end
 
+@implementation MainViewController
 @synthesize locationState;
 @synthesize locationManager;
 @synthesize timer;
@@ -32,11 +36,12 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-//  self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Data/Images/Screen Shot 2012-04-18 at 18.01.08.png"]];
-//  self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/Screen Shot 2012-04-18 at 18.02.10.png"]];
+
   self.title = @"Время Аллегро";
   self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
+
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Лог" style:UIBarButtonItemStyleBordered target:self action:@selector(showLog)];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -105,7 +110,7 @@ const int MainView_CrossingActionsSection_MapRow = 1;
             topLabel.tag = 1;
             topLabel.textAlignment = UITextAlignmentCenter;
             topLabel.font = [UIFont systemFontOfSize:17];
-            topLabel.textColor = [UIColor blackColor];
+            topLabel.textColor = [UIColor darkTextColor];
             topLabel.backgroundColor = [UIColor clearColor];
 
             UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, [Helper tableViewCellWidth] - 20, 18)];
@@ -144,7 +149,7 @@ const int MainView_CrossingActionsSection_MapRow = 1;
           }
 
           cell.backgroundColor = [UIColor whiteColor];
-          cell.textLabel.textColor = [UIColor blackColor];
+          cell.textLabel.textColor = [UIColor darkTextColor];
 
           switch (model.currentCrossing.state) {
             case CrossingStateClear:
@@ -289,27 +294,33 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
-  NSLog(@"timerTicked блять %@", [NSDate new]);
+  MXConsoleFormat(@"timerTicked %@", [NSDate new]);
   [self.tableView reloadData];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   // * check if the data are fresh enought: abs(newLocation.timestamp.timeIntervalSinceNow) > 60.0
   // * unsubscribe from the further updates if the GPS is used once the precise and recent data are gathered
-
   self.locationState = LocationStateSet;
 
   model.closestCrossing = [model crossingClosestTo:newLocation];
   if (!model.selectedCrossing)
     [self.tableView reloadData];
 
-  NSLog(@"newLocation acc:%.1f coord:%f,%f %@", newLocation.horizontalAccuracy, newLocation.coordinate.latitude, newLocation.coordinate.longitude, model.closestCrossing);
+  CLLocationDistance distance = [newLocation distanceFromLocation:oldLocation];
+
+  MXConsoleFormat(@"newLocation acc %.1f dist %.1f %@", newLocation.horizontalAccuracy, distance, model.closestCrossing.name);
 }
 
 - (void)showScheduleForCrossing:(Crossing *)crossing {
   CrossingScheduleController *scheduleController = [[CrossingScheduleController alloc] initWithStyle:UITableViewStyleGrouped];
   scheduleController.crossing = crossing;
   [self.navigationController pushViewController:scheduleController animated:YES];
+}
+
+- (void)showLog {
+  LogViewController *logController = [[LogViewController alloc] init];
+  [self.navigationController pushViewController:logController animated:YES];
 }
 
 - (void)changeSelectedCrossing:(Crossing *)crossing {
@@ -326,19 +337,23 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 }
 
 - (void)applicationDidEnterBackground {
+  MXConsoleFormat(@"applicationDidEnterBackground");
   [self stopStuff];
 }
 
 - (void)applicationWillEnterForeground {
+  MXConsoleFormat(@"applicationWillEnterForeground");
   [self startStuff];
 }
 
 - (void)stopStuff {
+  MXConsoleFormat(@"stop");
   [locationManager stopMonitoringSignificantLocationChanges];
   [timer invalidate];
 }
 
 - (void)startStuff {
+  MXConsoleFormat(@"start");
   if (CLLocationManager.locationServicesEnabled) {
     [self.locationManager startMonitoringSignificantLocationChanges];
   }

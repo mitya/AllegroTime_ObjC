@@ -34,6 +34,33 @@ void MXDump(id object) {
   NSLog(@"%@", object);
 }
 
+NSMutableArray *MXLoggingBuffer;
+
+NSMutableArray *MXConsoleGet() {
+  if (!MXLoggingBuffer) {
+    MXLoggingBuffer = [NSMutableArray arrayWithCapacity:1000];
+  }
+  return MXLoggingBuffer;
+}
+
+void MXConsoleWrite(NSString *string) {
+  string = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), string];
+  [MXConsoleGet() addObject:string];
+}
+
+
+void MXConsoleFormat(NSString *format, ...) {
+  va_list args;
+  va_start(args, format);
+  NSString* formattedMessage = [[NSString alloc] initWithFormat: format arguments:args];
+  va_end(args);
+
+  NSLog(@"%@", formattedMessage);
+
+  formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
+  [MXConsoleGet() addObject:formattedMessage];
+}
+
 #pragma mark - UI
 
 UIColor *MXCellGradientColorFor(UIColor *color) {
@@ -45,6 +72,13 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
     return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
   return color;
 }
+
+NSString *MXFormatDate(NSDate *date, NSString *format) {
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:format];
+  return [dateFormatter stringFromDate:date];
+}
+
 
 #pragma mark - Core extensions
 
@@ -122,12 +156,6 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
   NSInteger hours = nowParts.hour;
   NSInteger minutes = nowParts.minute;
   return hours * 60 + minutes;
-}
-
-+ (NSString *)formatDate:(NSDate *)date withFormat:(NSString *)format {
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:format];
-  return [dateFormatter stringFromDate:date];
 }
 
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2 {
