@@ -31,17 +31,22 @@ typedef enum {
 
 @class Crossing;
 
+#define PREVIOUS_TRAIN_LAG_TIME 10
+
 /******************************************************************************/
 
 @interface Closing : NSObject
 
-@property (strong) NSString *time;
-@property (assign) Crossing *crossing;
-@property ClosingDirection direction;
-@property int timeInMinutes;
-@property (readonly) int stopTimeInMinutes;
-@property (readonly) BOOL toRussia;
-@property (readonly) int trainNumber;
+@property (nonatomic, strong) NSString *time;
+@property (nonatomic, assign) Crossing *crossing;
+@property (nonatomic) ClosingDirection direction;
+@property (nonatomic) int timeInMinutes;
+@property (nonatomic, readonly) int stopTimeInMinutes;
+@property (nonatomic, readonly) BOOL toRussia;
+@property (nonatomic, readonly) int trainNumber;
+@property (nonatomic, readonly) BOOL isClosest;
+@property (nonatomic, readonly) CrossingState state;
+@property (nonatomic, readonly) UIColor *color;
 
 + (id)closingWithCrossingName:(NSString *)crossingName time:(NSString *)time direction:(ClosingDirection)direction;
 
@@ -55,18 +60,16 @@ typedef enum {
 @property (nonatomic) float longitude;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSMutableArray *closings;
-@property (nonatomic, readonly) StateColor stateColor;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly) Closing *nextClosing;
 @property (nonatomic, readonly) Closing *previousClosing;
 @property (nonatomic, readonly) CrossingState state;
+@property (nonatomic, readonly) UIColor *color;
 @property (nonatomic, readonly) int minutesTillNextClosing;
 @property (nonatomic, readonly) BOOL isClosest;
-
 @property (nonatomic, assign) int distance;
 
 + (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
-
 + (Crossing *)getCrossingWithName:(NSString *)name;
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction;
@@ -87,13 +90,6 @@ typedef enum {
 - (Crossing *)crossingClosestTo:(CLLocation *)location;
 
 + (void)prepare;
-
-//+ (NSMutableArray *)crossings;
-//+ (NSMutableArray *)closings;
-//+ (Crossing *)currentCrossing;
-//+ (Crossing *)closestCrossing;
-//+ (void)setSelectedCrossing:(Crossing *)crossing;
-//+ (NSString *)geolocationState;
 
 @end
 

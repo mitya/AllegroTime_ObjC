@@ -59,6 +59,10 @@ void gLogSelector(SEL selector);
 
 + (NSDate *)nextFullMinuteDate;
 
++ (UIColor *)cellGradientColorFor:(UIColor *)color;
+
++ (UIColor *)blueTextColor;
+
 @end
 
 typedef enum {
