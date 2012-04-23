@@ -186,7 +186,7 @@ void gDump(id object) {
 }
 
 + (UIColor *)blueTextColor {
-  return [UIColor colorWithRed:82.0/255 green:102.0/255 blue:145.0/255 alpha:1];
+  return [UIColor colorWithRed:82.0 / 255 green:102.0 / 255 blue:145.0 / 255 alpha:1];
 }
 
 @end

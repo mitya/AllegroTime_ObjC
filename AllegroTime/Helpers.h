@@ -66,7 +66,7 @@ void gLogSelector(SEL selector);
 @end
 
 typedef enum {
-    LocationStateNotAvailable = 1,
-    LocationStateSearching = 2,
-    LocationStateSet = 3
+  LocationStateNotAvailable = 1,
+  LocationStateSearching = 2,
+  LocationStateSet = 3
 } LocationState;

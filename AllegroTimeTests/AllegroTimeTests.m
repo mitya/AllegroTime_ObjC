@@ -11,19 +11,19 @@
 @implementation AllegroTimeTests
 
 - (void)setUp {
-    [super setUp];
+  [super setUp];
 
-    // Set-up code here.
+  // Set-up code here.
 }
 
 - (void)tearDown {
-    // Tear-down code here.
+  // Tear-down code here.
 
-    [super tearDown];
+  [super tearDown];
 }
 
 - (void)testExample {
-    STFail(@"Unit tests are not implemented yet in AllegroTimeTests");
+  STFail(@"Unit tests are not implemented yet in AllegroTimeTests");
 }
 
 @end

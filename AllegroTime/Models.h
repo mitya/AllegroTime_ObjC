@@ -10,23 +10,23 @@
 /******************************************************************************/
 
 typedef enum {
-    ClosingDirectionToFinland = 1,
-    ClosingDirectionToRussia = 2
+  ClosingDirectionToFinland = 1,
+  ClosingDirectionToRussia = 2
 } ClosingDirection;
 
 typedef enum CrossingState {
-    CrossingStateClear,
-    CrossingStateSoon,
-    CrossingStateVerySoon,
-    CrossingStateClosing,
-    CrossingStateClosed,
-    CrosingsStateJustOpened
+  CrossingStateClear,
+  CrossingStateSoon,
+  CrossingStateVerySoon,
+  CrossingStateClosing,
+  CrossingStateClosed,
+  CrosingsStateJustOpened
 } CrossingState;
 
 typedef enum {
-    StateColorGreen,
-    StateColorYellow,
-    StateColorRed
+  StateColorGreen,
+  StateColorYellow,
+  StateColorRed
 } StateColor;
 
 @class Crossing;

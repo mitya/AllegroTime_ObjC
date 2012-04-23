@@ -19,63 +19,63 @@
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"Переезды";
+  [super viewDidLoad];
+  self.title = @"Переезды";
 }
 
 - (void)viewDidUnload {
-    [super viewDidUnload];
+  [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - table view
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return model.crossings.count;
+  return model.crossings.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CrossingCellID = @"CrossingCell";
-    UITableViewCell *cell;
+  static NSString *CrossingCellID = @"CrossingCell";
+  UITableViewCell *cell;
 
-    Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
+  Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
 
-    cell = [tableView dequeueReusableCellWithIdentifier:CrossingCellID];
-    if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingCellID];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-    }
+  cell = [tableView dequeueReusableCellWithIdentifier:CrossingCellID];
+  if (!cell) {
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingCellID];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+  }
 
-    cell.textLabel.text = crossing.name;
-    cell.detailTextLabel.text = crossing.isClosest ? @"Ближний" : nil;
-    if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
-        cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+  cell.textLabel.text = crossing.name;
+  cell.detailTextLabel.text = crossing.isClosest ? @"Ближний" : nil;
+  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
+    cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+  } else {
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  }
 
-    return cell;
+  return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
-        for (UITableViewCell *cell in self.tableView.visibleCells)
-            if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
-                cell.accessoryType = UITableViewCellAccessoryNone;
+  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
+    for (UITableViewCell *cell in self.tableView.visibleCells)
+      if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        cell.accessoryType = UITableViewCellAccessoryNone;
 
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+  }
 
-    if (self.target && self.action) {
-        Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
-        [self.target performSelector:self.action withObject:crossing];
-    }
+  if (self.target && self.action) {
+    Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
+    [self.target performSelector:self.action withObject:crossing];
+  }
 }
 
 @end
