@@ -15,6 +15,10 @@
   self.title = self.crossing.name;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return MXAutorotationPolicy(interfaceOrientation);
+}
+
 #pragma mark - table view
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

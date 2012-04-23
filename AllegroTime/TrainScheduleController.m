@@ -16,6 +16,10 @@
   self.title = [NSString stringWithFormat:@"Поезд №%i", self.sampleClosing.trainNumber];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return MXAutorotationPolicy(interfaceOrientation);
+}
+
 #pragma mark - table view
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

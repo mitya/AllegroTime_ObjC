@@ -34,6 +34,10 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 
 #pragma mark - lifecycle
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 
@@ -51,17 +55,22 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   [super viewWillAppear:animated];
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
+
   [self startStuff];
+
+  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
+  timer.fireDate = [Helper nextFullMinuteDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
 
+  [timer invalidate];
   [self stopStuff];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  return MXAutorotationPolicy(interfaceOrientation);
 }
 
 #pragma mark - table view stuff
@@ -349,7 +358,6 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 - (void)stopStuff {
   MXConsoleFormat(@"stop");
   [locationManager stopMonitoringSignificantLocationChanges];
-  [timer invalidate];
 }
 
 - (void)startStuff {
@@ -357,9 +365,6 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   if (CLLocationManager.locationServicesEnabled) {
     [self.locationManager startMonitoringSignificantLocationChanges];
   }
-
-  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
-  timer.fireDate = [Helper nextFullMinuteDate];
 }
 
 #pragma mark - properties
@@ -375,8 +380,8 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   if (!locationManager) {
     locationManager = [CLLocationManager new];
     locationManager.delegate = self;
-//    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-//    locationManager.distanceFilter = 300;
+    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    locationManager.distanceFilter = 200;
   }
   return locationManager;
 }

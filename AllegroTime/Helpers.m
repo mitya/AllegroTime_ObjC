@@ -48,7 +48,6 @@ void MXConsoleWrite(NSString *string) {
   [MXConsoleGet() addObject:string];
 }
 
-
 void MXConsoleFormat(NSString *format, ...) {
   va_list args;
   va_start(args, format);
@@ -59,7 +58,10 @@ void MXConsoleFormat(NSString *format, ...) {
 
   formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
   [MXConsoleGet() addObject:formattedMessage];
+
+  [NSNotificationCenter.defaultCenter postNotificationName:@"mxConsoleUpdated" object:MXLoggingBuffer];
 }
+
 
 #pragma mark - UI
 
@@ -71,6 +73,10 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
   if (color == [UIColor greenColor])
     return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
   return color;
+}
+
+BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation) {
+  return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
 NSString *MXFormatDate(NSDate *date, NSString *format) {

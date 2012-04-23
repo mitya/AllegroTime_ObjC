@@ -68,6 +68,11 @@ static MKMapType CrossingMapController_LastMapType = MKMapTypeStandard;
   CrossingMapController_LastMapType = map.mapType;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return MXAutorotationPolicy(interfaceOrientation);
+}
+
+
 #pragma mark - map view
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {

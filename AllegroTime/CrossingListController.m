@@ -28,7 +28,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  return MXAutorotationPolicy(interfaceOrientation);
 }
 
 #pragma mark - table view
