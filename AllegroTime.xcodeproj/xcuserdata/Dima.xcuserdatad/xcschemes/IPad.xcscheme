@@ -60,6 +60,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "32BD4D6F151F4AE20033BDDE"
+            BuildableName = "AllegroTime.app"
+            BlueprintName = "AllegroTime"
+            ReferencedContainer = "container:AllegroTime.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

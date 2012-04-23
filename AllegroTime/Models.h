@@ -10,23 +10,23 @@
 /******************************************************************************/
 
 typedef enum {
-  ClosingDirectionToFinland = 1,
-  ClosingDirectionToRussia = 2
-} ClosingDirection ;
+    ClosingDirectionToFinland = 1,
+    ClosingDirectionToRussia = 2
+} ClosingDirection;
 
-typedef enum {
-  CrossingStateClear,
-  CrossingStateSoon,
-  CrossingStateVerySoon,
-  CrossingStateClosing,
-  CrossingStateClosed,
-  CrosingsStateJustOpened
+typedef enum CrossingState {
+    CrossingStateClear,
+    CrossingStateSoon,
+    CrossingStateVerySoon,
+    CrossingStateClosing,
+    CrossingStateClosed,
+    CrosingsStateJustOpened
 } CrossingState;
 
 typedef enum {
-  StateColorGreen,
-  StateColorYellow,
-  StateColorRed
+    StateColorGreen,
+    StateColorYellow,
+    StateColorRed
 } StateColor;
 
 @class Crossing;
@@ -66,6 +66,7 @@ typedef enum {
 @property (nonatomic, assign) int distance;
 
 + (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
+
 + (Crossing *)getCrossingWithName:(NSString *)name;
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction;
@@ -76,11 +77,11 @@ typedef enum {
 @interface ModelManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *crossings;
-@property (nonatomic, strong) NSMutableArray * closings;
-@property (nonatomic, strong) Crossing* closestCrossing;
-@property (nonatomic, strong) Crossing* selectedCrossing;
-@property (nonatomic, readonly) Crossing* currentCrossing;
-@property (nonatomic, readonly) Crossing* defaultCrossing;
+@property (nonatomic, strong) NSMutableArray *closings;
+@property (nonatomic, strong) Crossing *closestCrossing;
+@property (nonatomic, strong) Crossing *selectedCrossing;
+@property (nonatomic, readonly) Crossing *currentCrossing;
+@property (nonatomic, readonly) Crossing *defaultCrossing;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (Crossing *)crossingClosestTo:(CLLocation *)location;

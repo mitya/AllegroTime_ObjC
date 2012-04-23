@@ -9,13 +9,17 @@
 void gDump(id object);
 
 void gLog(char const *desc, id object);
+
 void gLogArray(char const *desc, NSArray *array);
+
 void gLogString(char const *string);
+
 void gLogSelector(SEL selector);
 
 
 @interface NSString (My)
 - (NSString *)format:(id)objects, ...;
+
 - (NSString *)transliterated;
 @end
 
@@ -31,6 +35,7 @@ void gLogSelector(SEL selector);
 
 @interface Helper
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
+
 + (NSInteger)currentTimeInMinutes;
 
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
@@ -57,7 +62,7 @@ void gLogSelector(SEL selector);
 @end
 
 typedef enum {
-  LocationStateNotAvailable = 1,
-  LocationStateSearching = 2,
-  LocationStateSet = 3
+    LocationStateNotAvailable = 1,
+    LocationStateSearching = 2,
+    LocationStateSet = 3
 } LocationState;

@@ -6,8 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <MapKit/MapKit.h>
 #import "CrossingMapController.h"
 #import "Models.h"
+#import "CrossingScheduleController.h"
+
+static MKCoordinateRegion CrossingMapController_LastRegion;
 
 @interface CrossingMapController ()
 @property (nonatomic, strong) MKMapView *map;
@@ -33,7 +37,7 @@
     [segmentedControl addTarget:self action:@selector(changeMapType:) forControlEvents:UIControlEventValueChanged];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
     //self.toolbarItems = [NSArray arrayWithObjects:
     //    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
     //    [[UIBarButtonItem alloc] initWithCustomView:segmentedControl],
@@ -41,12 +45,22 @@
     //    nil];
     //[self.navigationController setToolbarHidden:NO animated:YES];
 
+
     [map addAnnotations:model.crossings];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [map setRegion:MKCoordinateRegionMakeWithDistance([Crossing getCrossingWithName:@"Парголово"].coordinate, 10000, 10000) animated:YES];
+    if (CrossingMapController_LastRegion.span.latitudeDelta != 0) {
+        [map setRegion:CrossingMapController_LastRegion animated:YES];
+    } else {
+        [map setRegion:MKCoordinateRegionMakeWithDistance([Crossing getCrossingWithName:@"Парголово"].coordinate, 10000, 10000) animated:YES];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    CrossingMapController_LastRegion = map.region;
 }
 
 #pragma mark - map view
@@ -87,9 +101,11 @@
         return;
 
     Crossing *crossing = (Crossing *) view.annotation;
-    NSLog(@"[%s] crossing:%@", (char *) _cmd, crossing);
-}
 
+    CrossingScheduleController *scheduleController = [[CrossingScheduleController alloc] initWithStyle:UITableViewStyleGrouped];
+    scheduleController.crossing = crossing;
+    [self.navigationController pushViewController:scheduleController animated:YES];
+}
 
 #pragma mark - callbacks
 
