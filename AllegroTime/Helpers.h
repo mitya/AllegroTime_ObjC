@@ -6,63 +6,39 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-void gDump(id object);
+void MXDump(id object);
+void MXLog(char const *desc, id object);
+void MXLogArray(char const *desc, NSArray *array);
+void MXLogString(char const *string);
+void MXLogSelector(SEL selector);
 
-void gLog(char const *desc, id object);
-
-void gLogArray(char const *desc, NSArray *array);
-
-void gLogString(char const *string);
-
-void gLogSelector(SEL selector);
-
+UIColor *MXCellGradientColorFor(UIColor *color);
 
 @interface NSString (My)
 - (NSString *)format:(id)objects, ...;
-
 - (NSString *)transliterated;
 @end
 
 @interface NSArray (My)
 - (id)firstObject;
-
 - (id)minimumObject:(double (^)(id))block;
-
 - (id)detectObject:(BOOL (^)(id))predicate;
-
-
 @end
 
 @interface Helper
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
-
 + (NSInteger)currentTimeInMinutes;
-
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
-
 + (UILabel *)labelForTableViewFooter;
-
 + (float)tableViewCellWidth;
-
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;
-
 + (NSString *)formatTimeInMunutesAsHHMM:(int)minutesSinceMidnight;
-
 + (UIColor *)greenColor;
-
 + (UIColor *)yellowColor;
-
 + (int)roundToFive:(int)value;
-
-
 + (NSTimeInterval)timeTillFullMinute;
-
 + (NSDate *)nextFullMinuteDate;
-
-+ (UIColor *)cellGradientColorFor:(UIColor *)color;
-
 + (UIColor *)blueTextColor;
-
 @end
 
 typedef enum {

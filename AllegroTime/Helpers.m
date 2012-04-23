@@ -5,34 +5,48 @@
 
 #import "Helpers.h"
 
-void gLogArray(char const *desc, NSArray *array) {
+#pragma mark - Logging
+
+void MXLogArray(char const *desc, NSArray *array) {
   NSLog(@"%s array dump:", desc);
   for (int i = 0; i < array.count; i++) {
     NSLog(@"  %2i: %@", i, [array objectAtIndex:i]);
   }
 }
 
-void gLogString(char const *string) {
+void MXLogString(char const *string) {
   NSLog(@"%s", string);
 }
 
-void gLogSelector(SEL selector) {
+void MXLogSelector(SEL selector) {
   NSLog(@">> %s", (char *) selector);
 }
 
-void gLog(char const *desc, id object) {
+void MXLog(char const *desc, id object) {
   if ([object isKindOfClass:NSArray.class]) {
-    gLogArray(desc, object);
+    MXLogArray(desc, object);
   } else {
     NSLog(@"%s = %@", desc, object);
   }
 }
 
-void gDump(id object) {
+void MXDump(id object) {
   NSLog(@"%@", object);
 }
 
-/******************************************************************************/
+#pragma mark - UI
+
+UIColor *MXCellGradientColorFor(UIColor *color) {
+  if (color == [UIColor redColor])
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
+  if (color == [UIColor yellowColor])
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]];
+  if (color == [UIColor greenColor])
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
+  return color;
+}
+
+#pragma mark - Core extensions
 
 @implementation NSString (My)
 - (NSString *)format:(id)objects, ... {
@@ -87,7 +101,7 @@ void gDump(id object) {
 
 @end
 
-/******************************************************************************/
+#pragma mark - Helper module'
 
 @implementation Helper
 
@@ -99,8 +113,10 @@ void gDump(id object) {
 }
 
 + (NSInteger)currentTimeInMinutes {
+  static NSCalendar *calendar = nil;
+  if (!calendar) calendar = [NSCalendar currentCalendar];
+  
   NSDate *now = [NSDate date];
-  NSCalendar *calendar = [NSCalendar currentCalendar];
   NSDateComponents *nowParts = [calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
 
   NSInteger hours = nowParts.hour;
@@ -173,16 +189,6 @@ void gDump(id object) {
 
 + (NSDate *)nextFullMinuteDate {
   return [NSDate dateWithTimeIntervalSinceNow:[self timeTillFullMinute]];
-}
-
-+ (UIColor *)cellGradientColorFor:(UIColor *)color {
-  if (color == [UIColor redColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
-  if (color == [UIColor yellowColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]];
-  if (color == [UIColor greenColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
-  return color;
 }
 
 + (UIColor *)blueTextColor {

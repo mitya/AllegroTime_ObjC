@@ -39,7 +39,7 @@
   Closing *closing = [crossing.closings objectAtIndex:indexPath.row];
 
   if (closing.isClosest) {
-    cell.backgroundColor = [Helper cellGradientColorFor:closing.color];
+    cell.backgroundColor = MXCellGradientColorFor(closing.color);
     if (closing.color == [UIColor greenColor] || closing.color == [UIColor redColor]) {
       cell.textLabel.textColor = [UIColor whiteColor];
       cell.detailTextLabel.textColor = [UIColor lightTextColor];
