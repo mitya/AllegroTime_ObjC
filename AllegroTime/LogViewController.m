@@ -34,7 +34,7 @@
   table.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   [self.view addSubview:table];
 
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(consoleUpdated) name:@"mxConsoleUpdated" object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(consoleUpdated) name:NXLogConsoleUpdated object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,8 +62,6 @@
 
   NSArray *console = MXConsoleGet();
   NSString *message = [console objectAtIndex:(console.count - 1 - indexPath.row)];
-
-  NSLog(@"%s indexPath:%@", __func__, indexPath);
 
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
   if (!cell) {

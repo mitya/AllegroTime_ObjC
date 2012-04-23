@@ -44,19 +44,15 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   self.title = @"Время Аллегро";
   self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
-
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Лог" style:UIBarButtonItemStyleBordered target:self action:@selector(showLog)];
 
-  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
-
-  [self startStuff];
 
   timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
   timer.fireDate = [Helper nextFullMinuteDate];
@@ -66,7 +62,6 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   [super viewWillDisappear:animated];
 
   [timer invalidate];
-  [self stopStuff];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -303,22 +298,18 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
-  MXConsoleFormat(@"timerTicked %@", [NSDate new]);
+  MXConsoleFormat(@"timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
   [self.tableView reloadData];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-  // * check if the data are fresh enought: abs(newLocation.timestamp.timeIntervalSinceNow) > 60.0
-  // * unsubscribe from the further updates if the GPS is used once the precise and recent data are gathered
-  self.locationState = LocationStateSet;
-
-  model.closestCrossing = [model crossingClosestTo:newLocation];
-  if (!model.selectedCrossing)
+- (void)closestCrossingChanged {
+  if (self.locationState == LocationStateSet) {
+    NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], [NSIndexPath indexPathForRow:2 inSection:0], nil];
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+  } else {
+    self.locationState = LocationStateSet;
     [self.tableView reloadData];
-
-  CLLocationDistance distance = [newLocation distanceFromLocation:oldLocation];
-
-  MXConsoleFormat(@"newLocation acc %.1f dist %.1f %@", newLocation.horizontalAccuracy, distance, model.closestCrossing.name);
+  }
 }
 
 - (void)showScheduleForCrossing:(Crossing *)crossing {
@@ -345,28 +336,6 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   [self.tableView reloadData];
 }
 
-- (void)applicationDidEnterBackground {
-  MXConsoleFormat(@"applicationDidEnterBackground");
-  [self stopStuff];
-}
-
-- (void)applicationWillEnterForeground {
-  MXConsoleFormat(@"applicationWillEnterForeground");
-  [self startStuff];
-}
-
-- (void)stopStuff {
-  MXConsoleFormat(@"stop");
-  [locationManager stopMonitoringSignificantLocationChanges];
-}
-
-- (void)startStuff {
-  MXConsoleFormat(@"start");
-  if (CLLocationManager.locationServicesEnabled) {
-    [self.locationManager startMonitoringSignificantLocationChanges];
-  }
-}
-
 #pragma mark - properties
 
 - (void)setLocationState:(LocationState)aLocationState {
@@ -374,16 +343,6 @@ const int MainView_CrossingActionsSection_MapRow = 1;
     locationState = aLocationState;
     [self.tableView reloadData];
   }
-}
-
-- (CLLocationManager *)locationManager {
-  if (!locationManager) {
-    locationManager = [CLLocationManager new];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    locationManager.distanceFilter = 200;
-  }
-  return locationManager;
 }
 
 @end

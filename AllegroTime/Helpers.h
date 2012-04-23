@@ -59,3 +59,8 @@ typedef enum {
   LocationStateSearching = 2,
   LocationStateSet = 3
 } LocationState;
+
+// Constants
+
+NSString *const NXClosestCrossingChanged;
+NSString *const NXLogConsoleUpdated;

@@ -10,7 +10,6 @@
 
 #pragma mark - properties
 
-@synthesize locationManager;
 @synthesize crossings;
 @synthesize closings;
 @synthesize closestCrossing;

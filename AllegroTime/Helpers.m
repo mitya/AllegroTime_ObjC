@@ -5,6 +5,9 @@
 
 #import "Helpers.h"
 
+NSString *const NXClosestCrossingChanged = @"NXClosestCrossingChangedNotification";
+NSString *const NXLogConsoleUpdated = @"NXLogConsoleUpdated";
+
 #pragma mark - Logging
 
 void MXLogArray(char const *desc, NSArray *array) {
@@ -59,7 +62,7 @@ void MXConsoleFormat(NSString *format, ...) {
   formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
   [MXConsoleGet() addObject:formattedMessage];
 
-  [NSNotificationCenter.defaultCenter postNotificationName:@"mxConsoleUpdated" object:MXLoggingBuffer];
+  [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
 }
 
 
