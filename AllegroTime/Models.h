@@ -84,8 +84,8 @@ typedef enum {
 @property (nonatomic, strong) NSMutableArray *closings;
 @property (nonatomic, strong) Crossing *closestCrossing;
 @property (nonatomic, strong) Crossing *selectedCrossing;
-@property (nonatomic, readonly) Crossing *currentCrossing;
-@property (nonatomic, readonly) Crossing *defaultCrossing;
+@property (nonatomic, strong) Crossing *currentCrossing;
+@property (nonatomic, readonly, strong) Crossing *defaultCrossing;
 
 - (Crossing *)crossingClosestTo:(CLLocation *)location;
 

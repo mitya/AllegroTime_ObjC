@@ -78,4 +78,9 @@
   }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+  if (!model.closestCrossing) return @"Ближайший переезд не определен";
+  else return [NSString stringWithFormat:@"Ближайший переезд — %@", model.closestCrossing.name];
+}
+
 @end

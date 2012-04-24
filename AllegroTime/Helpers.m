@@ -79,7 +79,8 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
 }
 
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation) {
-  return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+  //return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+  return YES;
 }
 
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color) {

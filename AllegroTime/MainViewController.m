@@ -17,7 +17,6 @@ const int StateSection = 0;
 const int ActionsSection = 1;
 
 @interface MainViewController ()
-@property (nonatomic, assign) LocationState locationState;
 @property (nonatomic, strong) NSTimer *timer;
 @property (strong, nonatomic) IBOutlet UITableViewCell *crossingCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *stateCell;
@@ -27,12 +26,9 @@ const int ActionsSection = 1;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellTopLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellBottomLabel;
 @property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
-@property (unsafe_unretained, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-
 @end
 
 @implementation MainViewController
-@synthesize locationState;
 @synthesize timer;
 @synthesize crossingCell;
 @synthesize stateCell;
@@ -42,8 +38,6 @@ const int ActionsSection = 1;
 @synthesize stateCellTopLabel;
 @synthesize stateCellBottomLabel;
 @synthesize stateSectionHeader;
-@synthesize spinner;
-
 
 #pragma mark - lifecycle
 
@@ -55,12 +49,10 @@ const int ActionsSection = 1;
   [super viewDidLoad];
 
   self.title = @"Время Аллегро";
-  self.locationState = CLLocationManager.locationServicesEnabled ? LocationStateSearching : LocationStateNotAvailable;
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Лог" style:UIBarButtonItemStyleBordered target:self action:@selector(showLog)];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
-  [self.spinner startAnimating];
 }
 
 - (void)viewDidUnload {
@@ -72,7 +64,6 @@ const int ActionsSection = 1;
   [self setStateCell:nil];
   [self setCrossingCell:nil];
   [self setStateSectionHeader:nil];
-  [self setSpinner:nil];
   [super viewDidUnload];
 }
 
@@ -155,8 +146,6 @@ const int ActionsSection = 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == StateSection && locationState == LocationStateNotAvailable)
-    return @"Не удалось определить ближайший переезд";
   if (section == ActionsSection)
     return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";
   else 
@@ -169,7 +158,7 @@ const int ActionsSection = 1;
   if (cell == crossingCell) {    
     CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
     crossingsController.target = self;
-    crossingsController.action = @selector(changeSelectedCrossing:);
+    crossingsController.action = @selector(changeCurrentCrossing:);
     crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
     [self.navigationController pushViewController:crossingsController animated:YES];
   } else if (cell == showScheduleCell) {
@@ -184,6 +173,7 @@ const int ActionsSection = 1;
   }
 }
 
+
 #pragma mark - handlers
 
 - (void)timerTicked:(NSTimer *)theTimer {
@@ -192,13 +182,7 @@ const int ActionsSection = 1;
 }
 
 - (void)closestCrossingChanged {
-  if (self.locationState == LocationStateSet) {
-    NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], [NSIndexPath indexPathForRow:2 inSection:0], nil];
-    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-  } else {
-    self.locationState = LocationStateSet;
-    [self.tableView reloadData];
-  }
+  [self.tableView reloadData];
 }
 
 - (void)showScheduleForCrossing:(Crossing *)crossing {
@@ -212,29 +196,10 @@ const int ActionsSection = 1;
   [self.navigationController pushViewController:logController animated:YES];
 }
 
-- (void)changeSelectedCrossing:(Crossing *)crossing {
-  if (crossing.isClosest) {
-    model.selectedCrossing = nil;
-    model.closestCrossing = crossing;
-  }
-  else {
-    model.selectedCrossing = crossing;
-  }
-
+- (void)changeCurrentCrossing:(Crossing *)crossing {
+  [model setCurrentCrossing: crossing];
   [self.navigationController popViewControllerAnimated:YES];
   [self.tableView reloadData];
-}
-
-#pragma mark - properties
-
-- (void)setLocationState:(LocationState)aLocationState {
-  if (locationState != aLocationState) {
-    locationState = aLocationState;
-    [self.tableView reloadData];
-    
-    if (locationState == LocationStateSet)
-      [self.spinner stopAnimating];
-  }
 }
 
 @end

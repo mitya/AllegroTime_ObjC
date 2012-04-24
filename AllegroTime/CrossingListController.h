@@ -10,7 +10,7 @@
 
 @class MainViewController;
 
-@interface CrossingListController : UITableViewController
+@interface CrossingListController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) MainViewController *target;
 @property (nonatomic, assign) SEL action;

@@ -34,13 +34,19 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  if (CLLocationManager.locationServicesEnabled) {
-    [self.locationManager startMonitoringSignificantLocationChanges];
-  }
+  [self.locationManager startUpdatingLocation];
+  //if (CLLocationManager.locationServicesEnabled) {
+  //  if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager startMonitoringSignificantLocationChanges];
+  //  else [self.locationManager startUpdatingLocation];
+  //}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  [self.locationManager stopMonitoringSignificantLocationChanges];
+  [self.locationManager stopUpdatingLocation];
+  //if (CLLocationManager.locationServicesEnabled) {
+  //  if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager stopMonitoringSignificantLocationChanges];
+  //  else [self.locationManager stopUpdatingLocation];
+  //}
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -76,7 +82,7 @@
     locationManager = [CLLocationManager new];
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    locationManager.distanceFilter = 200;
+    locationManager.distanceFilter = 100;
   }
   return locationManager;
 }

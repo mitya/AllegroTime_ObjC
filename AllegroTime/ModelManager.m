@@ -43,6 +43,10 @@
   [[NSUserDefaults standardUserDefaults] setObject:aCrossing.name forKey:@"selectedCrossing"];
 }
 
+- (void)setCurrentCrossing:(Crossing *)crossing {
+  self.selectedCrossing = crossing.isClosest ? nil : crossing;
+}
+
 #pragma mark - methods
 
 - (Crossing *)crossingClosestTo:(CLLocation *)location {
