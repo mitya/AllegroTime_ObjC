@@ -26,6 +26,7 @@ const int ActionsSection = 1;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellTopLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellBottomLabel;
 @property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
+@property (strong, nonatomic) CrossingMapController *mapController;
 @end
 
 @implementation MainViewController
@@ -38,6 +39,7 @@ const int ActionsSection = 1;
 @synthesize stateCellTopLabel;
 @synthesize stateCellBottomLabel;
 @synthesize stateSectionHeader;
+@synthesize mapController;
 
 #pragma mark - lifecycle
 
@@ -168,7 +170,8 @@ const int ActionsSection = 1;
     crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [self.navigationController pushViewController:crossingsController animated:YES];
   } else if (cell == showMapCell) {
-    CrossingMapController *mapController = [[CrossingMapController alloc] init];
+    if (!mapController)
+      mapController = [[CrossingMapController alloc] init];
     [self.navigationController pushViewController:mapController animated:YES];
   }
 }

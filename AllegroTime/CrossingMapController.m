@@ -7,71 +7,53 @@
 //
 
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "CrossingMapController.h"
 #import "Models.h"
 #import "CrossingScheduleController.h"
-
-static MKCoordinateRegion CrossingMapController_LastRegion;
-static MKMapType CrossingMapController_LastMapType = MKMapTypeStandard;
 
 @interface CrossingMapController ()
 @property (nonatomic, strong) MKMapView *map;
 @end
 
-@implementation CrossingMapController
+@implementation CrossingMapController {
+  BOOL mapRegionSet;
+}
 @synthesize map;
 
 - (void)loadView {
   self.map = [[MKMapView alloc] init];
-  self.map.showsUserLocation = YES;
+  self.map.showsUserLocation = [CLLocationManager locationServicesEnabled];
   self.map.delegate = self;
-  self.map.mapType = CrossingMapController_LastMapType;
   self.view = self.map;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  NSArray *segmentedItems = [NSArray arrayWithObjects:@"Standard", @"Hybrid", @"Satellite", nil];
+  NSArray *segmentedItems = [NSArray arrayWithObjects:@"Стандарт", @"Спутник", @"Гибрид", nil];
   UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedItems];
   segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-  segmentedControl.selectedSegmentIndex = CrossingMapController_LastMapType;
+  segmentedControl.selectedSegmentIndex = map.mapType;
   [segmentedControl addTarget:self action:@selector(changeMapType:) forControlEvents:UIControlEventValueChanged];
 
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
   self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
-
-  //self.toolbarItems = [NSArray arrayWithObjects:
-  //    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-  //    [[UIBarButtonItem alloc] initWithCustomView:segmentedControl],
-  //    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-  //    nil];
-  //[self.navigationController setToolbarHidden:NO animated:YES];
-
 
   [map addAnnotations:model.crossings];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-
-  if (CrossingMapController_LastRegion.span.latitudeDelta != 0) {
-    [map setRegion:CrossingMapController_LastRegion animated:YES];
-  } else {
+  if (!mapRegionSet) {
     [map setRegion:MKCoordinateRegionMakeWithDistance([Crossing getCrossingWithName:@"Парголово"].coordinate, 10000, 10000) animated:YES];
+    mapRegionSet = YES;
   }
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-  [super viewWillDisappear:animated];
-  CrossingMapController_LastRegion = map.region;
-  CrossingMapController_LastMapType = map.mapType;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return MXAutorotationPolicy(interfaceOrientation);
 }
-
 
 #pragma mark - map view
 
@@ -116,17 +98,7 @@ static MKMapType CrossingMapController_LastMapType = MKMapTypeStandard;
 #pragma mark - callbacks
 
 - (void)changeMapType:(UISegmentedControl *)segment {
-  switch (segment.selectedSegmentIndex) {
-    case 0:
-      map.mapType = MKMapTypeStandard;
-      break;
-    case 1:
-      map.mapType = MKMapTypeSatellite;
-      break;
-    case 2:
-      map.mapType = MKMapTypeHybrid;
-      break;
-  }
+  map.mapType = segment.selectedSegmentIndex;
 }
 
 @end

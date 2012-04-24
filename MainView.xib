@@ -38,7 +38,6 @@
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">10</int>
@@ -124,7 +123,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<string key="NSFrame">{{10, 0}, {279, 43}}</string>
 								<reference key="NSSuperview" ref="840010485"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -190,7 +188,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<string key="NSFrame">{{10, 0}, {279, 43}}</string>
 								<reference key="NSSuperview" ref="179693684"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -243,7 +240,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<string key="NSFrame">{{10, 0}, {300, 43}}</string>
 								<reference key="NSSuperview" ref="629112497"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -324,7 +320,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<string key="NSFrame">{{202, 11}, {88, 21}}</string>
 								<reference key="NSSuperview" ref="716216808"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -414,7 +409,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 								<string key="NSFrame">{{0, 22}, {320, 22}}</string>
 								<reference key="NSSuperview" ref="382896478"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -684,7 +678,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<string key="crossingCell">UITableViewCell</string>
 						<string key="showMapCell">UITableViewCell</string>
 						<string key="showScheduleCell">UITableViewCell</string>
-						<string key="spinner">UIActivityIndicatorView</string>
 						<string key="stateCell">UITableViewCell</string>
 						<string key="stateCellBottomLabel">UILabel</string>
 						<string key="stateCellTopLabel">UILabel</string>
@@ -703,10 +696,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<object class="IBToOneOutletInfo" key="showScheduleCell">
 							<string key="name">showScheduleCell</string>
 							<string key="candidateClassName">UITableViewCell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="spinner">
-							<string key="name">spinner</string>
-							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="stateCell">
 							<string key="name">stateCell</string>

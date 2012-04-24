@@ -10,6 +10,7 @@
 		32038DC51546C01100661440 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32038DC41546C01100661440 /* MainView.xib */; };
 		3212FF7715405E4400463E72 /* CrossingMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3212FF7615405E4400463E72 /* CrossingMapController.m */; };
 		327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327E9C9C15236C250096DC0A /* CrossingListController.m */; };
+		32917CF51547078A006AF3F1 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */; };
 		32A5624D15409A860079939C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8878153EC90F00D130FB /* Data */; };
 		32BD4D75151F4AE20033BDDE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D74151F4AE20033BDDE /* UIKit.framework */; };
 		32BD4D77151F4AE20033BDDE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD4D76151F4AE20033BDDE /* Foundation.framework */; };
@@ -58,6 +59,7 @@
 		3212FF7615405E4400463E72 /* CrossingMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingMapController.m; sourceTree = "<group>"; };
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
 		327E9C9C15236C250096DC0A /* CrossingListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingListController.m; sourceTree = "<group>"; };
+		32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		32BD4D70151F4AE20033BDDE /* AllegroTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllegroTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32BD4D74151F4AE20033BDDE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		32BD4D76151F4AE20033BDDE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -225,6 +227,7 @@
 		32DE8873153EC81D00D130FB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */,
 				32DE8876153EC84800D130FB /* Default@2x.png */,
 				32DE8874153EC84600D130FB /* Default.png */,
 				32DE8871153EC80800D130FB /* Icon-iPad@2x.png */,
@@ -328,6 +331,7 @@
 				32DE8877153EC84800D130FB /* Default@2x.png in Resources */,
 				32A5624D15409A860079939C /* Data in Resources */,
 				32038DC51546C01100661440 /* MainView.xib in Resources */,
+				32917CF51547078A006AF3F1 /* Default-Portrait~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

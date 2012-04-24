@@ -20,8 +20,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [ModelManager prepare];
 
-//  UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithStyle:UITableViewStyleGrouped]];
-  
   UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithNibName:@"MainView" bundle:nil]];  
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -29,24 +27,26 @@
   self.window.rootViewController = navigationController;
 
   [self.window makeKeyAndVisible];
+  
+//  NSLog(@"%i %i %i", CLLocationManager.locationServicesEnabled, [CLLocationManager significantLocationChangeMonitoringAvailable], [CLLocationManager authorizationStatus]);
 
   return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  [self.locationManager startUpdatingLocation];
-  //if (CLLocationManager.locationServicesEnabled) {
-  //  if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager startMonitoringSignificantLocationChanges];
-  //  else [self.locationManager startUpdatingLocation];
-  //}
+  if (CLLocationManager.locationServicesEnabled) {
+    [self.locationManager startUpdatingLocation];
+    //if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager startMonitoringSignificantLocationChanges];
+    //else [self.locationManager startUpdatingLocation];
+  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  [self.locationManager stopUpdatingLocation];
-  //if (CLLocationManager.locationServicesEnabled) {
-  //  if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager stopMonitoringSignificantLocationChanges];
-  //  else [self.locationManager stopUpdatingLocation];
-  //}
+  if (CLLocationManager.locationServicesEnabled) {
+    [self.locationManager stopUpdatingLocation];
+    //if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager stopMonitoringSignificantLocationChanges];
+    //else [self.locationManager stopUpdatingLocation];
+  }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -90,12 +90,17 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   // * check if the data are fresh enought: abs(newLocation.timestamp.timeIntervalSinceNow) > 60.0
   // * unsubscribe from the further updates if the GPS is used once the precise and recent data are gathered
+  MXConsoleFormat(@"newLocation acc %.1f dist %.1f %@", newLocation.horizontalAccuracy, [newLocation distanceFromLocation:oldLocation], model.closestCrossing.name);
 
   model.closestCrossing = [model crossingClosestTo:newLocation];
   [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];
+}
 
-  CLLocationDistance distance = [newLocation distanceFromLocation:oldLocation];
-  MXConsoleFormat(@"newLocation acc %.1f dist %.1f %@", newLocation.horizontalAccuracy, distance, model.closestCrossing.name);
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+  MXConsoleFormat(@"locationFailed %@", error);
+
+  model.closestCrossing = nil;
+  [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];
 }
 
 #pragma mark - Core Data stack

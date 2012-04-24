@@ -8,20 +8,18 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "AllegroTime/MainViewController.m"
-         timestampString = "356968642.382863"
+         timestampString = "356975047.988151"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "219"
-         endingLineNumber = "219"
-         landmarkName = "-changeSelectedCrossing:"
-         landmarkType = "5">
+         endingLineNumber = "219">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "Yes"
          filePath = "AllegroTime/MainViewController.m"
-         timestampString = "356968642.382863"
+         timestampString = "356975047.988151"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "268"
@@ -41,7 +39,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "Yes"
          filePath = "AllegroTime/MainViewController.m"
-         timestampString = "356968642.382863"
+         timestampString = "356975047.988151"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "262"
