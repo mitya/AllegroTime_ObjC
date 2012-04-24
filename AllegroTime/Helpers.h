@@ -16,6 +16,7 @@ void MXLogSelector(SEL selector);
 UIColor *MXCellGradientColorFor(UIColor *color);
 NSString *MXFormatDate(NSDate *date, NSString *format);
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation);
+void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 
 // Logging
 

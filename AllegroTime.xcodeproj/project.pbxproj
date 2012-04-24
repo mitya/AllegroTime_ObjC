@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32038DC51546C01100661440 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32038DC41546C01100661440 /* MainView.xib */; };
 		3212FF7715405E4400463E72 /* CrossingMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3212FF7615405E4400463E72 /* CrossingMapController.m */; };
 		327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327E9C9C15236C250096DC0A /* CrossingListController.m */; };
 		32A5624D15409A860079939C /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 32DE8878153EC90F00D130FB /* Data */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32038DC41546C01100661440 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = ../MainView.xib; sourceTree = "<group>"; };
 		3212FF7515405E4400463E72 /* CrossingMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingMapController.h; sourceTree = "<group>"; };
 		3212FF7615405E4400463E72 /* CrossingMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingMapController.m; sourceTree = "<group>"; };
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				32F4F05015211EA500C58E6E /* TrainScheduleController.m */,
 				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
 				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
+				32038DC41546C01100661440 /* MainView.xib */,
 				32BD4DAE151F56ED0033BDDE /* MainViewController.h */,
 				32BD4DAF151F56ED0033BDDE /* MainViewController.m */,
 				3212FF7515405E4400463E72 /* CrossingMapController.h */,
@@ -324,6 +327,7 @@
 				32DE8875153EC84600D130FB /* Default.png in Resources */,
 				32DE8877153EC84800D130FB /* Default@2x.png in Resources */,
 				32A5624D15409A860079939C /* Data in Resources */,
+				32038DC51546C01100661440 /* MainView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

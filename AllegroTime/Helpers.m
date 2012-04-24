@@ -82,6 +82,17 @@ BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation) {
   return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
+void MXSetGradientForCell(UITableViewCell *cell, UIColor *color) {
+  cell.backgroundColor = MXCellGradientColorFor(color);
+  if (color == [UIColor redColor]) {
+    cell.textLabel.textColor = [UIColor whiteColor];
+  } else if (color == [UIColor yellowColor]) {
+    cell.textLabel.textColor = [UIColor darkGrayColor];
+  } else if (color == [UIColor greenColor]) {
+    cell.textLabel.textColor = [UIColor whiteColor];
+  }
+}
+
 NSString *MXFormatDate(NSDate *date, NSString *format) {
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:format];

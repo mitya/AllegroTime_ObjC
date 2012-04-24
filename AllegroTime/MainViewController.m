@@ -13,24 +13,37 @@
 #import "CrossingMapController.h"
 #import "LogViewController.h"
 
-const int MainView_CrossingStateSection = 0;
-const int MainView_CrossingStateSection_TitleRow = 0;
-const int MainView_CrossingStateSection_StateRow = 1;
-const int MainView_CrossingStateSection_StateDetailsRow = 2;
-const int MainView_CrossingActionsSection = 1;
-const int MainView_CrossingActionsSection_ScheduleRow = 0;
-const int MainView_CrossingActionsSection_MapRow = 1;
+const int StateSection = 0;
+const int ActionsSection = 1;
 
 @interface MainViewController ()
 @property (nonatomic, assign) LocationState locationState;
-@property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSTimer *timer;
+@property (strong, nonatomic) IBOutlet UITableViewCell *crossingCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *stateCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *stateDetailsCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *showScheduleCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *showMapCell;
+@property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellTopLabel;
+@property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellBottomLabel;
+@property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
+@property (unsafe_unretained, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 @end
 
 @implementation MainViewController
 @synthesize locationState;
-@synthesize locationManager;
 @synthesize timer;
+@synthesize crossingCell;
+@synthesize stateCell;
+@synthesize stateDetailsCell;
+@synthesize showScheduleCell;
+@synthesize showMapCell;
+@synthesize stateCellTopLabel;
+@synthesize stateCellBottomLabel;
+@synthesize stateSectionHeader;
+@synthesize spinner;
+
 
 #pragma mark - lifecycle
 
@@ -47,10 +60,25 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Лог" style:UIBarButtonItemStyleBordered target:self action:@selector(showLog)];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
+  [self.spinner startAnimating];
+}
+
+- (void)viewDidUnload {
+  [self setShowMapCell:nil];
+  [self setShowScheduleCell:nil];
+  [self setStateDetailsCell:nil];
+  [self setStateCellTopLabel:nil];
+  [self setStateCellBottomLabel:nil];
+  [self setStateCell:nil];
+  [self setCrossingCell:nil];
+  [self setStateSectionHeader:nil];
+  [self setSpinner:nil];
+  [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
 
@@ -68,6 +96,7 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   return MXAutorotationPolicy(interfaceOrientation);
 }
 
+
 #pragma mark - table view stuff
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -75,223 +104,83 @@ const int MainView_CrossingActionsSection_MapRow = 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  switch (section) {
-    case MainView_CrossingStateSection:
-      return 3;
-    case MainView_CrossingActionsSection:
-      return 2;
-  }
-  return 0;
+  if (section == StateSection) return 3;
+  if (section == ActionsSection) return 2;
+  else return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CrossingNameCellID = @"crossing-name-cell";
-  static NSString *CrossingStateCellID = @"crossing-state-cell";
-  static NSString *CrossingStateDetailsCellID = @"crossing-state-details-cell";
-  static NSString *DefaultWithTriangleCellID = @"default-with-triangle-cell";
-
   UITableViewCell *cell;
-  switch (indexPath.section) {
-    case MainView_CrossingStateSection:
-      switch (indexPath.row) {
-        case MainView_CrossingStateSection_TitleRow:
-          cell = [tableView dequeueReusableCellWithIdentifier:CrossingNameCellID];
-          if (!cell) {
-            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingNameCellID];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-          }
-          cell.textLabel.text = @"Переезд";
-          cell.detailTextLabel.text = model.currentCrossing.name;
-          break;
-        case MainView_CrossingStateSection_StateRow:
-        {
-          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateDetailsCellID];
-          if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateDetailsCellID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, [Helper tableViewCellWidth] - 20, 18)];
-            topLabel.tag = 1;
-            topLabel.textAlignment = UITextAlignmentCenter;
-            topLabel.font = [UIFont systemFontOfSize:17];
-            topLabel.textColor = [UIColor darkTextColor];
-            topLabel.backgroundColor = [UIColor clearColor];
-
-            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, [Helper tableViewCellWidth] - 20, 18)];
-            bottomLabel.tag = 2;
-            bottomLabel.textAlignment = UITextAlignmentCenter;
-            bottomLabel.font = [UIFont systemFontOfSize:14];
-            bottomLabel.textColor = [UIColor grayColor];
-            bottomLabel.backgroundColor = [UIColor clearColor];
-
-            [cell.contentView addSubview:topLabel];
-            [cell.contentView addSubview:bottomLabel];
-          }
-
-          UILabel *topLabel = (UILabel *) [cell viewWithTag:1];
-          UILabel *bottomLabel = (UILabel *) [cell viewWithTag:2];
-
-          Closing *nextClosing = model.currentCrossing.nextClosing;
-
-          topLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
-          if (model.currentCrossing.state == CrossingStateClosed) {
-            bottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
-          } else {
-            bottomLabel.text = [NSString stringWithFormat:@"Переезд закроют в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
-          }
-
-          break;
-        }
-
-        case MainView_CrossingStateSection_StateDetailsRow:
-          cell = [tableView dequeueReusableCellWithIdentifier:CrossingStateCellID];
-          if (!cell) {
-            cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CrossingStateCellID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:17];
-          }
-
-          cell.backgroundColor = [UIColor whiteColor];
-          cell.textLabel.textColor = [UIColor darkTextColor];
-
-          switch (model.currentCrossing.state) {
-            case CrossingStateClear:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
-              cell.textLabel.textColor = [UIColor whiteColor];
-              cell.textLabel.text = @"До закрытия более часа";
-              break;
-            case CrossingStateSoon:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
-              cell.textLabel.textColor = [UIColor whiteColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-              break;
-            case CrossingStateVerySoon:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
-              cell.textLabel.textColor = [UIColor whiteColor];
-              cell.textLabel.text = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-              break;
-            case CrossingStateClosing:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
-              cell.textLabel.textColor = [UIColor whiteColor];
-              cell.textLabel.text = @"Сейчас закроют";
-              break;
-            case CrossingStateClosed:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
-              cell.textLabel.textColor = [UIColor whiteColor];
-              cell.textLabel.text = @"Переезд закрыт";
-              break;
-            case CrosingsStateJustOpened:
-              cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]];
-              cell.textLabel.textColor = [UIColor darkGrayColor];
-              cell.textLabel.text = @"Переезд только что открыли";
-              break;
-          }
-
-          break;
-      }
-      break;
-    case MainView_CrossingActionsSection:
-      cell = [tableView dequeueReusableCellWithIdentifier:DefaultWithTriangleCellID];
-      if (!cell) {
-        cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:DefaultWithTriangleCellID];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-      }
-
-      switch (indexPath.row) {
-        case 0:
-          cell.textLabel.text = @"Расписание Аллегро";
-          break;
-        case 1:
-          cell.textLabel.text = @"Карта переездов";
-          break;
-      }
+  
+  if (indexPath.section == StateSection && indexPath.row == 0) {
+    cell = self.crossingCell;
+    cell.detailTextLabel.text = model.currentCrossing.name;          
+  } else if (indexPath.section == StateSection && indexPath.row == 1) {
+    cell = self.stateCell;
+    Closing *nextClosing = model.currentCrossing.nextClosing;    
+    stateCellTopLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
+    if (model.currentCrossing.state == CrossingStateClosed) {
+      stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
+    } else {
+      stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд закроют в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
+    }      
+  } else if (indexPath.section == StateSection && indexPath.row == 2) {        
+    cell = self.stateDetailsCell;    
+    
+    MXSetGradientForCell(cell, model.currentCrossing.color);
+    
+    CrossingState state = model.currentCrossing.state;
+    NSString *message;
+    if (state == CrossingStateClear) {
+      message = @"До закрытия более часа";
+    } else if (state == CrossingStateSoon) {
+      message = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
+    } else if (state == CrossingStateVerySoon) {
+      message = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
+    } else if (state == CrossingStateClosing) {
+      message = @"Сейчас закроют";
+    } else if (state == CrossingStateClosed) {
+      message = @"Переезд закрыт";
+    } else if (state == CrosingsStateJustOpened) {
+      message = @"Переезд только что открыли";
+    }
+    cell.textLabel.text = message;
+    
+  } else if (indexPath.section == ActionsSection) {
+    if (indexPath.row == 0) cell = self.showScheduleCell;
+    if (indexPath.row == 1) cell = self.showMapCell;
   }
 
   return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  switch (section) {
-    case MainView_CrossingStateSection:
-      switch (locationState) {
-        case LocationStateSearching:
-        {
-          UIView *header = [[UIView alloc] initWithFrame:CGRectZero];
-
-          UILabel *label = [Helper labelForTableViewFooter];
-          label.frame = CGRectMake(5, 0, tableView.bounds.size.width - 30, 30);
-          label.text = @"Поиск ближайшего переезда...";
-
-
-          UIActivityIndicatorView *spinner = [Helper spinnerAfterCenteredLabel:label];
-          [spinner startAnimating];
-
-
-          [header addSubview:label];
-          [header addSubview:spinner];
-
-          return header;
-        }
-        default:
-          return nil;
-      }
-  }
-  return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  switch (section) {
-    case MainView_CrossingStateSection:
-      switch (locationState) {
-        case LocationStateSearching:
-          return 30;
-        default:
-          return 0;
-      }
-  }
-  return 0;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == MainView_CrossingStateSection && locationState == LocationStateNotAvailable)
+  if (section == StateSection && locationState == LocationStateNotAvailable)
     return @"Не удалось определить ближайший переезд";
-  if (section == MainView_CrossingActionsSection)
+  if (section == ActionsSection)
     return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";
-  return nil;
+  else 
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  switch (indexPath.section) {
-    case MainView_CrossingStateSection:
-      switch (indexPath.row) {
-        case MainView_CrossingStateSection_TitleRow:
-        {
-          CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
-          crossingsController.target = self;
-          crossingsController.action = @selector(changeSelectedCrossing:);
-          crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
-          [self.navigationController pushViewController:crossingsController animated:YES];
-        }
-      }
-      break;
-    case MainView_CrossingActionsSection:
-      switch (indexPath.row) {
-        case MainView_CrossingActionsSection_ScheduleRow:
-        {
-          CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
-          crossingsController.target = self;
-          crossingsController.action = @selector(showScheduleForCrossing:);
-          crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-          [self.navigationController pushViewController:crossingsController animated:YES];
-          break;
-        }
-        case MainView_CrossingActionsSection_MapRow:
-        {
-          CrossingMapController *mapController = [[CrossingMapController alloc] init];
-          [self.navigationController pushViewController:mapController animated:YES];
-        }
-      }
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  
+  if (cell == crossingCell) {    
+    CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+    crossingsController.target = self;
+    crossingsController.action = @selector(changeSelectedCrossing:);
+    crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
+    [self.navigationController pushViewController:crossingsController animated:YES];
+  } else if (cell == showScheduleCell) {
+    CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+    crossingsController.target = self;
+    crossingsController.action = @selector(showScheduleForCrossing:);
+    crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [self.navigationController pushViewController:crossingsController animated:YES];
+  } else if (cell == showMapCell) {
+    CrossingMapController *mapController = [[CrossingMapController alloc] init];
+    [self.navigationController pushViewController:mapController animated:YES];
   }
 }
 
@@ -342,6 +231,9 @@ const int MainView_CrossingActionsSection_MapRow = 1;
   if (locationState != aLocationState) {
     locationState = aLocationState;
     [self.tableView reloadData];
+    
+    if (locationState == LocationStateSet)
+      [self.spinner stopAnimating];
   }
 }
 
