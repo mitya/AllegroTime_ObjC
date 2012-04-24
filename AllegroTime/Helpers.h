@@ -11,6 +11,8 @@ void MXLog(char const *desc, id object);
 void MXLogArray(char const *desc, NSArray *array);
 void MXLogString(char const *string);
 void MXLogSelector(SEL selector);
+NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NSString *word5);
+NSString *MXFormatMinutesAsText(int totalMinutes);
 
 // UI
 UIColor *MXCellGradientColorFor(UIColor *color);
@@ -65,3 +67,5 @@ typedef enum {
 
 NSString *const NXClosestCrossingChanged;
 NSString *const NXLogConsoleUpdated;
+
+NSString *const MXDefaultCellID;

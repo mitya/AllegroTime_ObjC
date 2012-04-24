@@ -71,7 +71,7 @@ const int ActionsSection = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  
+
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
 
@@ -81,7 +81,6 @@ const int ActionsSection = 1;
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-
   [timer invalidate];
 }
 
@@ -104,41 +103,23 @@ const int ActionsSection = 1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell;
-  
+
   if (indexPath.section == StateSection && indexPath.row == 0) {
     cell = self.crossingCell;
-    cell.detailTextLabel.text = model.currentCrossing.name;          
+    cell.detailTextLabel.text = model.currentCrossing.name;
   } else if (indexPath.section == StateSection && indexPath.row == 1) {
     cell = self.stateCell;
-    Closing *nextClosing = model.currentCrossing.nextClosing;    
+    Closing *nextClosing = model.currentCrossing.nextClosing;
     stateCellTopLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
-    if (model.currentCrossing.state == CrossingStateClosed) {
-      stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд закрыли в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
-    } else {
-      stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд закроют в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]];
-    }      
-  } else if (indexPath.section == StateSection && indexPath.row == 2) {        
-    cell = self.stateDetailsCell;    
-    
+    stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд %@ в %@",
+                                                           model.currentCrossing.state == CrossingStateClosed ? @"закрыли" : @"закроют",
+                                                           [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]
+    ];
+  } else if (indexPath.section == StateSection && indexPath.row == 2) {
+    cell = self.stateDetailsCell;
     MXSetGradientForCell(cell, model.currentCrossing.color);
-    
-    CrossingState state = model.currentCrossing.state;
-    NSString *message;
-    if (state == CrossingStateClear) {
-      message = @"До закрытия более часа";
-    } else if (state == CrossingStateSoon) {
-      message = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-    } else if (state == CrossingStateVerySoon) {
-      message = [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-    } else if (state == CrossingStateClosing) {
-      message = @"Сейчас закроют";
-    } else if (state == CrossingStateClosed) {
-      message = @"Переезд закрыт";
-    } else if (state == CrosingsStateJustOpened) {
-      message = @"Переезд только что открыли";
-    }
-    cell.textLabel.text = message;
-    
+    cell.textLabel.text = model.currentCrossing.subtitle;
+
   } else if (indexPath.section == ActionsSection) {
     if (indexPath.row == 0) cell = self.showScheduleCell;
     if (indexPath.row == 1) cell = self.showMapCell;
@@ -150,14 +131,14 @@ const int ActionsSection = 1;
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
   if (section == ActionsSection)
     return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";
-  else 
+  else
     return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  
-  if (cell == crossingCell) {    
+
+  if (cell == crossingCell) {
     CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
     crossingsController.target = self;
     crossingsController.action = @selector(changeCurrentCrossing:);
@@ -200,7 +181,7 @@ const int ActionsSection = 1;
 }
 
 - (void)changeCurrentCrossing:(Crossing *)crossing {
-  [model setCurrentCrossing: crossing];
+  [model setCurrentCrossing:crossing];
   [self.navigationController popViewControllerAnimated:YES];
   [self.tableView reloadData];
 }

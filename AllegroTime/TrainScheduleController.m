@@ -27,10 +27,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellID = @"TrainScheduleCell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
-    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellID];
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:MXDefaultCellID];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
     cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];

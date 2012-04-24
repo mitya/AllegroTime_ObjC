@@ -38,14 +38,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CrossingCellID = @"CrossingCell";
-  UITableViewCell *cell;
-
   Crossing *crossing = [model.crossings objectAtIndex:indexPath.row];
 
-  cell = [tableView dequeueReusableCellWithIdentifier:CrossingCellID];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
-    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CrossingCellID];
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:MXDefaultCellID];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
   }
 

@@ -7,6 +7,7 @@
 
 NSString *const NXClosestCrossingChanged = @"NXClosestCrossingChangedNotification";
 NSString *const NXLogConsoleUpdated = @"NXLogConsoleUpdated";
+NSString *const MXDefaultCellID = @"MXDefaultCellID";
 
 #pragma mark - Logging
 
@@ -65,6 +66,26 @@ void MXConsoleFormat(NSString *format, ...) {
   [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
 }
 
+// MXPluralizeRussiaWord(х, @"час", @"часа", @"часов")
+// MXPluralizeRussiaWord(х, @"минута", @"минуты", @"минут")
+NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NSString *word5) {
+  int rem100 = number % 100;
+  int rem10 = number % 10;
+
+  if (rem100 >= 11 && rem100 <= 19) return word5;
+  if (rem10 == 0) return word5;
+  if (rem10 == 1) return word1;
+  if (rem10 >= 2 && rem10 <= 4) return word2;
+  if (rem10 >= 5 && rem10 <= 9) return word5;
+
+  return word5;
+}
+
+NSString *MXFormatMinutesAsText(int totalMinutes) {
+  int hours = totalMinutes / 60;
+  int minutes = totalMinutes % 60;
+  return [NSString stringWithFormat:@"%i %@ %i %@", hours, MXPluralizeRussiaWord(hours, @"час", @"часа", @"часов"), minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
+}
 
 #pragma mark - UI
 

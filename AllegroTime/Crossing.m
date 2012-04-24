@@ -68,30 +68,14 @@
     case CrossingStateSoon:
     case CrossingStateVerySoon:
     case CrossingStateClosing:
+      return [NSString stringWithFormat:@"До закрытия %@", MXFormatMinutesAsText(self.minutesTillNextClosing)];
     case CrossingStateClosed:
-      return [NSString stringWithFormat:@"Следующий пройдет через %i минут", self.minutesTillNextClosing];
+      return @"Переезд закрыт";
     case CrosingsStateJustOpened:
-      return [NSString stringWithFormat:@"Предыдущий только что ушел"];
+      return @"Только что открыли";
     default:
       return nil;
   }
-
-  //switch (self.state) {
-  //    case CrossingStateClear:
-  //        return @"До закрытия более часа";
-  //    case CrossingStateSoon:
-  //        return [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-  //    case CrossingStateVerySoon:
-  //        return [NSString stringWithFormat:@"До закрытия около %i минут", [Helper roundToFive:model.currentCrossing.minutesTillNextClosing]];
-  //    case CrossingStateClosing:
-  //        return @"Сейчас закроют";
-  //    case CrossingStateClosed:
-  //        return @"Переезд закрыт";
-  //    case CrosingsStateJustOpened:
-  //        return @"Переезд только что открыли";
-  //    default:
-  //        return nil;
-  //}
 }
 
 - (Closing *)nextClosing {

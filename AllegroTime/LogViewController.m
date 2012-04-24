@@ -58,14 +58,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellID = @"LogCell";
-
   NSArray *console = MXConsoleGet();
   NSString *message = [console objectAtIndex:(console.count - 1 - indexPath.row)];
 
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
-    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MXDefaultCellID];
     cell.textLabel.font = [UIFont systemFontOfSize:12];
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;

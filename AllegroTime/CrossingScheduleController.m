@@ -26,10 +26,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *ScheduleCellID = @"ScheduleCell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ScheduleCellID];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
-    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:ScheduleCellID];
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:MXDefaultCellID];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
     cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -50,7 +49,7 @@
     }
   }
 
-  cell.textLabel.text = closing.toRussia ? [NSString stringWithFormat:@"%@ ↶", closing.time] : closing.time; // ↺ ← →
+  cell.textLabel.text = closing.toRussia ? [NSString stringWithFormat:@"%@ ↶", closing.time] : closing.time;
   cell.detailTextLabel.text = [NSString stringWithFormat:@"№%i", closing.trainNumber];
 
   return cell;
