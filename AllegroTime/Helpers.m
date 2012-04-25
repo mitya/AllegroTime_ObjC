@@ -3,7 +3,6 @@
 //
 
 
-#import <Foundation/Foundation.h>
 #import "Helpers.h"
 
 NSString *const NXClosestCrossingChanged = @"NXClosestCrossingChangedNotification";
@@ -88,7 +87,12 @@ NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NS
 NSString *MXFormatMinutesAsText(int totalMinutes) {
   int hours = totalMinutes / 60;
   int minutes = totalMinutes % 60;
-  return [NSString stringWithFormat:@"%i %@ %i %@", hours, MXPluralizeRussiaWord(hours, @"час", @"часа", @"часов"), minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
+  NSString *hoursString = [NSString stringWithFormat:@"%i %@", hours, MXPluralizeRussiaWord(hours, @"час", @"часа", @"часов")];
+  NSString *minutesString = [NSString stringWithFormat:@"%i %@", minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
+  if (hours == 0)
+    return minutesString;
+  else
+    return [NSString stringWithFormat:@"%@ %@", hoursString, minutesString];
 }
 
 NSString *MXFormatDate(NSDate *date, NSString *format) {
@@ -100,29 +104,35 @@ NSString *MXFormatDate(NSDate *date, NSString *format) {
 #pragma mark - UI
 
 UIColor *MXCellGradientColorFor(UIColor *color) {
-  if (color == [UIColor redColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]];
-  if (color == [UIColor yellowColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]];
-  if (color == [UIColor greenColor])
-    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]];
-  return color;
+  static NSDictionary *mapping;
+  if (!mapping)
+    mapping = [NSDictionary dictionaryWithObjectsAndKeys:
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]], [UIColor redColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]], [UIColor yellowColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]], [UIColor greenColor],
+        nil];
+
+  return [mapping objectForKey:color];
 }
 
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation) {
-  //return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
-  return YES;
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+  else
+    return YES;
 }
 
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color) {
+  static NSDictionary *textColorMapping;
+  if (!textColorMapping)
+    textColorMapping = [NSDictionary dictionaryWithObjectsAndKeys:
+        [UIColor whiteColor], [UIColor redColor],
+        [UIColor darkGrayColor], [UIColor yellowColor],
+        [UIColor whiteColor], [UIColor greenColor],
+        nil];
+
   cell.backgroundColor = MXCellGradientColorFor(color);
-  if (color == [UIColor redColor]) {
-    cell.textLabel.textColor = [UIColor whiteColor];
-  } else if (color == [UIColor yellowColor]) {
-    cell.textLabel.textColor = [UIColor darkGrayColor];
-  } else if (color == [UIColor greenColor]) {
-    cell.textLabel.textColor = [UIColor whiteColor];
-  }
+  cell.textLabel.textColor = [textColorMapping objectForKey:color];
 }
 
 

@@ -103,11 +103,17 @@
 - (int)minutesTillNextClosing {
   int nextClosingTime = self.nextClosing.stopTimeInMinutes;
   int currentTime = [Helper currentTimeInMinutes];
+  int result;
   if (nextClosingTime > currentTime) {
-    return nextClosingTime - currentTime;
+    result = nextClosingTime - currentTime;
   } else {
-    return 24 * 60 + nextClosingTime - currentTime;
+    result = 24 * 60 + nextClosingTime - currentTime;
   }
+
+  //if (result == 24 * 60)
+  //  result = 1;
+
+  return result;
 }
 
 - (BOOL)isClosest {
