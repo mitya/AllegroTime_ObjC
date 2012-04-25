@@ -52,7 +52,10 @@ const int ActionsSection = 1;
 
   self.title = @"Время Аллегро";
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Лог" style:UIBarButtonItemStyleBordered target:self action:@selector(showLog)];
+
+  UISwipeGestureRecognizer* swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
+  swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+  [self.view addGestureRecognizer:swipeRecognizer];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
 }
@@ -74,6 +77,8 @@ const int ActionsSection = 1;
 
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
+
+  //[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
 
   timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
   timer.fireDate = [Helper nextFullMinuteDate];
@@ -160,8 +165,14 @@ const int ActionsSection = 1;
 
 #pragma mark - handlers
 
+- (void)recognizedSwipe:(UISwipeGestureRecognizer *)recognizer {
+  CGPoint point = [recognizer locationInView:self.view];
+  if (point.y > 300)
+    [self showLog];
+}
+
 - (void)timerTicked:(NSTimer *)theTimer {
-  MXConsoleFormat(@"timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
+  MXWriteToConsole(@"timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
   [self.tableView reloadData];
 }
 

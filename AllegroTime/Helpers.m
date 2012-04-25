@@ -3,10 +3,12 @@
 //
 
 
+#import <Foundation/Foundation.h>
 #import "Helpers.h"
 
 NSString *const NXClosestCrossingChanged = @"NXClosestCrossingChangedNotification";
 NSString *const NXLogConsoleUpdated = @"NXLogConsoleUpdated";
+NSString *const NXLogConsoleFlushed = @"NXLogConsoleFlushed";
 NSString *const MXDefaultCellID = @"MXDefaultCellID";
 
 #pragma mark - Logging
@@ -40,31 +42,33 @@ void MXDump(id object) {
 
 NSMutableArray *MXLoggingBuffer;
 
-NSMutableArray *MXConsoleGet() {
+NSMutableArray *MXGetConsole() {
   if (!MXLoggingBuffer) {
     MXLoggingBuffer = [NSMutableArray arrayWithCapacity:1000];
   }
   return MXLoggingBuffer;
 }
 
-void MXConsoleWrite(NSString *string) {
-  string = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), string];
-  [MXConsoleGet() addObject:string];
-}
-
-void MXConsoleFormat(NSString *format, ...) {
+void MXWriteToConsole(NSString *format, ...) {
   va_list args;
   va_start(args, format);
-  NSString* formattedMessage = [[NSString alloc] initWithFormat: format arguments:args];
+  NSString *formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
   va_end(args);
 
   NSLog(@"%@", formattedMessage);
 
   formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
-  [MXConsoleGet() addObject:formattedMessage];
+  [MXGetConsole() addObject:formattedMessage];
 
   [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
+
+  if (MXLoggingBuffer.count > 200) {
+    [MXLoggingBuffer removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 50)]];
+    [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleFlushed object:MXLoggingBuffer];
+  }
 }
+
+#pragma mark - Formatters
 
 // MXPluralizeRussiaWord(х, @"час", @"часа", @"часов")
 // MXPluralizeRussiaWord(х, @"минута", @"минуты", @"минут")
@@ -85,6 +89,12 @@ NSString *MXFormatMinutesAsText(int totalMinutes) {
   int hours = totalMinutes / 60;
   int minutes = totalMinutes % 60;
   return [NSString stringWithFormat:@"%i %@ %i %@", hours, MXPluralizeRussiaWord(hours, @"час", @"часа", @"часов"), minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
+}
+
+NSString *MXFormatDate(NSDate *date, NSString *format) {
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:format];
+  return [dateFormatter stringFromDate:date];
 }
 
 #pragma mark - UI
@@ -113,12 +123,6 @@ void MXSetGradientForCell(UITableViewCell *cell, UIColor *color) {
   } else if (color == [UIColor greenColor]) {
     cell.textLabel.textColor = [UIColor whiteColor];
   }
-}
-
-NSString *MXFormatDate(NSDate *date, NSString *format) {
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:format];
-  return [dateFormatter stringFromDate:date];
 }
 
 
@@ -177,7 +181,7 @@ NSString *MXFormatDate(NSDate *date, NSString *format) {
 
 @end
 
-#pragma mark - Helper module'
+#pragma mark - Helpers module
 
 @implementation Helper
 
@@ -191,7 +195,7 @@ NSString *MXFormatDate(NSDate *date, NSString *format) {
 + (NSInteger)currentTimeInMinutes {
   static NSCalendar *calendar = nil;
   if (!calendar) calendar = [NSCalendar currentCalendar];
-  
+
   NSDate *now = [NSDate date];
   NSDateComponents *nowParts = [calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
 

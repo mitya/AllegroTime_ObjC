@@ -83,15 +83,11 @@
 #pragma mark - map view
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-  if (![annotation isKindOfClass:[Crossing class]])
-    return nil;
+  if (![annotation isKindOfClass:[Crossing class]]) return nil;
 
   Crossing *crossing = (Crossing *) annotation;
 
-  [map annotations];
-  NSLog(@"%s redraw %@", __func__, crossing);
-
-  MKAnnotationView *pin = [mapView dequeueReusableAnnotationViewWithIdentifier:MXDefaultCellID];
+   MKAnnotationView *pin = [mapView dequeueReusableAnnotationViewWithIdentifier:MXDefaultCellID];
   if (pin == nil) {
     pin = [[MKAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:MXDefaultCellID];
     pin.canShowCallout = YES;
@@ -119,14 +115,13 @@
 }
 
 - (void)timerTicked:(NSTimer *)theTimer {
-  MXConsoleFormat(@"map timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
+  MXWriteToConsole(@"map timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
   for (Crossing *crossing in map.annotations) {
     MKAnnotationView *annotationView = [map viewForAnnotation:crossing];
     if (![crossing isKindOfClass:[Crossing class]]) continue;
     if (!annotationView) continue;
-    //annotationView.image = [self.pinMapping objectForKey:[self.pinMapping.allKeys objectAtIndex:(rand() % 3)]];
-    annotationView.image = [self.pinMapping objectForKey:crossing.color];
-    NSLog(@"%s update %@", __func__, crossing);
+    UIImage *newImage = [self.pinMapping objectForKey:crossing.color];
+    if (annotationView.image != newImage) annotationView.image = newImage;
   }
 }
 

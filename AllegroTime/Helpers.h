@@ -22,9 +22,8 @@ void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 
 // Logging
 
-NSMutableArray *MXConsoleGet();
-void MXConsoleWrite(NSString *string);
-void MXConsoleFormat(NSString *format, ...);
+NSMutableArray *MXGetConsole();
+void MXWriteToConsole(NSString *format, ...);
 
 // Core extensions
 
@@ -67,5 +66,6 @@ typedef enum {
 
 NSString *const NXClosestCrossingChanged;
 NSString *const NXLogConsoleUpdated;
+NSString *const NXLogConsoleFlushed;
 
 NSString *const MXDefaultCellID;

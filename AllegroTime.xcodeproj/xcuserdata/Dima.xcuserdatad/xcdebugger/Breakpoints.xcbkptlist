@@ -77,8 +77,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "127"
          endingLineNumber = "127"
-         landmarkName = "-firstObject"
-         landmarkType = "5">
+         landmarkName = "@implementation NSString(My)"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
