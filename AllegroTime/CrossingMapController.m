@@ -52,8 +52,6 @@
   self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
 
   [map addAnnotations:model.crossings];
-
-  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(modelUpdated) name:NXModelUpdated object:nil];
 }
 
 - (void)viewDidUnload {
@@ -118,7 +116,6 @@
 }
 
 - (void)modelUpdated {
-  if (self.navigationController.visibleViewController != self) return;
   for (Crossing *crossing in map.annotations) {
     MKAnnotationView *annotationView = [map viewForAnnotation:crossing];
     if (![crossing isKindOfClass:[Crossing class]]) continue;

@@ -57,7 +57,6 @@ const int ActionsSection = 1;
   [self.view addGestureRecognizer:swipeRecognizer];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
-  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(modelUpdated) name:NXModelUpdated object:nil];
 }
 
 - (void)viewDidUnload {
@@ -74,9 +73,6 @@ const int ActionsSection = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-
-  [self.tableView reloadData];
-  [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -152,7 +148,6 @@ const int ActionsSection = 1;
 }
 
 - (void)modelUpdated {
-  if (self.navigationController.visibleViewController != self) return;
   [self.tableView reloadData];
 }
 

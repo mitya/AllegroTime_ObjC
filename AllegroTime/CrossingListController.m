@@ -33,9 +33,14 @@
   [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return MXAutorotationPolicy(interfaceOrientation);
+}
+
+#pragma mark - handlers
+
+- (void)modelUpdated {
+  [self.tableView reloadData];
 }
 
 #pragma mark - table view

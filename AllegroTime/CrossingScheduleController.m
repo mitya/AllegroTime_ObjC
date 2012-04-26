@@ -82,6 +82,10 @@
 
 #pragma mark - handlers
 
+- (void)modelUpdated {
+  [self.tableView reloadData];
+}
+
 - (void) showMap {
   if ([[self.navigationController viewControllers] containsObject:app.mapController]) {
     [self.navigationController popToViewController:app.mapController animated:YES];

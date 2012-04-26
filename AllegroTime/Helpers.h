@@ -17,6 +17,7 @@ NSString *MXFormatMinutesAsText(int totalMinutes);
 // UI
 UIColor *MXCellGradientColorFor(UIColor *color);
 NSString *MXFormatDate(NSDate *date, NSString *format);
+NSString *MXTimestampString();
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation);
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 NSString *MXNameForColor(UIColor *color);

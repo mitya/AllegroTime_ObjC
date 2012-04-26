@@ -63,6 +63,8 @@
 }
 
 - (NSString *)subtitle {
+  //return MXTimestampString();
+
   switch (self.state) {
     case CrossingStateClear:
     case CrossingStateSoon:

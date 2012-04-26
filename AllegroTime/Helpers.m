@@ -104,6 +104,13 @@ NSString *MXFormatDate(NSDate *date, NSString *format) {
   return [dateFormatter stringFromDate:date];
 }
 
+NSString *MXTimestampString() {
+  NSDate *now = [NSDate date];
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"HH:mm:ss.SSS"];
+  return [dateFormatter stringFromDate:now];
+}
+
 #pragma mark - UI
 
 UIColor *MXCellGradientColorFor(UIColor *color) {

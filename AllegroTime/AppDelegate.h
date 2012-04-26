@@ -11,10 +11,11 @@
 
 @class CrossingMapController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (readonly, strong, nonatomic) CLLocationManager *locationManager;
-@property (nonatomic, strong) NSTimer *perMinuteTimer;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) NSTimer *perMinuteTimer;
 @property (strong, nonatomic) CrossingMapController *mapController;
+@property (strong, nonatomic) UINavigationController *navigationController;
 @end

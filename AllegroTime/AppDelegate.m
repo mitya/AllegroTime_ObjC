@@ -16,21 +16,24 @@
 @synthesize locationManager;
 @synthesize perMinuteTimer;
 @synthesize mapController;
+@synthesize navigationController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   model = [ModelManager alloc];
   model = [model init];
   app = self;
 
-  UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithNibName:@"MainView" bundle:nil]];  
+  self.navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithNibName:@"MainView" bundle:nil]];
+  self.navigationController.delegate = self;
 
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   self.window.backgroundColor = [UIColor whiteColor];
-  self.window.rootViewController = navigationController;
+  self.window.rootViewController = self.navigationController;
 
   [self.window makeKeyAndVisible];
   
-  perMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(minuteElapsed) userInfo:nil repeats:YES];
+  perMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked) userInfo:nil repeats:YES];
   perMinuteTimer.fireDate = [Helper nextFullMinuteDate];
 
   return YES;
@@ -47,16 +50,15 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-  NSLog(@"%s ", __func__);
+  [self triggerModelUpdateFor:self.navigationController.visibleViewController];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  NSLog(@"%s ", __func__);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  NSLog(@"%s ", __func__);
 }
+
 
 #pragma mark - Location Tracking
 
@@ -73,8 +75,11 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
   MXWriteToConsole(@"newLocation acc=%.f dist=%.f %@", newLocation.horizontalAccuracy, [newLocation distanceFromLocation:oldLocation], model.closestCrossing.name);
 
-  model.closestCrossing = [model crossingClosestTo:newLocation];
-  [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];
+  Crossing *const newClosestCrossing = [model crossingClosestTo:newLocation];
+  if (newClosestCrossing != model.closestCrossing) {
+    model.closestCrossing = newClosestCrossing;
+    [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];
+  }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -86,8 +91,19 @@
 
 #pragma mark - handlers
 
-- (void)minuteElapsed {
-  [[NSNotificationCenter defaultCenter] postNotificationName:NXModelUpdated object:nil];
+- (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+  if (animated)
+    [self triggerModelUpdateFor:viewController];
+}
+
+- (void)timerTicked {
+  [self triggerModelUpdateFor:self.navigationController.visibleViewController];
+}
+
+- (void)triggerModelUpdateFor:(UIViewController *)controller {
+  if ([controller respondsToSelector:@selector(modelUpdated)]) {
+    [controller performSelector:@selector(modelUpdated)];
+  }
 }
 
 #pragma mark - properties
