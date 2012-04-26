@@ -28,8 +28,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+
   NSIndexPath *const currentRowIndex = [NSIndexPath indexPathForRow:model.currentCrossing.index inSection:0];
-  [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
+    [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+  } else {
+    //[self.tableView selectRowAtIndexPath:currentRowIndex animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  }
 }
 
 
@@ -48,14 +53,18 @@
 
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
-    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:MXDefaultCellID];
+    cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MXDefaultCellID];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
   }
 
+  cell.imageView.image = nil;
   cell.textLabel.text = crossing.name;
-  cell.detailTextLabel.text = crossing.isClosest ? @"Ближний" : nil;
+  cell.detailTextLabel.text = crossing.subtitle;
+  cell.imageView.image = ([UIImage imageNamed:[NSString stringWithFormat:@"Data/Images/cell-stripe-%@.png", MXNameForColor(crossing.color)]]);
+
   if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
-    cell.accessoryType = crossing == model.selectedCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    cell.accessoryType = crossing == model.currentCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
   } else {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
@@ -81,9 +90,18 @@
   }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (!model.closestCrossing) return @"Ближайший переезд не определен";
-  else return [NSString stringWithFormat:@"Ближайший переезд: %@", model.closestCrossing.name];
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  //UILabel *label = [Helper labelForTableViewFooter];
+  UILabel *label = MXConfigureLabelLikeInTableViewFooter([UILabel new]);
+  label.text = !model.closestCrossing ?
+      @"Ближайший переезд не определен" :
+      [NSString stringWithFormat:@"Ближайший — %@", model.closestCrossing.name];
+  return label;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return 30;
+}
+
 
 @end

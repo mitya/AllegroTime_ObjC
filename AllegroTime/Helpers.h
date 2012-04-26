@@ -19,6 +19,8 @@ UIColor *MXCellGradientColorFor(UIColor *color);
 NSString *MXFormatDate(NSDate *date, NSString *format);
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation);
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
+NSString *MXNameForColor(UIColor *color);
+UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label);
 
 // Logging
 

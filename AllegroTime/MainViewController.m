@@ -155,13 +155,6 @@ const int ActionsSection = 1;
 - (void)modelUpdated {
   if (self.navigationController.visibleViewController != self) return;
   [self.tableView reloadData];
-
-  //NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], [NSIndexPath indexPathForRow:2 inSection:0], nil];
-  //[self.tableView beginUpdates];
-  //[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
-  //[self.tableView reloadData];
-  //[self.tableView endUpdates];
-
 }
 
 - (void)closestCrossingChanged {
