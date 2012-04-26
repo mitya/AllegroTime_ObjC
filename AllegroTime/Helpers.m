@@ -117,9 +117,9 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
   static NSDictionary *mapping;
   if (!mapping)
     mapping = [NSDictionary dictionaryWithObjectsAndKeys:
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-RedGradient.png"]], [UIColor redColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-YellowGradient.png"]], [UIColor yellowColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/TableViewCell-GreenGradient.png"]], [UIColor greenColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-red.png"]], [UIColor redColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-yellow.png"]], [UIColor yellowColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-green.png"]], [UIColor greenColor],
         nil];
 
   return [mapping objectForKey:color];

@@ -1,42 +1,46 @@
 # #!/usr/bin/env ruby
-# 
-# colors = {
-#   Red: "#f00-#c00",
-#   Green: "#0a0-#080",
-#   Yellow: "#ff0-#dd0",
-# }
-# 
-# basename = "TableViewCell"
-# height = 45
-# 
-# colors.each_pair do |name, color|
-#   `convert -size 1x#{height} gradient:#{color} #{basename}-#{name}Gradient.png`
-#   `convert -size 1x#{height*2} gradient:#{color} #{basename}-#{name}Gradient@2x.png`
-# end
 
-colors = %w(red green yellow)
+$images = "data/images"
+$sources = "artefacts/images"
 
-task :make_markers do
-  `cp ~/desktop/marker.001.png artefacts/images/pin-red.v4.png`
-  `cp ~/desktop/marker.002.png artefacts/images/pin-yellow.v4.png`
-  `cp ~/desktop/marker.003.png artefacts/images/pin-green.v4.png`
+task :cellbg do
+  colors = {
+    red: "#f00-#c00",
+    green: "#0a0-#080",
+    yellow: "#ff0-#dd0",
+  }
   
+  basename = "cell-bg"
+  height = 45
+  
+  colors.each_pair do |name, color|
+    `convert -size 1x#{height} gradient:#{color} #{$images}/#{basename}-#{name}.png`
+    `convert -size 1x#{height*2} gradient:#{color} #{$images}/#{basename}-#{name}@2x.png`
+  end  
+end
+
+task :pins do
+  basename = "crossing-pin"
+  # `cp ~/desktop/marker.001.png artefacts/images/#{basename}-red.png`
+  # `cp ~/desktop/marker.002.png artefacts/images/#{basename}-yellow.png`
+  # `cp ~/desktop/marker.003.png artefacts/images/#{basename}-green.png`
+  
+  colors = %w(red green yellow)
   colors.each do |color|
-    source = "artefacts/images/pin-#{color}.v4.png"
+    source = "#{$sources}/#{basename}-#{color}.png"
     `convert #{source} -fuzz 15% -transparent "rgb(213, 250, 128)" #{source}`
     `convert #{source} -background transparent -gravity north -extent 200x400 #{source}`
-    `convert #{source} -resize 40x80 data/images/pin.v4-#{color}.png`
-    `convert #{source} -resize 80x160 data/images/pin.v4-#{color}@2x.png`
+    `convert #{source} -resize 30x60 #{$images}/#{basename}-#{color}.png`
+    `convert #{source} -resize 60x120 #{$images}/#{basename}-#{color}@2x.png`
   end 
 end
 
-gradients = {
-  red: %w(f00 e00),
-  green: %w(0c0 0b0),
-  yellow: %w(ff0 ee0),  
-}
-
-task :make_gradients do
+task :stripes do
+  gradients = {
+    red: %w(f00 e00),
+    green: %w(0c0 0b0),
+    yellow: %w(ff0 ee0),  
+  }
   gradients.each_pair do |color_name, color_string| 
     `convert -size 15x44 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 8,0 15,44' data/images/cell-stripe-#{color_name}.png`
     `convert -size 30x88 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 16,0 30,88' data/images/cell-stripe-#{color_name}@2x.png`

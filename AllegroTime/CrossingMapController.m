@@ -7,9 +7,7 @@
 //
 
 #import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 #import "CrossingMapController.h"
-#import "Models.h"
 #import "CrossingScheduleController.h"
 
 @interface CrossingMapController ()
@@ -97,12 +95,12 @@
 
 #pragma mark - map view
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+- (MKAnnotationView *)mapView:(MKMapView *)aMapView viewForAnnotation:(id <MKAnnotation>)annotation {
   if (![annotation isKindOfClass:[Crossing class]]) return nil;
 
   Crossing *crossing = (Crossing *) annotation;
 
-   MKAnnotationView *pin = [mapView dequeueReusableAnnotationViewWithIdentifier:MXDefaultCellID];
+  MKAnnotationView *pin = [mapView dequeueReusableAnnotationViewWithIdentifier:MXDefaultCellID];
   if (pin == nil) {
     pin = [[MKAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:MXDefaultCellID];
     pin.canShowCallout = YES;
@@ -151,9 +149,9 @@
 - (NSDictionary *)pinMapping {
   if (!pinMapping) {
     pinMapping = [NSDictionary dictionaryWithObjectsAndKeys:
-        [UIImage imageNamed:@"Data/Images/pin.v4-green.png"], [UIColor greenColor],
-        [UIImage imageNamed:@"Data/Images/pin.v4-yellow.png"], [UIColor yellowColor],
-        [UIImage imageNamed:@"Data/Images/pin.v4-red.png"], [UIColor redColor],
+        [UIImage imageNamed:@"Data/Images/crossing-pin-green.png"], [UIColor greenColor],
+        [UIImage imageNamed:@"Data/Images/crossing-pin-yellow.png"], [UIColor yellowColor],
+        [UIImage imageNamed:@"Data/Images/crossing-pin-red.png"], [UIColor redColor],
         nil];
   }
   return pinMapping;
