@@ -5,7 +5,8 @@
 #import "CrossingScheduleController.h"
 #import "Models.h"
 #import "TrainScheduleController.h"
-#import "Helpers.h"
+#import "AppDelegate.h"
+#import "CrossingMapController.h"
 
 @implementation CrossingScheduleController
 @synthesize crossing;
@@ -21,11 +22,24 @@
 
 #pragma mark - table view
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.crossing.closings.count;
+  if (section == 1) return 1;
+  else return self.crossing.closings.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 1) {
+    UITableViewCell *cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    cell.textLabel.text = @"Переезд на карте";
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%i км", crossing.distance];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
+  }
+
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MXDefaultCellID];
   if (!cell) {
     cell = [UITableViewCell.alloc initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:MXDefaultCellID];
@@ -56,9 +70,26 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 1 && indexPath.row == 0) {
+    [self showMap];
+    return;
+  }
+
   TrainScheduleController *trainScheduleController = [[TrainScheduleController alloc] initWithStyle:UITableViewStyleGrouped];
   trainScheduleController.sampleClosing = [self.crossing.closings objectAtIndex:indexPath.row];
   [self.navigationController pushViewController:trainScheduleController animated:YES];
+}
+
+#pragma mark - handlers
+
+- (void) showMap {
+  AppDelegate* delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  if ([[self.navigationController viewControllers] containsObject:delegate.mapController]) {
+    [self.navigationController popToViewController:delegate.mapController animated:YES];
+  } else {
+    [self.navigationController pushViewController:delegate.mapController animated:YES];
+  }
+  [delegate.mapController showCrossing:self.crossing];
 }
 
 @end

@@ -30,11 +30,7 @@
   [super viewDidAppear:animated];
 
   NSIndexPath *const currentRowIndex = [NSIndexPath indexPathForRow:model.currentCrossing.index inSection:0];
-  if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
-    [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-  } else {
-    //[self.tableView selectRowAtIndexPath:currentRowIndex animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-  }
+  [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 }
 
 

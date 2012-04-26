@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class CrossingMapController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (readonly, strong, nonatomic) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSTimer *perMinuteTimer;
-
+@property (strong, nonatomic) CrossingMapController *mapController;
 @end

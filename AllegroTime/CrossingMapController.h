@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "Models.h"
 
 @interface CrossingMapController : UIViewController <MKMapViewDelegate>
-
+- (void)showCrossing:(Crossing *)aCrossing;
 @end

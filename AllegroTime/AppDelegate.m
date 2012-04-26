@@ -8,12 +8,14 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "CrossingMapController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize locationManager;
 @synthesize perMinuteTimer;
+@synthesize mapController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [ModelManager prepare];
@@ -84,6 +86,14 @@
 
 - (void)minuteElapsed {
   [[NSNotificationCenter defaultCenter] postNotificationName:NXModelUpdated object:nil];
+}
+
+#pragma mark - properties
+
+- (CrossingMapController *)mapController {
+  if (!mapController)
+    mapController = [[CrossingMapController alloc] init];
+  return mapController;
 }
 
 @end

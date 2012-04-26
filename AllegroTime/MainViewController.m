@@ -12,6 +12,7 @@
 #import "CrossingScheduleController.h"
 #import "CrossingMapController.h"
 #import "LogViewController.h"
+#import "AppDelegate.h"
 
 const int StateSection = 0;
 const int ActionsSection = 1;
@@ -26,7 +27,6 @@ const int ActionsSection = 1;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellTopLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellBottomLabel;
 @property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
-@property (strong, nonatomic) CrossingMapController *mapController;
 @end
 
 @implementation MainViewController
@@ -39,7 +39,6 @@ const int ActionsSection = 1;
 @synthesize stateCellTopLabel;
 @synthesize stateCellBottomLabel;
 @synthesize stateSectionHeader;
-@synthesize mapController;
 
 #pragma mark - lifecycle
 
@@ -162,9 +161,8 @@ const int ActionsSection = 1;
 }
 
 - (void)showMap {
-  if (!mapController)
-    mapController = [[CrossingMapController alloc] init];
-  [self.navigationController pushViewController:mapController animated:YES];
+  AppDelegate* delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  [self.navigationController pushViewController:delegate.mapController animated:YES];
 }
 
 - (void)showCrossingListForSchedule {

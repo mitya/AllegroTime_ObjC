@@ -62,8 +62,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-
-  [map setRegion:lastRegion animated:YES];
+  [map setRegion:lastRegion animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -75,6 +74,13 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return MXAutorotationPolicy(interfaceOrientation);
+}
+
+#pragma mark - methods
+
+- (void)showCrossing:(Crossing *)aCrossing {
+  [self.map setRegion:MKCoordinateRegionMakeWithDistance(aCrossing.coordinate, 7000, 7000) animated:NO];
+  [self.map selectAnnotation:aCrossing animated:NO];
 }
 
 #pragma mark - map view
