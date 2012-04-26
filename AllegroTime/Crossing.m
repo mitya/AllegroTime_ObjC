@@ -104,7 +104,7 @@
   int currentTime = MXCurrentTimeInMinutes();
   Closing *nextClosing = self.nextClosing;
   Closing *previousClosing = self.previousClosing;
-  return currentTime - previousClosing.trainTime <= PREVIOUS_TRAIN_LAG_TIME ? previousClosing : nextClosing;
+  return currentTime <= previousClosing.trainTime + PREVIOUS_TRAIN_LAG_TIME && currentTime > previousClosing.trainTime - 1 ? previousClosing : nextClosing;
 }
 
 - (int)minutesTillClosing {
