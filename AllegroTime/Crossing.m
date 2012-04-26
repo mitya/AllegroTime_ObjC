@@ -67,8 +67,13 @@
     case CrossingStateClear:
     case CrossingStateSoon:
     case CrossingStateVerySoon:
-    case CrossingStateClosing:
-      return [NSString stringWithFormat:@"До закрытия %@", MXFormatMinutesAsText(self.minutesTillNextClosing)];
+    case CrossingStateClosing: {
+      const int minutesLeft = self.minutesTillNextClosing;
+      if (minutesLeft >= 5 * 60)
+        return @"До закрытия более 5 часов";
+      else
+        return [NSString stringWithFormat:@"До закрытия %@", MXFormatMinutesAsText(minutesLeft)];
+    }
     case CrossingStateClosed:
       return @"Переезд закрыт";
     case CrosingsStateJustOpened:
@@ -122,6 +127,10 @@
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"Crossing(%@, %f, %f, %dn)", name, latitude, longitude, closings.count];
+}
+
+- (NSInteger)index {
+  return [model.crossings indexOfObject:self];
 }
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction {

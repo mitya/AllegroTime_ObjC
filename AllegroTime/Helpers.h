@@ -67,5 +67,5 @@ typedef enum {
 NSString *const NXClosestCrossingChanged;
 NSString *const NXLogConsoleUpdated;
 NSString *const NXLogConsoleFlushed;
-
+NSString *const NXModelUpdated;
 NSString *const MXDefaultCellID;

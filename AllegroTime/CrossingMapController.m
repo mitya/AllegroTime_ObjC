@@ -52,6 +52,8 @@
   self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
 
   [map addAnnotations:model.crossings];
+
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(modelUpdated) name:NXModelUpdated object:nil];
 }
 
 - (void)viewDidUnload {
@@ -62,9 +64,6 @@
   [super viewWillAppear:animated];
 
   [map setRegion:lastRegion animated:YES];
-
-  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
-  timer.fireDate = [Helper nextFullMinuteDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -72,8 +71,6 @@
 
   lastMapType = map.mapType;
   lastRegion = map.region;
-
-  [timer invalidate];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -114,8 +111,8 @@
   map.mapType = segment.selectedSegmentIndex;
 }
 
-- (void)timerTicked:(NSTimer *)theTimer {
-  MXWriteToConsole(@"map timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
+- (void)modelUpdated {
+  if (self.navigationController.visibleViewController != self) return;
   for (Crossing *crossing in map.annotations) {
     MKAnnotationView *annotationView = [map viewForAnnotation:crossing];
     if (![crossing isKindOfClass:[Crossing class]]) continue;

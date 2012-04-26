@@ -53,11 +53,12 @@ const int ActionsSection = 1;
   self.title = @"Время Аллегро";
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
 
-  UISwipeGestureRecognizer* swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
+  UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
   swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
   [self.view addGestureRecognizer:swipeRecognizer];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(modelUpdated) name:NXModelUpdated object:nil];
 }
 
 - (void)viewDidUnload {
@@ -77,16 +78,10 @@ const int ActionsSection = 1;
 
   [self.tableView reloadData];
   [self.navigationController setToolbarHidden:YES animated:YES];
-
-  //[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
-
-  timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked:) userInfo:nil repeats:YES];
-  timer.fireDate = [Helper nextFullMinuteDate];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  [timer invalidate];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -143,23 +138,9 @@ const int ActionsSection = 1;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
-  if (cell == crossingCell) {
-    CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
-    crossingsController.target = self;
-    crossingsController.action = @selector(changeCurrentCrossing:);
-    crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
-    [self.navigationController pushViewController:crossingsController animated:YES];
-  } else if (cell == showScheduleCell) {
-    CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
-    crossingsController.target = self;
-    crossingsController.action = @selector(showScheduleForCrossing:);
-    crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    [self.navigationController pushViewController:crossingsController animated:YES];
-  } else if (cell == showMapCell) {
-    if (!mapController)
-      mapController = [[CrossingMapController alloc] init];
-    [self.navigationController pushViewController:mapController animated:YES];
-  }
+  if (cell == crossingCell) [self showCrossingListToChangeCurrent];
+  else if (cell == showScheduleCell) [self showCrossingListForSchedule];
+  else if (cell == showMapCell) [self showMap];
 }
 
 
@@ -171,13 +152,42 @@ const int ActionsSection = 1;
     [self showLog];
 }
 
-- (void)timerTicked:(NSTimer *)theTimer {
-  MXWriteToConsole(@"timerTicked %@", MXFormatDate([NSDate date], @"HH:mm:ss"));
+- (void)modelUpdated {
+  if (self.navigationController.visibleViewController != self) return;
   [self.tableView reloadData];
+
+  //NSArray *indexPaths = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], [NSIndexPath indexPathForRow:1 inSection:0], [NSIndexPath indexPathForRow:2 inSection:0], nil];
+  //[self.tableView beginUpdates];
+  //[self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
+  //[self.tableView reloadData];
+  //[self.tableView endUpdates];
+
 }
 
 - (void)closestCrossingChanged {
   [self.tableView reloadData];
+}
+
+- (void)showMap {
+  if (!mapController)
+    mapController = [[CrossingMapController alloc] init];
+  [self.navigationController pushViewController:mapController animated:YES];
+}
+
+- (void)showCrossingListForSchedule {
+  CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+  crossingsController.target = self;
+  crossingsController.action = @selector(showScheduleForCrossing:);
+  crossingsController.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+  [self.navigationController pushViewController:crossingsController animated:YES];
+}
+
+- (void)showCrossingListToChangeCurrent {
+  CrossingListController *crossingsController = [[CrossingListController alloc] initWithStyle:UITableViewStyleGrouped];
+  crossingsController.target = self;
+  crossingsController.action = @selector(changeCurrentCrossing:);
+  crossingsController.accessoryType = UITableViewCellAccessoryCheckmark;
+  [self.navigationController pushViewController:crossingsController animated:YES];
 }
 
 - (void)showScheduleForCrossing:(Crossing *)crossing {

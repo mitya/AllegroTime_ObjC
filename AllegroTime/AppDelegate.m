@@ -13,6 +13,7 @@
 
 @synthesize window = _window;
 @synthesize locationManager;
+@synthesize perMinuteTimer;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [ModelManager prepare];
@@ -25,7 +26,8 @@
 
   [self.window makeKeyAndVisible];
   
-  // NSLog(@"%i %i %i", CLLocationManager.locationServicesEnabled, [CLLocationManager significantLocationChangeMonitoringAvailable], [CLLocationManager authorizationStatus]);
+  perMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(minuteElapsed) userInfo:nil repeats:YES];
+  perMinuteTimer.fireDate = [Helper nextFullMinuteDate];
 
   return YES;
 }
@@ -33,15 +35,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   if (CLLocationManager.locationServicesEnabled) {
     [self.locationManager startUpdatingLocation];
-    //if ([CLLocationManager significantLocationChangeMonitoringAvailable]) [self.locationManager startMonitoringSignificantLocationChanges];
-    //else [self.locationManager startUpdatingLocation];
   }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  NSLog(@"%s", __func__);
   [self.locationManager stopUpdatingLocation];
-  [self.locationManager stopMonitoringSignificantLocationChanges];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -80,6 +78,12 @@
 
   model.closestCrossing = nil;
   [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];
+}
+
+#pragma mark - handlers
+
+- (void)minuteElapsed {
+  [[NSNotificationCenter defaultCenter] postNotificationName:NXModelUpdated object:nil];
 }
 
 @end

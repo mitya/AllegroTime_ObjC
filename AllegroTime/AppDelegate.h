@@ -13,5 +13,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (readonly, strong, nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, strong) NSTimer *perMinuteTimer;
 
 @end

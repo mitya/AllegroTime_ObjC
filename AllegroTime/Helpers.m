@@ -8,6 +8,7 @@
 NSString *const NXClosestCrossingChanged = @"NXClosestCrossingChangedNotification";
 NSString *const NXLogConsoleUpdated = @"NXLogConsoleUpdated";
 NSString *const NXLogConsoleFlushed = @"NXLogConsoleFlushed";
+NSString *const NXModelUpdated = @"NXUpdateDataStatus";
 NSString *const MXDefaultCellID = @"MXDefaultCellID";
 
 #pragma mark - Logging
@@ -91,6 +92,8 @@ NSString *MXFormatMinutesAsText(int totalMinutes) {
   NSString *minutesString = [NSString stringWithFormat:@"%i %@", minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
   if (hours == 0)
     return minutesString;
+  else if (minutes == 0)
+    return hoursString;
   else
     return [NSString stringWithFormat:@"%@ %@", hoursString, minutesString];
 }
