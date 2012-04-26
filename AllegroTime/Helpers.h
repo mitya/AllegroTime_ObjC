@@ -13,11 +13,13 @@ void MXLogString(char const *string);
 void MXLogSelector(SEL selector);
 NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NSString *word5);
 NSString *MXFormatMinutesAsText(int totalMinutes);
+NSString *MXFormatMinutesAsTextWithZero(int totalMinutes, NSString *formatString, NSString *zeroString);
 
 // UI
 UIColor *MXCellGradientColorFor(UIColor *color);
 NSString *MXFormatDate(NSDate *date, NSString *format);
 NSString *MXTimestampString();
+int MXCurrentTimeInMinutes();
 BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation);
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 NSString *MXNameForColor(UIColor *color);

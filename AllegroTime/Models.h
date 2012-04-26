@@ -16,7 +16,7 @@ typedef enum {
   ClosingDirectionToRussia = 2
 } ClosingDirection;
 
-typedef enum CrossingState {
+typedef enum {
   CrossingStateClear,
   CrossingStateSoon,
   CrossingStateVerySoon,
@@ -33,7 +33,8 @@ typedef enum {
 
 @class Crossing;
 
-#define PREVIOUS_TRAIN_LAG_TIME 10
+#define PREVIOUS_TRAIN_LAG_TIME 5
+#define CLOSING_TIME 10
 
 /******************************************************************************/
 
@@ -42,8 +43,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, assign) Crossing *crossing;
 @property (nonatomic) ClosingDirection direction;
-@property (nonatomic) int timeInMinutes;
-@property (nonatomic, readonly) int stopTimeInMinutes;
+@property (nonatomic) int trainTime;
+@property (nonatomic, readonly) int closingTime;
 @property (nonatomic, readonly) BOOL toRussia;
 @property (nonatomic, readonly) int trainNumber;
 @property (nonatomic, readonly) BOOL isClosest;
@@ -65,16 +66,20 @@ typedef enum {
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly) Closing *nextClosing;
 @property (nonatomic, readonly) Closing *previousClosing;
+@property (nonatomic, readonly) Closing *currentClosing;
 @property (nonatomic, readonly) CrossingState state;
 @property (nonatomic, readonly) UIColor *color;
-@property (nonatomic, readonly) int minutesTillNextClosing;
+@property (nonatomic, readonly) int minutesTillClosing;
+@property (nonatomic, readonly) int minutesTillOpening;
+@property (nonatomic, readonly) int minutesSinceOpening;
 @property (nonatomic, readonly) BOOL isClosest;
 @property (nonatomic, assign) int distance;
 @property (nonatomic, readonly) NSInteger index;
-+ (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
-+ (Crossing *)getCrossingWithName:(NSString *)name;
 
 - (void)addClosingWithTime:(NSString *)time direction:(ClosingDirection)direction;
+
++ (Crossing *)crossingWithName:(NSString *)name latitude:(double)lat longitude:(double)lng;
++ (Crossing *)getCrossingWithName:(NSString *)name;
 @end
 
 /******************************************************************************/

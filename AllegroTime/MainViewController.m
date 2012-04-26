@@ -105,14 +105,15 @@ const int ActionsSection = 1;
   } else if (indexPath.section == StateSection && indexPath.row == 1) {
     cell = self.stateCell;
     Closing *nextClosing = model.currentCrossing.nextClosing;
-    stateCellTopLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.timeInMinutes]];
+    stateCellTopLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.trainTime]];
     stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд %@ в %@",
                                                            model.currentCrossing.state == CrossingStateClosed ? @"закрыли" : @"закроют",
-                                                           [Helper formatTimeInMunutesAsHHMM:nextClosing.stopTimeInMinutes]
+                                                           [Helper formatTimeInMunutesAsHHMM:nextClosing.closingTime]
     ];
   } else if (indexPath.section == StateSection && indexPath.row == 2) {
     cell = self.stateDetailsCell;
     MXSetGradientForCell(cell, model.currentCrossing.color);
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.text = model.currentCrossing.subtitle;
 
   } else if (indexPath.section == ActionsSection) {

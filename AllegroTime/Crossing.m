@@ -18,19 +18,19 @@
 // - вероятно уже закрыт — красный
 // - Аллегро только что прошел — желтый
 - (CrossingState)state {
-  int nextClosingTime = self.nextClosing.stopTimeInMinutes;
-  int prevClosingTime = self.previousClosing.timeInMinutes;
-  int nextTrainTime = self.nextClosing.timeInMinutes;
-  int timeTillNextClosing = self.minutesTillNextClosing;
-  int currentTime = Helper.currentTimeInMinutes;
+  int currentTime = MXCurrentTimeInMinutes();
+  int trainTime = self.currentClosing.trainTime;
 
-  if (prevClosingTime <= currentTime && currentTime - prevClosingTime < PREVIOUS_TRAIN_LAG_TIME) return CrosingsStateJustOpened;
-  if (nextTrainTime < currentTime) return CrossingStateClear; // next train will be tomorrow
-  if (nextClosingTime < currentTime) return CrossingStateClosed; // just closed
-  if (timeTillNextClosing > 60) return CrossingStateClear;
-  if (timeTillNextClosing > 20) return CrossingStateSoon;
-  if (timeTillNextClosing > 5) return CrossingStateVerySoon;
-  if (timeTillNextClosing > 0) return CrossingStateClosing;
+  if (currentTime > trainTime + PREVIOUS_TRAIN_LAG_TIME) return CrossingStateClear; // next train will be tomorrow
+  if (currentTime >= trainTime && currentTime <= trainTime + PREVIOUS_TRAIN_LAG_TIME) return CrosingsStateJustOpened;
+  if (currentTime >= trainTime - CLOSING_TIME && currentTime < trainTime) return CrossingStateClosed;
+
+  int timeTillClosing = trainTime - CLOSING_TIME - currentTime;
+
+  if (timeTillClosing > 60) return CrossingStateClear;
+  if (timeTillClosing > 20) return CrossingStateSoon;
+  if (timeTillClosing > 5) return CrossingStateVerySoon;
+  if (timeTillClosing > 0) return CrossingStateClosing;
 
   return CrossingStateClosed;
 }
@@ -42,7 +42,7 @@
     case CrossingStateSoon:
       return [UIColor greenColor];
     case CrossingStateVerySoon:
-      return [UIColor redColor];
+      return [UIColor yellowColor];
     case CrossingStateClosing:
       return [UIColor redColor];
     case CrossingStateClosed:
@@ -63,33 +63,26 @@
 }
 
 - (NSString *)subtitle {
-  //return MXTimestampString();
-
   switch (self.state) {
     case CrossingStateClear:
     case CrossingStateSoon:
     case CrossingStateVerySoon:
-    case CrossingStateClosing: {
-      const int minutesLeft = self.minutesTillNextClosing;
-      if (minutesLeft >= 5 * 60)
-        return @"До закрытия более 5 часов";
-      else
-        return [NSString stringWithFormat:@"До закрытия %@", MXFormatMinutesAsText(minutesLeft)];
-    }
+    case CrossingStateClosing:
+      return MXFormatMinutesAsTextWithZero(self.minutesTillClosing, @"Закроют через %@", @"Только что закрыли");
     case CrossingStateClosed:
-      return @"Переезд закрыт";
+      return MXFormatMinutesAsTextWithZero(self.minutesTillOpening, @"Откроют через %@", @"Только что открыли");
     case CrosingsStateJustOpened:
-      return @"Только что открыли";
+      return MXFormatMinutesAsTextWithZero(self.minutesSinceOpening, @"Открыли %@ назад", @"Только что открыли");
     default:
       return nil;
   }
 }
 
 - (Closing *)nextClosing {
-  int currentTime = [Helper currentTimeInMinutes];
+  int currentTime = MXCurrentTimeInMinutes();
 
   for (Closing *closing in self.closings) {
-    if (closing.timeInMinutes >= currentTime)
+    if (closing.trainTime >= currentTime)
       return closing;
   }
 
@@ -97,28 +90,53 @@
 }
 
 - (Closing *)previousClosing {
-  int currentTime = [Helper currentTimeInMinutes];
+  int currentTime = MXCurrentTimeInMinutes();
 
   for (Closing *closing in self.closings.reverseObjectEnumerator) {
-    if (closing.timeInMinutes < currentTime)
+    if (closing.trainTime <= currentTime)
       return closing;
   }
 
   return self.closings.lastObject;
 }
 
-- (int)minutesTillNextClosing {
-  int nextClosingTime = self.nextClosing.stopTimeInMinutes;
-  int currentTime = [Helper currentTimeInMinutes];
-  int result;
-  if (nextClosingTime > currentTime) {
-    result = nextClosingTime - currentTime;
-  } else {
-    result = 24 * 60 + nextClosingTime - currentTime;
-  }
+- (Closing *)currentClosing {
+  int currentTime = MXCurrentTimeInMinutes();
+  Closing *nextClosing = self.nextClosing;
+  Closing *previousClosing = self.previousClosing;
+  return currentTime - previousClosing.trainTime <= PREVIOUS_TRAIN_LAG_TIME ? previousClosing : nextClosing;
+}
 
-  //if (result == 24 * 60)
-  //  result = 1;
+- (int)minutesTillClosing {
+  //int nextClosingTime = self.nextClosing.closingTime;
+  //int currentTime = MXCurrentTimeInMinutes();
+  //
+  //int result = nextClosingTime - currentTime;
+  //if (result < 0)
+  //  result = 24 * 60 + result;
+  //
+  //return result;
+  return [self minutesTillOpening] - CLOSING_TIME;
+}
+
+- (int)minutesTillOpening {
+  int trainTime = self.nextClosing.trainTime;
+  int currentTime = MXCurrentTimeInMinutes();
+
+  int result = trainTime - currentTime;
+  if (result < 0)
+    result = 24 * 60 + result;
+
+  return result;
+}
+
+- (int)minutesSinceOpening {
+  int previousTrainTime = self.previousClosing.trainTime;
+  int currentTime = MXCurrentTimeInMinutes();
+
+  int result = currentTime - previousTrainTime;
+  if (result < 0)
+    result = 24 * 60 + result;
 
   return result;
 }
@@ -139,7 +157,7 @@
   Closing *closing = [Closing new];
   closing.crossing = self;
   closing.time = time;
-  closing.timeInMinutes = [Helper parseStringAsHHMM:time];
+  closing.trainTime = [Helper parseStringAsHHMM:time];
   closing.direction = direction;
   [self.closings addObject:closing];
 }

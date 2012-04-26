@@ -9,11 +9,11 @@
 @synthesize time;
 @synthesize crossing;
 @synthesize direction;
-@synthesize timeInMinutes;
+@synthesize trainTime;
 
 
-- (int)stopTimeInMinutes {
-  return timeInMinutes - 10;
+- (int)closingTime {
+  return trainTime - 10;
 }
 
 - (BOOL)toRussia {
@@ -43,14 +43,7 @@
 }
 
 - (BOOL)isClosest {
-  Closing *const nextClosing = self.crossing.nextClosing;
-  Closing *const previousClosing = self.crossing.previousClosing;
-  int currentTime = Helper.currentTimeInMinutes;
-  if (previousClosing.timeInMinutes <= currentTime && currentTime - previousClosing.timeInMinutes < PREVIOUS_TRAIN_LAG_TIME) {
-    return self == previousClosing;
-  } else {
-    return self == nextClosing;
-  }
+  return self == self.crossing.currentClosing;
 }
 
 - (UIColor *)color {
@@ -65,7 +58,7 @@
   Closing *closing = [Closing new];
   closing.crossing = crossing;
   closing.time = time;
-  closing.timeInMinutes = [Helper parseStringAsHHMM:time];
+  closing.trainTime = [Helper parseStringAsHHMM:time];
   closing.direction = direction;
 
   [crossing.closings addObject:closing];

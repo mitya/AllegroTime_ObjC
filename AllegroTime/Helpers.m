@@ -11,6 +11,7 @@ NSString *const NXLogConsoleFlushed = @"NXLogConsoleFlushed";
 NSString *const NXModelUpdated = @"NXUpdateDataStatus";
 NSString *const MXDefaultCellID = @"MXDefaultCellID";
 
+
 #pragma mark - Logging
 
 void MXLogArray(char const *desc, NSArray *array) {
@@ -40,6 +41,9 @@ void MXDump(id object) {
   NSLog(@"%@", object);
 }
 
+
+#pragma mark - Console
+
 NSMutableArray *MXLoggingBuffer;
 
 NSMutableArray *MXGetConsole() {
@@ -68,7 +72,8 @@ void MXWriteToConsole(NSString *format, ...) {
   }
 }
 
-#pragma mark - Formatters
+
+#pragma mark - Formatting
 
 // MXPluralizeRussiaWord(х, @"час", @"часа", @"часов")
 // MXPluralizeRussiaWord(х, @"минута", @"минуты", @"минут")
@@ -85,17 +90,27 @@ NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NS
   return word5;
 }
 
+
+#pragma mark - Time and dates
+
 NSString *MXFormatMinutesAsText(int totalMinutes) {
   int hours = totalMinutes / 60;
   int minutes = totalMinutes % 60;
   NSString *hoursString = [NSString stringWithFormat:@"%i %@", hours, MXPluralizeRussiaWord(hours, @"час", @"часа", @"часов")];
-  NSString *minutesString = [NSString stringWithFormat:@"%i %@", minutes, MXPluralizeRussiaWord(minutes, @"минута", @"минуты", @"минут")];
+  NSString *minutesString = [NSString stringWithFormat:@"%i %@", minutes, MXPluralizeRussiaWord(minutes, @"минуту", @"минуты", @"минут")];
+
   if (hours == 0)
     return minutesString;
   else if (minutes == 0)
     return hoursString;
   else
     return [NSString stringWithFormat:@"%@ %@", hoursString, minutesString];
+}
+
+NSString *MXFormatMinutesAsTextWithZero(int totalMinutes, NSString *formatString, NSString *zeroString) {
+  if (totalMinutes == 0)
+    return zeroString;
+  return [NSString stringWithFormat:formatString, MXFormatMinutesAsText(totalMinutes)];
 }
 
 NSString *MXFormatDate(NSDate *date, NSString *format) {
@@ -109,6 +124,18 @@ NSString *MXTimestampString() {
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"HH:mm:ss.SSS"];
   return [dateFormatter stringFromDate:now];
+}
+
+int MXCurrentTimeInMinutes() {
+  static NSCalendar *calendar = nil;
+  if (!calendar) calendar = [NSCalendar currentCalendar];
+
+  NSDate *now = [NSDate date];
+  NSDateComponents *nowParts = [calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
+
+  NSInteger hours = nowParts.hour;
+  NSInteger minutes = nowParts.minute;
+  return hours * 60 + minutes;
 }
 
 #pragma mark - UI
@@ -222,6 +249,7 @@ UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label) {
 
 @end
 
+
 #pragma mark - Helpers module
 
 @implementation Helper
@@ -230,18 +258,6 @@ UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label) {
   NSArray *components = [string componentsSeparatedByString:@":"];
   NSInteger hours = [[components objectAtIndex:0] integerValue];
   NSInteger minutes = [[components objectAtIndex:1] integerValue];
-  return hours * 60 + minutes;
-}
-
-+ (NSInteger)currentTimeInMinutes {
-  static NSCalendar *calendar = nil;
-  if (!calendar) calendar = [NSCalendar currentCalendar];
-
-  NSDate *now = [NSDate date];
-  NSDateComponents *nowParts = [calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
-
-  NSInteger hours = nowParts.hour;
-  NSInteger minutes = nowParts.minute;
   return hours * 60 + minutes;
 }
 
