@@ -46,7 +46,6 @@ void MXWriteToConsole(NSString *format, ...);
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
 + (NSInteger)currentTimeInMinutes;
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
-+ (UILabel *)labelForTableViewFooter;
 + (float)tableViewCellWidth;
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;
 + (NSString *)formatTimeInMunutesAsHHMM:(int)minutesSinceMidnight;

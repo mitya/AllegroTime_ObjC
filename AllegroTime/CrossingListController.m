@@ -87,7 +87,6 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  //UILabel *label = [Helper labelForTableViewFooter];
   UILabel *label = MXConfigureLabelLikeInTableViewFooter([UILabel new]);
   label.text = !model.closestCrossing ?
       @"Ближайший переезд не определен" :

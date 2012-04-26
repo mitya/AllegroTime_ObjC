@@ -46,7 +46,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  UILabel *label = [Helper labelForTableViewFooter];
+  UILabel *label = MXConfigureLabelLikeInTableViewFooter([UILabel new]);
   label.text = self.sampleClosing.toRussia ? @"Из Хельсинки в Санкт-Петербург" : @"Из Санкт-Петербурга в Хельсинки";
   return label;
 }
