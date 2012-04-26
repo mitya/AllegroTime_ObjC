@@ -18,7 +18,9 @@
 @synthesize mapController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  [ModelManager prepare];
+  model = [ModelManager alloc];
+  model = [model init];
+  app = self;
 
   UINavigationController *navigationController = [UINavigationController.alloc initWithRootViewController:[MainViewController.alloc initWithNibName:@"MainView" bundle:nil]];  
 

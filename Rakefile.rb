@@ -31,15 +31,15 @@ task :make_markers do
 end
 
 gradients = {
-  red: %w(f00 e00 d00 c00),
-  green: %w(0f0 0e0 0d0 0c0),
-  yellow: %w(ff0 ee0 dd0 cc0),  
+  red: %w(f00 e00),
+  green: %w(0c0 0b0),
+  yellow: %w(ff0 ee0),  
 }
 
 task :make_gradients do
   gradients.each_pair do |color_name, color_string| 
-    `convert -size 15x44 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string[1]} -draw 'rectangle 8,0 15,44' data/images/cell-stripe-#{color_name}.png`
-    `convert -size 30x88 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string[1]} -draw 'rectangle 16,0 30,88' data/images/cell-stripe-#{color_name}@2x.png`
+    `convert -size 15x44 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 8,0 15,44' data/images/cell-stripe-#{color_name}.png`
+    `convert -size 30x88 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 16,0 30,88' data/images/cell-stripe-#{color_name}@2x.png`
 
     # `convert -size 6x44 xc:transparent -fill gradient:##{color_string.last}-##{color_string.first} -draw 'roundRectangle 0,5 5,38 1,1' data/images/cell-gradient-#{color_name}.png`
     # `convert -size 30x44 xc:transparent -fill gradient:##{color_string.last}-##{color_string.first} -draw 'circle 15,22 2,22' data/images/cell-gradient-#{color_name}.png`

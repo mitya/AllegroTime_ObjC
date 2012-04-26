@@ -59,11 +59,6 @@
 
 #pragma mark - initialization
 
-+ (void)prepare {
-  model = [ModelManager alloc];
-  model = [model init];
-}
-
 - (id)init {
   self = [super init];
   [self loadFile];

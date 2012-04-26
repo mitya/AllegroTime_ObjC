@@ -7,6 +7,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "Helpers.h"
+#import "AppDelegate.h"
 
 /******************************************************************************/
 
@@ -89,8 +90,7 @@ typedef enum {
 
 - (Crossing *)crossingClosestTo:(CLLocation *)location;
 
-+ (void)prepare;
-
 @end
 
 ModelManager *model;
+AppDelegate *app;

@@ -83,13 +83,12 @@
 #pragma mark - handlers
 
 - (void) showMap {
-  AppDelegate* delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-  if ([[self.navigationController viewControllers] containsObject:delegate.mapController]) {
-    [self.navigationController popToViewController:delegate.mapController animated:YES];
+  if ([[self.navigationController viewControllers] containsObject:app.mapController]) {
+    [self.navigationController popToViewController:app.mapController animated:YES];
   } else {
-    [self.navigationController pushViewController:delegate.mapController animated:YES];
+    [self.navigationController pushViewController:app.mapController animated:YES];
   }
-  [delegate.mapController showCrossing:self.crossing];
+  [app.mapController showCrossing:self.crossing];
 }
 
 @end

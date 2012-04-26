@@ -161,8 +161,7 @@ const int ActionsSection = 1;
 }
 
 - (void)showMap {
-  AppDelegate* delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-  [self.navigationController pushViewController:delegate.mapController animated:YES];
+  [self.navigationController pushViewController:app.mapController animated:YES];
 }
 
 - (void)showCrossingListForSchedule {
