@@ -7,12 +7,13 @@
 //
 
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "CrossingMapController.h"
 #import "Models.h"
 #import "CrossingScheduleController.h"
 
 @interface CrossingMapController ()
-@property (nonatomic, strong) MKMapView *map;
+@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) NSDictionary *pinMapping;
 @end
 
@@ -21,7 +22,7 @@
   MKCoordinateRegion lastRegion;
   MKMapType lastMapType;
 }
-@synthesize map;
+@synthesize mapView;
 @synthesize pinMapping;
 
 - (id)init {
@@ -32,15 +33,17 @@
 }
 
 - (void)loadView {
-  self.map = [[MKMapView alloc] init];
-  self.map.showsUserLocation = [CLLocationManager locationServicesEnabled];
-  self.map.delegate = self;
-  self.map.mapType = lastMapType;
-  self.view = self.map;
+  self.mapView = [[MKMapView alloc] init];
+  self.mapView.showsUserLocation = [CLLocationManager locationServicesEnabled];
+  self.mapView.delegate = self;
+  self.mapView.mapType = lastMapType;
+  self.view = self.mapView;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+
+  self.title = @"Карта";
 
   NSArray *segmentedItems = [NSArray arrayWithObjects:@"Стандарт", @"Спутник", @"Гибрид", nil];
   UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedItems];
@@ -48,10 +51,21 @@
   segmentedControl.selectedSegmentIndex = lastMapType;
   [segmentedControl addTarget:self action:@selector(changeMapType:) forControlEvents:UIControlEventValueChanged];
 
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
   self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Карта" style:UIBarButtonItemStylePlain target:nil action:nil];
 
-  [map addAnnotations:model.crossings];
+  NSMutableArray *itemsForToolbar = [NSMutableArray arrayWithObjects:
+      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+      [[UIBarButtonItem alloc] initWithCustomView:segmentedControl],
+      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+      nil];
+  if (self.mapView.showsUserLocation) {
+    UIImage *userLocationIcon = [UIImage imageNamed:@"Data/Images/bb-location.png"];
+    UIBarButtonItem *userLocationButton = [[UIBarButtonItem alloc] initWithImage:userLocationIcon style:UIBarButtonItemStyleBordered target:self action:@selector(showUserLocation)];
+    [itemsForToolbar insertObject:userLocationButton atIndex:0];
+  }
+  self.toolbarItems = itemsForToolbar;
+
+  [mapView addAnnotations:model.crossings];
 }
 
 - (void)viewDidUnload {
@@ -60,14 +74,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [map setRegion:lastRegion animated:NO];
+  [mapView setRegion:lastRegion animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewDidAppear:animated];
 
-  lastMapType = map.mapType;
-  lastRegion = map.region;
+  lastMapType = mapView.mapType;
+  lastRegion = mapView.region;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -77,8 +91,8 @@
 #pragma mark - methods
 
 - (void)showCrossing:(Crossing *)aCrossing {
-  [self.map setRegion:MKCoordinateRegionMakeWithDistance(aCrossing.coordinate, 7000, 7000) animated:NO];
-  [self.map selectAnnotation:aCrossing animated:NO];
+  [self.mapView setRegion:MKCoordinateRegionMakeWithDistance(aCrossing.coordinate, 7000, 7000) animated:NO];
+  [self.mapView selectAnnotation:aCrossing animated:NO];
 }
 
 #pragma mark - map view
@@ -112,16 +126,23 @@
 #pragma mark - callbacks
 
 - (void)changeMapType:(UISegmentedControl *)segment {
-  map.mapType = segment.selectedSegmentIndex;
+  mapView.mapType = segment.selectedSegmentIndex;
 }
 
 - (void)modelUpdated {
-  for (Crossing *crossing in map.annotations) {
-    MKAnnotationView *annotationView = [map viewForAnnotation:crossing];
+  for (Crossing *crossing in mapView.annotations) {
+    MKAnnotationView *annotationView = [mapView viewForAnnotation:crossing];
     if (![crossing isKindOfClass:[Crossing class]]) continue;
     if (!annotationView) continue;
     UIImage *newImage = [self.pinMapping objectForKey:crossing.color];
     if (annotationView.image != newImage) annotationView.image = newImage;
+  }
+}
+
+- (void)showUserLocation {
+  MKUserLocation *const userLocation = [self.mapView userLocation];
+  if (userLocation.coordinate.latitude != 0 && userLocation.coordinate.latitude != 0) {
+    [self.mapView setCenterCoordinate:userLocation.coordinate animated:YES];
   }
 }
 

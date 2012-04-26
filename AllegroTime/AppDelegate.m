@@ -33,7 +33,7 @@
 
   [self.window makeKeyAndVisible];
   
-  perMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(timerTicked) userInfo:nil repeats:YES];
+  perMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(timerTicked) userInfo:nil repeats:YES];
   perMinuteTimer.fireDate = [Helper nextFullMinuteDate];
 
   return YES;
@@ -92,6 +92,8 @@
 #pragma mark - handlers
 
 - (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+  [self.navigationController setToolbarHidden:(viewController.toolbarItems.count == 0) animated:animated];
+
   if (animated)
     [self triggerModelUpdateFor:viewController];
 }
