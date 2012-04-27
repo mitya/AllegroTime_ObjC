@@ -59,7 +59,9 @@
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
   }
 
-  cell.imageView.image = nil;
+  cell.backgroundColor = [UIColor whiteColor];
+  cell.textLabel.textColor = [UIColor darkTextColor];
+
   cell.textLabel.text = crossing.name;
   cell.detailTextLabel.text = crossing.subtitle;
   cell.imageView.image = ([UIImage imageNamed:[NSString stringWithFormat:@"Data/Images/cell-stripe-%@.png", MXNameForColor(crossing.color)]]);
@@ -69,6 +71,13 @@
   } else {
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   }
+
+  if (crossing.isClosest)
+    MXSetGradientForCell(cell, [UIColor grayColor]);
+  if (crossing.isCurrent)
+    MXSetGradientForCell(cell, [UIColor blueColor]);
+
+
 
   return cell;
 }

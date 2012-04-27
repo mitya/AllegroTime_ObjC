@@ -3,20 +3,37 @@
 $images = "data/images"
 $sources = "artefacts/images"
 
+$gradients = {
+  red: %w(f00 e00),
+  green: %w(0c0 0b0),
+  yellow: %w(ff0 ee0),  
+  gray: %w(ccc eee)
+}
+
 task :cellbg do
   colors = {
-    red: "#f00-#c00",
-    green: "#0a0-#080",
-    yellow: "#ff0-#dd0",
+    red: %w(f00 c00),
+    green: %w(0a0 080),
+    yellow: %w(ff0 dd0),
+    gray: %w(eee ddd),
+    blue: %w(daeafa e0f0ff)
   }
-  
+
   basename = "cell-bg"
   height = 45
   
   colors.each_pair do |name, color|
-    `convert -size 1x#{height} gradient:#{color} #{$images}/#{basename}-#{name}.png`
-    `convert -size 1x#{height*2} gradient:#{color} #{$images}/#{basename}-#{name}@2x.png`
+    gradient = "gradient:##{color.first}-##{color.last}"
+    system %[convert -size 1x#{height} #{gradient} #{$images}/#{basename}-#{name}.png]
+    system %[convert -size 1x#{height*2} #{gradient} #{$images}/#{basename}-#{name}@2x.png]
   end  
+
+  colors.each_pair do |name, color| 
+    # gradient = "radial-gradient:##{color.first}-##{color.last}"
+    gradient = "radial-gradient:##{color.last}-##{color.first}"
+    system %[convert -size 1x#{height} #{gradient} #{$images}/#{basename}r-#{name}.png]
+    system %[convert -size 1x#{height*2} #{gradient} #{$images}/#{basename}r-#{name}@2x.png]
+  end
 end
 
 task :pins do

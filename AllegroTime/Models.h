@@ -73,6 +73,7 @@ typedef enum {
 @property (nonatomic, readonly) int minutesTillOpening;
 @property (nonatomic, readonly) int minutesSinceOpening;
 @property (nonatomic, readonly) BOOL isClosest;
+@property (nonatomic, readonly) BOOL isCurrent;
 @property (nonatomic, assign) int distance;
 @property (nonatomic, readonly) NSInteger index;
 

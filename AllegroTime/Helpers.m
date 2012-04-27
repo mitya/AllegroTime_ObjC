@@ -147,6 +147,8 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
         [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-red.png"]], [UIColor redColor],
         [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-yellow.png"]], [UIColor yellowColor],
         [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-green.png"]], [UIColor greenColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-blue.png"]], [UIColor blueColor],
+        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-gray.png"]], [UIColor grayColor],
         nil];
 
   return [mapping objectForKey:color];
@@ -165,6 +167,7 @@ NSString *MXNameForColor(UIColor *color) {
         @"red", [UIColor redColor],
         @"yellow", [UIColor yellowColor],
         @"green", [UIColor greenColor],
+        @"gray", [UIColor grayColor],
         nil];
   return [colorNames objectForKey:color];
 }
@@ -176,11 +179,16 @@ void MXSetGradientForCell(UITableViewCell *cell, UIColor *color) {
         [UIColor whiteColor], [UIColor redColor],
         [UIColor darkGrayColor], [UIColor yellowColor],
         [UIColor whiteColor], [UIColor greenColor],
+        [UIColor blackColor], [UIColor blueColor],
+        [UIColor blackColor], [UIColor grayColor],
         nil];
 
   cell.backgroundColor = MXCellGradientColorFor(color);
   cell.textLabel.textColor = [textColorMapping objectForKey:color];
   cell.detailTextLabel.textColor = [textColorMapping objectForKey:color];
+
+  if (color == [UIColor blueColor] || color == [UIColor grayColor])
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 }
 
 UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label) {

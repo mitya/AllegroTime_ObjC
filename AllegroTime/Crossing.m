@@ -11,6 +11,8 @@
 @synthesize longitude;
 @synthesize closings;
 @synthesize distance;
+@synthesize isCurrent;
+
 
 // - осталось более часа — зеленый
 // - осталось примерно 55/50/.../20 минут — желтый
@@ -143,6 +145,10 @@
 
 - (BOOL)isClosest {
   return self == model.closestCrossing;
+}
+
+- (BOOL)isCurrent {
+  return self == model.currentCrossing;
 }
 
 - (NSString *)description {
