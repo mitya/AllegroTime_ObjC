@@ -57,7 +57,7 @@
       [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
       nil];
   if (self.mapView.showsUserLocation) {
-    UIImage *userLocationIcon = [UIImage imageNamed:@"Data/Images/bb-location.png"];
+    UIImage *userLocationIcon = MXImageFromFile(@"bb-location.png");
     UIBarButtonItem *userLocationButton = [[UIBarButtonItem alloc] initWithImage:userLocationIcon style:UIBarButtonItemStyleBordered target:self action:@selector(showUserLocation)];
     [itemsForToolbar insertObject:userLocationButton atIndex:0];
   }
@@ -149,9 +149,9 @@
 - (NSDictionary *)pinMapping {
   if (!pinMapping) {
     pinMapping = [NSDictionary dictionaryWithObjectsAndKeys:
-        [UIImage imageNamed:@"Data/Images/crossing-pin-green.png"], [UIColor greenColor],
-        [UIImage imageNamed:@"Data/Images/crossing-pin-yellow.png"], [UIColor yellowColor],
-        [UIImage imageNamed:@"Data/Images/crossing-pin-red.png"], [UIColor redColor],
+        MXImageFromFile(@"crossing-pin-green.png"), [UIColor greenColor],
+        MXImageFromFile(@"crossing-pin-yellow.png"), [UIColor yellowColor],
+        MXImageFromFile(@"crossing-pin-red.png"), [UIColor redColor],
         nil];
   }
   return pinMapping;

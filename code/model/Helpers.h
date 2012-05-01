@@ -27,6 +27,8 @@ void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 NSString *MXNameForColor(UIColor *color);
 UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label);
 
+UIImage *MXImageFromFile(NSString *filename);
+
 // Logging
 
 NSMutableArray *MXGetConsole();
@@ -49,7 +51,6 @@ void MXWriteToConsole(NSString *format, ...);
 
 @interface Helper
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
-+ (NSInteger)currentTimeInMinutes;
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
 + (float)tableViewCellWidth;
 + (UIActivityIndicatorView *)spinnerAfterCenteredLabel:(UILabel *)label;

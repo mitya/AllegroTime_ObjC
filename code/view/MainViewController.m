@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
+#import "CrossingMapController.h"
 #import "LogViewController.h"
 
 const int StateSection = 0;

@@ -159,11 +159,11 @@ UIColor *MXCellGradientColorFor(UIColor *color) {
   static NSDictionary *mapping;
   if (!mapping)
     mapping = [NSDictionary dictionaryWithObjectsAndKeys:
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-red.png"]], [UIColor redColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-yellow.png"]], [UIColor yellowColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-green.png"]], [UIColor greenColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-blue.png"]], [UIColor blueColor],
-        [UIColor colorWithPatternImage:[UIImage imageNamed:@"Data/Images/cell-bg-gray.png"]], [UIColor grayColor],
+        [UIColor colorWithPatternImage:MXImageFromFile(@"cell-bg-red.png")], [UIColor redColor],
+        [UIColor colorWithPatternImage:MXImageFromFile(@"cell-bg-yellow.png")], [UIColor yellowColor],
+        [UIColor colorWithPatternImage:MXImageFromFile(@"cell-bg-green.png")], [UIColor greenColor],
+        [UIColor colorWithPatternImage:MXImageFromFile(@"cell-bg-blue.png")], [UIColor blueColor],
+        [UIColor colorWithPatternImage:MXImageFromFile(@"cell-bg-gray.png")], [UIColor grayColor],
         nil];
 
   return [mapping objectForKey:color];
@@ -214,6 +214,12 @@ UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label) {
   label.shadowOffset = CGSizeMake(0, 1);
   label.textAlignment = UITextAlignmentCenter;
   return label;
+}
+
+
+UIImage *MXImageFromFile(NSString *filename) {
+  NSString *path = [NSString stringWithFormat:@"images/%@", filename];
+  return [UIImage imageNamed:path];
 }
 
 

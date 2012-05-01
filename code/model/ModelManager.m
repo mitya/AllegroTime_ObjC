@@ -68,7 +68,7 @@
 - (void)loadFile {
   crossings = [NSMutableArray arrayWithCapacity:30];
 
-  NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"Data/Schedule" ofType:@"csv"];
+  NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"data/schedule" ofType:@"csv"];
   NSString *dataString = [NSString stringWithContentsOfFile:dataPath encoding:NSUTF8StringEncoding error:NULL];
   NSArray *dataRows = [dataString componentsSeparatedByString:@"\n"];
 

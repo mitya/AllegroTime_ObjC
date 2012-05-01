@@ -64,7 +64,7 @@
 
   cell.textLabel.text = crossing.name;
   cell.detailTextLabel.text = crossing.subtitle;
-  cell.imageView.image = ([UIImage imageNamed:[NSString stringWithFormat:@"Data/Images/cell-stripe-%@.png", MXNameForColor(crossing.color)]]);
+  cell.imageView.image = MXImageFromFile([NSString stringWithFormat:@"cell-stripe-%@.png", MXNameForColor(crossing.color)]);
 
   if (self.accessoryType == UITableViewCellAccessoryCheckmark) {
     cell.accessoryType = crossing == model.currentCrossing ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
