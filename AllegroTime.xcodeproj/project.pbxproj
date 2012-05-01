@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32038DC51546C01100661440 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32038DC41546C01100661440 /* MainView.xib */; };
+		320C2D2015500DCE00F33306 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 320C2D1E15500DCE00F33306 /* Localizable.strings */; };
 		3212FF7715405E4400463E72 /* CrossingMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3212FF7615405E4400463E72 /* CrossingMapController.m */; };
 		327E9C9D15236C250096DC0A /* CrossingListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327E9C9C15236C250096DC0A /* CrossingListController.m */; };
 		32917CF51547078A006AF3F1 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */; };
@@ -41,6 +41,10 @@
 		32F4F05015211EA500C58E74 /* Closing.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E73 /* Closing.m */; };
 		32F4F05015211EA500C58E76 /* ModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E75 /* ModelManager.m */; };
 		32F4F05015211EA500C58E78 /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F4F05015211EA500C58E77 /* LogViewController.m */; };
+		32F5727515500F10000B557C /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32F5727715500F10000B557C /* MainView.xib */; };
+		32F5727A1550509C000B557C /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F572791550509C000B557C /* Default-Landscape@2x~ipad.png */; };
+		32F5727C155050AA000B557C /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F5727B155050AA000B557C /* Default-Landscape~ipad.png */; };
+		32F5727E155050AE000B557C /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 32F5727D155050AE000B557C /* Default-Portrait@2x~ipad.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		32038DC41546C01100661440 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = ../MainView.xib; sourceTree = "<group>"; };
+		320C2D2115500DD400F33306 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3212FF7515405E4400463E72 /* CrossingMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingMapController.h; sourceTree = "<group>"; };
 		3212FF7615405E4400463E72 /* CrossingMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossingMapController.m; sourceTree = "<group>"; };
 		327E9C9B15236C250096DC0A /* CrossingListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossingListController.h; sourceTree = "<group>"; };
@@ -67,7 +71,7 @@
 		32BD4D7A151F4AE20033BDDE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AllegroTime-Info.plist"; sourceTree = "<group>"; };
 		32BD4D80151F4AE20033BDDE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		32BD4D82151F4AE20033BDDE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32BD4D82151F4AE20033BDDE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AllegroTime-Prefix.pch"; sourceTree = "<group>"; };
 		32BD4D85151F4AE20033BDDE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		32BD4D86151F4AE20033BDDE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -101,6 +105,10 @@
 		32F4F05015211EA500C58E75 /* ModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelManager.m; sourceTree = "<group>"; };
 		32F4F05015211EA500C58E77 /* LogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogViewController.m; sourceTree = "<group>"; };
 		32F4F05015211EA500C58E79 /* LogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogViewController.h; sourceTree = "<group>"; };
+		32F5727615500F10000B557C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainView.xib; sourceTree = "<group>"; };
+		32F572791550509C000B557C /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		32F5727B155050AA000B557C /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		32F5727D155050AE000B557C /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,7 +186,7 @@
 				32F4F05015211EA500C58E6E /* TrainScheduleController.m */,
 				32BD4D85151F4AE20033BDDE /* AppDelegate.h */,
 				32BD4D86151F4AE20033BDDE /* AppDelegate.m */,
-				32038DC41546C01100661440 /* MainView.xib */,
+				32F5727715500F10000B557C /* MainView.xib */,
 				32BD4DAE151F56ED0033BDDE /* MainViewController.h */,
 				32BD4DAF151F56ED0033BDDE /* MainViewController.m */,
 				3212FF7515405E4400463E72 /* CrossingMapController.h */,
@@ -196,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				32BD4D7E151F4AE20033BDDE /* AllegroTime-Info.plist */,
+				320C2D1E15500DCE00F33306 /* Localizable.strings */,
 				32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */,
 				32BD4D82151F4AE20033BDDE /* main.m */,
 				32BD4D84151F4AE20033BDDE /* AllegroTime-Prefix.pch */,
@@ -227,7 +236,10 @@
 		32DE8873153EC81D00D130FB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				32F5727D155050AE000B557C /* Default-Portrait@2x~ipad.png */,
 				32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */,
+				32F572791550509C000B557C /* Default-Landscape@2x~ipad.png */,
+				32F5727B155050AA000B557C /* Default-Landscape~ipad.png */,
 				32DE8876153EC84800D130FB /* Default@2x.png */,
 				32DE8874153EC84600D130FB /* Default.png */,
 				32DE8871153EC80800D130FB /* Icon-iPad@2x.png */,
@@ -305,6 +317,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
 			);
 			mainGroup = 32BD4D65151F4AE20033BDDE;
 			productRefGroup = 32BD4D71151F4AE20033BDDE /* Products */;
@@ -329,9 +342,13 @@
 				32DE8872153EC80800D130FB /* Icon-iPad@2x.png in Resources */,
 				32DE8875153EC84600D130FB /* Default.png in Resources */,
 				32DE8877153EC84800D130FB /* Default@2x.png in Resources */,
-				32A5624D15409A860079939C /* Data in Resources */,
-				32038DC51546C01100661440 /* MainView.xib in Resources */,
 				32917CF51547078A006AF3F1 /* Default-Portrait~ipad.png in Resources */,
+				32A5624D15409A860079939C /* Data in Resources */,
+				320C2D2015500DCE00F33306 /* Localizable.strings in Resources */,
+				32F5727515500F10000B557C /* MainView.xib in Resources */,
+				32F5727A1550509C000B557C /* Default-Landscape@2x~ipad.png in Resources */,
+				32F5727C155050AA000B557C /* Default-Landscape~ipad.png in Resources */,
+				32F5727E155050AE000B557C /* Default-Portrait@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +417,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		320C2D1E15500DCE00F33306 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				320C2D2115500DD400F33306 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		32BD4D7F151F4AE20033BDDE /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -414,6 +439,14 @@
 				32BD4D9C151F4AE20033BDDE /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		32F5727715500F10000B557C /* MainView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32F5727615500F10000B557C /* en */,
+			);
+			name = MainView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  AllegroTime
+
+  Created by Dmitry Sokurenko on 01.05.12.
+  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+*/
+
+"main.title" = "Аллегро";
+"main.backbutton" = "Статус";
+"main. allegro will pass at $time" = "Аллегро пройдет в %@";
+"main. crossing $closes at $time" = "Переезд %@ в %@";
+"main.footer" = "Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";

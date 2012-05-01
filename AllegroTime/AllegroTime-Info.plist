@@ -24,11 +24,14 @@
 				<string>Icon-iPad@2x.png</string>
 				<string>Default-Portrait~ipad.png</string>
 				<string>Default-Portrait~ipad.png</string>
+				<string>Default-Landscape@2x~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
+				<string>Default-Portrait@2x~ipad.png</string>
 			</array>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.banzaistudio.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>name.sokurenko.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -40,7 +43,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>100</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

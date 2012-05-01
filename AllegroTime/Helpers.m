@@ -75,6 +75,21 @@ void MXWriteToConsole(NSString *format, ...) {
 
 #pragma mark - Formatting
 
+NSString *T(const char *characters) {
+  return NSLocalizedString([NSString stringWithCString:characters encoding:NSASCIIStringEncoding], nil);
+}
+
+NSString *TF(const char *format, ...) {
+  NSString *const translatedFormat = T(format);
+
+  va_list args;
+  va_start(args, format);
+  NSString *result = [[NSString alloc] initWithFormat:translatedFormat arguments:args];
+  va_end(args);
+
+  return result;
+}
+
 // MXPluralizeRussiaWord(х, @"час", @"часа", @"часов")
 // MXPluralizeRussiaWord(х, @"минута", @"минуты", @"минут")
 NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NSString *word5) {

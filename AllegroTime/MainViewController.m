@@ -10,9 +10,7 @@
 #import "MainViewController.h"
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
-#import "CrossingMapController.h"
 #import "LogViewController.h"
-#import "AppDelegate.h"
 
 const int StateSection = 0;
 const int ActionsSection = 1;
@@ -49,8 +47,9 @@ const int ActionsSection = 1;
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  self.title = @"Время Аллегро";
-  self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Статус" style:UIBarButtonItemStyleBordered target:nil action:nil];
+  self.title = T("main.title");
+
+  self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:T("main.backbutton") style:UIBarButtonItemStyleBordered target:nil action:nil];
 
   UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
   swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -105,11 +104,10 @@ const int ActionsSection = 1;
   } else if (indexPath.section == StateSection && indexPath.row == 1) {
     cell = self.stateCell;
     Closing *nextClosing = model.currentCrossing.nextClosing;
-    stateCellTopLabel.text = [NSString stringWithFormat:@"Аллегро пройдет в %@", [Helper formatTimeInMunutesAsHHMM:nextClosing.trainTime]];
-    stateCellBottomLabel.text = [NSString stringWithFormat:@"Переезд %@ в %@",
-                                                           model.currentCrossing.state == CrossingStateClosed ? @"закрыли" : @"закроют",
-                                                           [Helper formatTimeInMunutesAsHHMM:nextClosing.closingTime]
-    ];
+    stateCellTopLabel.text = TF("main. allegro will pass at $time", [Helper formatTimeInMunutesAsHHMM:nextClosing.trainTime]);
+    stateCellBottomLabel.text = TF("main. crossing $closes at $time",
+        model.currentCrossing.state == CrossingStateClosed ? @"закрыли" : @"закроют",
+        [Helper formatTimeInMunutesAsHHMM:nextClosing.closingTime]);
   } else if (indexPath.section == StateSection && indexPath.row == 2) {
     cell = self.stateDetailsCell;
     MXSetGradientForCell(cell, model.currentCrossing.color);
@@ -125,10 +123,8 @@ const int ActionsSection = 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == ActionsSection)
-    return @"Показаны только перекрытия перездов для прохода Аллегро, переезд может оказаться закрытым раньше или открытым позже из-за прохода электричек и товарных поездов";
-  else
-    return nil;
+  if (section == ActionsSection) return T("main.footer");
+  else return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
