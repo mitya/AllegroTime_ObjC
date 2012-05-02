@@ -46,6 +46,7 @@
 		32F5736E15506740000B557C /* LogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5736015506740000B557C /* LogViewController.m */; };
 		32F5736F15506740000B557C /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5736215506740000B557C /* MainViewController.m */; };
 		32F5737015506740000B557C /* TrainScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5736415506740000B557C /* TrainScheduleController.m */; };
+		32F5737015506740000B557E /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32F5737015506740000B557D /* about.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		32F5736215506740000B557C /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		32F5736315506740000B557C /* TrainScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrainScheduleController.h; sourceTree = "<group>"; };
 		32F5736415506740000B557C /* TrainScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrainScheduleController.m; sourceTree = "<group>"; };
+		32F5737015506740000B557D /* about.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = about.txt; path = artefacts/about.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
+				32F5737015506740000B557D /* about.txt */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
 				32BD4D98151F4AE20033BDDE /* Tests */,
 				32BD4D73151F4AE20033BDDE /* Frameworks */,
@@ -359,6 +362,7 @@
 				32F5727E155050AE000B557C /* Default-Portrait@2x~ipad.png in Resources */,
 				32F572FD15506447000B557C /* data in Resources */,
 				32321EC215506A4E00156818 /* images in Resources */,
+				32F5737015506740000B557E /* about.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

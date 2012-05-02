@@ -6,7 +6,7 @@
   Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 */
 
-"main.title" = "Аллегро";
+"main.title" = "АллегроТайм";
 "main.backbutton" = "Статус";
 "main. allegro will pass at $time" = "Аллегро пройдет в %@";
 "main. crossing $closes at $time" = "Переезд %@ в %@";
