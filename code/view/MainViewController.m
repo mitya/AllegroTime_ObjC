@@ -1,17 +1,10 @@
-//
-//  MainViewController.m
-//  AllegroTime
-//
-//  Created by Dmitry Sokurenko on 25.03.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import <CoreLocation/CoreLocation.h>
 #import "MainViewController.h"
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
 #import "CrossingMapController.h"
 #import "LogViewController.h"
+#import "AboutController.h"
 
 const int StateSection = 0;
 const int ActionsSection = 1;
@@ -51,6 +44,15 @@ const int ActionsSection = 1;
   self.title = T("main.title");
 
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:T("main.backbutton") style:UIBarButtonItemStyleBordered target:nil action:nil];
+
+
+  //UIImage *infoButtonImage = MXImageFromFile(@"bb-info.png");
+  //UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithImage:infoButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(showInfo)];
+  //self.navigationItem.rightBarButtonItem = infoButton;
+
+  UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+  [infoButton addTarget:self action:@selector(showInfo) forControlEvents:UIControlEventTouchUpInside];
+  self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithCustomView:infoButton];
 
   UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
   swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -151,6 +153,11 @@ const int ActionsSection = 1;
 
 - (void)closestCrossingChanged {
   [self.tableView reloadData];
+}
+
+- (void)showInfo {
+  AboutController *aboutController = [[AboutController alloc] init];
+  [self.navigationController pushViewController:aboutController animated:YES];
 }
 
 - (void)showMap {

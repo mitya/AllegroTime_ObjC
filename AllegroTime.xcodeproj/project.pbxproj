@@ -47,6 +47,7 @@
 		32F5736F15506740000B557C /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5736215506740000B557C /* MainViewController.m */; };
 		32F5737015506740000B557C /* TrainScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5736415506740000B557C /* TrainScheduleController.m */; };
 		32F5737015506740000B557E /* about.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32F5737015506740000B557D /* about.txt */; };
+		32F5737015506740000B5580 /* AboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F5737015506740000B557F /* AboutController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,8 @@
 		32F5736315506740000B557C /* TrainScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrainScheduleController.h; sourceTree = "<group>"; };
 		32F5736415506740000B557C /* TrainScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrainScheduleController.m; sourceTree = "<group>"; };
 		32F5737015506740000B557D /* about.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = about.txt; path = artefacts/about.txt; sourceTree = "<group>"; };
+		32F5737015506740000B557F /* AboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutController.m; sourceTree = "<group>"; };
+		32F5737015506740000B5581 /* AboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +261,8 @@
 		32F5735615506740000B557C /* view */ = {
 			isa = PBXGroup;
 			children = (
+				32F5737015506740000B5581 /* AboutController.h */,
+				32F5737015506740000B557F /* AboutController.m */,
 				32F5735715506740000B557C /* AppDelegate.h */,
 				32F5735815506740000B557C /* AppDelegate.m */,
 				32F5735915506740000B557C /* CrossingListController.h */,
@@ -409,6 +414,7 @@
 				32F5736E15506740000B557C /* LogViewController.m in Sources */,
 				32F5736F15506740000B557C /* MainViewController.m in Sources */,
 				32F5737015506740000B557C /* TrainScheduleController.m in Sources */,
+				32F5737015506740000B5580 /* AboutController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
