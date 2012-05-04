@@ -45,18 +45,13 @@ const int ActionsSection = 1;
 
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:T("main.backbutton") style:UIBarButtonItemStyleBordered target:nil action:nil];
 
-
-  //UIImage *infoButtonImage = MXImageFromFile(@"bb-info.png");
-  //UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithImage:infoButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(showInfo)];
-  //self.navigationItem.rightBarButtonItem = infoButton;
-
   UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
   [infoButton addTarget:self action:@selector(showInfo) forControlEvents:UIControlEventTouchUpInside];
   self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithCustomView:infoButton];
 
-  UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
-  swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-  [self.view addGestureRecognizer:swipeRecognizer];
+  //UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
+  //swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+  //[self.view addGestureRecognizer:swipeRecognizer];
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
 }

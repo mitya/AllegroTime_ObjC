@@ -61,15 +61,15 @@ void MXWriteToConsole(NSString *format, ...) {
 
   NSLog(@"%@", formattedMessage);
 
-  formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
-  [MXGetConsole() addObject:formattedMessage];
-
-  [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
-
-  if (MXLoggingBuffer.count > 200) {
-    [MXLoggingBuffer removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 50)]];
-    [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleFlushed object:MXLoggingBuffer];
-  }
+  //formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
+  //[MXGetConsole() addObject:formattedMessage];
+  //
+  //[NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
+  //
+  //if (MXLoggingBuffer.count > 200) {
+  //  [MXLoggingBuffer removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 50)]];
+  //  [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleFlushed object:MXLoggingBuffer];
+  //}
 }
 
 
