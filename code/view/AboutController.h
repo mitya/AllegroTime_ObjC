@@ -6,6 +6,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface AboutController : UIViewController
+@interface AboutController : UIViewController <UIWebViewDelegate>
 @property (nonatomic, strong) UIWebView *webView;
 @end

@@ -10,6 +10,7 @@
   self.title = @"О программе";
   self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
   self.webView.backgroundColor = [UIColor yellowColor];
+  self.webView.delegate = self;
   [self.view addSubview:self.webView];
 }
 
@@ -20,5 +21,14 @@
   NSString *htmlString = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:NULL];
   [self.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"/"]];
 }
+
+- (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+  if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+    [[UIApplication sharedApplication] openURL:request.URL];
+    return NO;
+  }
+  return YES;
+}
+
 
 @end
