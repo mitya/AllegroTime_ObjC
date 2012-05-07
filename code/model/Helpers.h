@@ -11,6 +11,7 @@ void MXLog(char const *desc, id object);
 void MXLogArray(char const *desc, NSArray *array);
 void MXLogString(char const *string);
 void MXLogSelector(SEL selector);
+void MXLogRect(NSString *title, CGRect rect);
 NSString *T(const char *string);
 NSString *TF(const char *format, ...);
 NSString *MXPluralizeRussiaWord(int number, NSString *word1, NSString *word2, NSString *word5);
@@ -26,13 +27,15 @@ BOOL MXAutorotationPolicy(UIInterfaceOrientation interfaceOrientation);
 void MXSetGradientForCell(UITableViewCell *cell, UIColor *color);
 NSString *MXNameForColor(UIColor *color);
 UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label);
-
 UIImage *MXImageFromFile(NSString *filename);
+UIColor *MXPadTableViewBackgroundColor();
 
 // Logging
-
 NSMutableArray *MXGetConsole();
 void MXWriteToConsole(NSString *format, ...);
+
+// Other
+BOOL MXIsPhone();
 
 // Core extensions
 
@@ -76,3 +79,7 @@ NSString *const NXLogConsoleUpdated;
 NSString *const NXLogConsoleFlushed;
 NSString *const NXModelUpdated;
 NSString *const MXDefaultCellID;
+
+#define GAD_IPHONE_KEY @"a14fa40c3009571"
+#define GAD_IPAD_KEY @"a14fa6612839d98"
+#define GAD_IPAD_WIDTH 728

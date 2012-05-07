@@ -18,17 +18,11 @@
 @synthesize accessoryType;
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
   self.title = @"Переезды";
-}
-
-- (void)viewDidUnload {
-  [super viewDidUnload];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-
   NSIndexPath *const currentRowIndex = [NSIndexPath indexPathForRow:model.currentCrossing.index inSection:0];
   [self.tableView scrollToRowAtIndexPath:currentRowIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 }

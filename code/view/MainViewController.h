@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Helpers.h"
 #import "Models.h"
+#import "GADBannerViewDelegate.h"
 
-@interface MainViewController : UITableViewController <CLLocationManagerDelegate>
+@interface MainViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, GADBannerViewDelegate>
 @end

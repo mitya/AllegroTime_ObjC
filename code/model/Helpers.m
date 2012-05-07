@@ -29,6 +29,10 @@ void MXLogSelector(SEL selector) {
   NSLog(@">> %s", (char *) selector);
 }
 
+void MXLogRect(NSString *title, CGRect rect) {
+  NSLog(@"%s %@: {(%.0f,%.0f) %.0fx%.0f}", __func__, title, rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+}
+
 void MXLog(char const *desc, id object) {
   if ([object isKindOfClass:NSArray.class]) {
     MXLogArray(desc, object);
@@ -61,15 +65,17 @@ void MXWriteToConsole(NSString *format, ...) {
 
   NSLog(@"%@", formattedMessage);
 
-  //formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
-  //[MXGetConsole() addObject:formattedMessage];
-  //
-  //[NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
-  //
-  //if (MXLoggingBuffer.count > 200) {
-  //  [MXLoggingBuffer removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 50)]];
-  //  [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleFlushed object:MXLoggingBuffer];
-  //}
+  #if DEBUG
+    formattedMessage = [NSString stringWithFormat:@"%@ %@\n", MXFormatDate([NSDate date], @"HH:mm:ss"), formattedMessage];
+    [MXGetConsole() addObject:formattedMessage];
+
+    [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleUpdated object:MXLoggingBuffer];
+
+    if (MXLoggingBuffer.count > 200) {
+      [MXLoggingBuffer removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 50)]];
+      [NSNotificationCenter.defaultCenter postNotificationName:NXLogConsoleFlushed object:MXLoggingBuffer];
+    }
+  #endif
 }
 
 
@@ -220,6 +226,16 @@ UILabel *MXConfigureLabelLikeInTableViewFooter(UILabel *label) {
 UIImage *MXImageFromFile(NSString *filename) {
   NSString *path = [NSString stringWithFormat:@"images/%@", filename];
   return [UIImage imageNamed:path];
+}
+
+UIColor *MXPadTableViewBackgroundColor() {
+  return [UIColor colorWithRed:0.816 green:0.824 blue:0.847 alpha:1.000];
+}
+
+#pragma mark - Other
+
+BOOL MXIsPhone() {
+  return UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
 }
 
 

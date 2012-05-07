@@ -5,24 +5,28 @@
 #import "CrossingMapController.h"
 #import "LogViewController.h"
 #import "AboutController.h"
+#import "GADBannerView.h"
 
 const int StateSection = 0;
 const int ActionsSection = 1;
 
 @interface MainViewController ()
-@property (nonatomic, strong) NSTimer *timer;
 @property (strong, nonatomic) IBOutlet UITableViewCell *crossingCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *stateCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *stateDetailsCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *showScheduleCell;
 @property (strong, nonatomic) IBOutlet UITableViewCell *showMapCell;
+@property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellTopLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *stateCellBottomLabel;
-@property (strong, nonatomic) IBOutlet UIView *stateSectionHeader;
+@property (unsafe_unretained, nonatomic) IBOutlet UITableView *tableView;
 @end
 
-@implementation MainViewController
-@synthesize timer;
+@implementation MainViewController {
+  GADBannerView *bannerView
+  BOOL bannerViewLoaded;
+}
+
 @synthesize crossingCell;
 @synthesize stateCell;
 @synthesize stateDetailsCell;
@@ -31,6 +35,7 @@ const int ActionsSection = 1;
 @synthesize stateCellTopLabel;
 @synthesize stateCellBottomLabel;
 @synthesize stateSectionHeader;
+@synthesize tableView;
 
 #pragma mark - lifecycle
 
@@ -39,9 +44,8 @@ const int ActionsSection = 1;
 }
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
-
   self.title = T("main.title");
+  self.view.backgroundColor = MXIsPhone() ? [UIColor groupTableViewBackgroundColor] : MXPadTableViewBackgroundColor();
 
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:T("main.backbutton") style:UIBarButtonItemStyleBordered target:nil action:nil];
 
@@ -49,11 +53,15 @@ const int ActionsSection = 1;
   [infoButton addTarget:self action:@selector(showInfo) forControlEvents:UIControlEventTouchUpInside];
   self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithCustomView:infoButton];
 
-  //UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
-  //swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-  //[self.view addGestureRecognizer:swipeRecognizer];
+  #if DEBUG
+    UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
+    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeRecognizer];
+  #endif
 
   [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
+
+  [self setupBanner];
 }
 
 - (void)viewDidUnload {
@@ -65,11 +73,15 @@ const int ActionsSection = 1;
   [self setStateCell:nil];
   [self setCrossingCell:nil];
   [self setStateSectionHeader:nil];
-  [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
+  // if we returned from another screen where the orientation was changed
+  if (bannerViewLoaded && bannerView.frame.size.width != self.view.frame.size.width) {
+    [self resetBannerFor:self.interfaceOrientation];
+  }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -80,6 +92,11 @@ const int ActionsSection = 1;
   return MXAutorotationPolicy(interfaceOrientation);
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+  if (bannerViewLoaded) {
+    [self resetBannerFor:toInterfaceOrientation];
+  }
+}
 
 #pragma mark - table view stuff
 
@@ -125,7 +142,7 @@ const int ActionsSection = 1;
   else return nil;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)table didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
   if (cell == crossingCell) [self showCrossingListToChangeCurrent];
@@ -133,6 +150,50 @@ const int ActionsSection = 1;
   else if (cell == showMapCell) [self showMap];
 }
 
+#pragma mark - banner
+
+- (void)setupBanner {
+  bannerView = [GADBannerView.alloc initWithAdSize:UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? kGADAdSizeSmartBannerLandscape : kGADAdSizeSmartBannerPortrait];
+  bannerView.adUnitID = MXIsPhone() ? GAD_IPHONE_KEY : GAD_IPAD_KEY;
+  bannerView.rootViewController = self;
+  bannerView.backgroundColor = self.view.backgroundColor;
+  bannerView.delegate = self;
+  bannerView.hidden = YES;
+
+  if (MXIsPhone()) {
+    bannerView.frame = CGRectMake(0, self.view.bounds.size.height - bannerView.bounds.size.height, bannerView.bounds.size.width, bannerView.bounds.size.height);
+  } else {
+    bannerView.frame = CGRectMake((self.view.bounds.size.width - GAD_IPAD_WIDTH) / 2, self.view.bounds.size.height - bannerView.bounds.size.height, GAD_IPAD_WIDTH, bannerView.bounds.size.height);
+    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+  }
+
+  [self.view addSubview:bannerView];
+
+  GADRequest *adRequest = [GADRequest request];
+  adRequest.testing = DEBUG ? YES : NO;
+  [bannerView loadRequest:adRequest];
+}
+
+- (void)adViewDidReceiveAd:(GADBannerView *)banner {
+  if (!bannerViewLoaded || MXIsPhone()) {
+    bannerView.frame = CGRectMake(banner.frame.origin.x, self.view.bounds.size.height, banner.frame.size.width, banner.frame.size.height);
+    [UIView animateWithDuration:0.25 animations:^{
+      banner.hidden = NO;
+      banner.frame = CGRectMake(banner.frame.origin.x, self.view.bounds.size.height - banner.frame.size.height, banner.frame.size.width, banner.frame.size.height);
+      tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - banner.bounds.size.height);
+    }];
+  }
+
+  bannerViewLoaded = YES;
+}
+
+- (void)resetBannerFor:(UIInterfaceOrientation)orientation {
+  if (MXIsPhone()) {
+    bannerView.hidden = YES;
+    bannerView.adSize = UIInterfaceOrientationIsLandscape(orientation) ? kGADAdSizeSmartBannerLandscape : kGADAdSizeSmartBannerPortrait;
+    tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+  }
+}
 
 #pragma mark - handlers
 

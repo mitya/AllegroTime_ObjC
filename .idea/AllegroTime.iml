@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CIDR_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/AllegroTime-b0846f50/Build/Products/Debug-iphonesimulator/AllegroTime.app">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/AllegroTime-b0846f50/Build/Products/Debug-iphonesimulator/AllegroTime.app" isTestSource="false" />
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/AllegroTime-b0846f50/Build/Products/Debug-iphoneos/AllegroTime.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/AllegroTime-b0846f50/Build/Products/Debug-iphoneos/AllegroTime.app" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdMobExtras.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdMobExtras.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdNetworkExtras.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdNetworkExtras.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdSize.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADAdSize.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADBannerView.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADBannerView.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADBannerViewDelegate.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADBannerViewDelegate.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADInterstitial.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADInterstitial.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADInterstitialDelegate.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADInterstitialDelegate.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADRequest.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADRequest.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADRequestError.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/GADRequestError.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventBanner.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventBanner.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventBannerDelegate.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventBannerDelegate.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventExtras.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventExtras.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventInterstitial.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventInterstitial.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventInterstitialDelegate.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventInterstitialDelegate.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventRequest.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/Mediation/GADCustomEventRequest.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/README.txt">
+      <sourceFolder url="file://$MODULE_DIR$/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1/README.txt" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
