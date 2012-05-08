@@ -13,4 +13,6 @@
 #import "GADBannerViewDelegate.h"
 
 @interface MainViewController : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate, GADBannerViewDelegate>
+@property (nonatomic, assign) BOOL adReloadPending;
+
 @end

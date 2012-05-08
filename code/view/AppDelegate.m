@@ -73,7 +73,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-  MXWriteToConsole(@"newLocation acc=%.f dist=%.f %@", newLocation.horizontalAccuracy, [newLocation distanceFromLocation:oldLocation], model.closestCrossing.name);
+  MXWriteToConsole(@"didUpdateToLocation acc=%.f dist=%.f %@", newLocation.horizontalAccuracy, [newLocation distanceFromLocation:oldLocation], model.closestCrossing.name);
 
   Crossing *const newClosestCrossing = [model crossingClosestTo:newLocation];
   if (newClosestCrossing != model.closestCrossing) {
@@ -83,7 +83,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-  MXWriteToConsole(@"locationFailed %@", error);
+  MXWriteToConsole(@"locationManager:didFailWithError: %@", error);
 
   model.closestCrossing = nil;
   [[NSNotificationCenter defaultCenter] postNotificationName:NXClosestCrossingChanged object:model.closestCrossing];

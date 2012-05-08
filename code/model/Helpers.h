@@ -83,3 +83,10 @@ NSString *const MXDefaultCellID;
 #define GAD_IPHONE_KEY @"a14fa40c3009571"
 #define GAD_IPAD_KEY @"a14fa6612839d98"
 #define GAD_IPAD_WIDTH 728
+#define GAD_REFRESH_PERIOD (DEBUG ? 10 : 60)
+#define GAD_TESTING_MODE (DEBUG ? YES : NO)
+
+#define IPHONE ( UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone )
+
+#define __method ([[NSString stringWithFormat:@"%s", _cmd] cString])
+#define __cmd (sel_getName(_cmd))

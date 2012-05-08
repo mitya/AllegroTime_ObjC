@@ -1,4 +1,5 @@
 #import <CoreLocation/CoreLocation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "MainViewController.h"
 #import "CrossingListController.h"
 #import "CrossingScheduleController.h"
@@ -23,8 +24,10 @@ const int ActionsSection = 1;
 @end
 
 @implementation MainViewController {
-  GADBannerView *bannerView
+  GADBannerView *bannerView;
+  NSTimer *adTimer;
   BOOL bannerViewLoaded;
+  BOOL adReloadPending;
 }
 
 @synthesize crossingCell;
@@ -36,6 +39,8 @@ const int ActionsSection = 1;
 @synthesize stateCellBottomLabel;
 @synthesize stateSectionHeader;
 @synthesize tableView;
+@synthesize adReloadPending;
+
 
 #pragma mark - lifecycle
 
@@ -45,23 +50,30 @@ const int ActionsSection = 1;
 
 - (void)viewDidLoad {
   self.title = T("main.title");
-  self.view.backgroundColor = MXIsPhone() ? [UIColor groupTableViewBackgroundColor] : MXPadTableViewBackgroundColor();
-
+  self.view.backgroundColor = IPHONE ? [UIColor groupTableViewBackgroundColor] : MXPadTableViewBackgroundColor();
   self.navigationItem.backBarButtonItem = [UIBarButtonItem.alloc initWithTitle:T("main.backbutton") style:UIBarButtonItemStyleBordered target:nil action:nil];
 
+  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
+  
+  [self createInfoButton];
+  [self setupBanner];
+  [self setupLogConsoleGesture];
+
+  adTimer = [NSTimer scheduledTimerWithTimeInterval:GAD_REFRESH_PERIOD target:self selector:@selector(adTimerTicked) userInfo:nil repeats:YES];
+}
+
+- (void)createInfoButton {
   UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
   [infoButton addTarget:self action:@selector(showInfo) forControlEvents:UIControlEventTouchUpInside];
   self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithCustomView:infoButton];
+}
 
-  #if DEBUG
+- (void)setupLogConsoleGesture {
+  if (DEBUG) {
     UISwipeGestureRecognizer *swipeRecognizer = [UISwipeGestureRecognizer.alloc initWithTarget:self action:@selector(recognizedSwipe:)];
     swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeRecognizer];
-  #endif
-
-  [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(closestCrossingChanged) name:NXClosestCrossingChanged object:nil];
-
-  [self setupBanner];
+  }
 }
 
 - (void)viewDidUnload {
@@ -77,10 +89,13 @@ const int ActionsSection = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  [self performDelayedBannerReload];
+}
 
-  // if we returned from another screen where the orientation was changed
-  if (bannerViewLoaded && bannerView.frame.size.width != self.view.frame.size.width) {
-    [self resetBannerFor:self.interfaceOrientation];
+- (void)performDelayedBannerReload {
+  if (adReloadPending) {
+    adReloadPending = NO;
+    [self reloadBanner];
   }
 }
 
@@ -90,12 +105,6 @@ const int ActionsSection = 1;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return MXAutorotationPolicy(interfaceOrientation);
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-  if (bannerViewLoaded) {
-    [self resetBannerFor:toInterfaceOrientation];
-  }
 }
 
 #pragma mark - table view stuff
@@ -153,47 +162,57 @@ const int ActionsSection = 1;
 #pragma mark - banner
 
 - (void)setupBanner {
-  bannerView = [GADBannerView.alloc initWithAdSize:UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? kGADAdSizeSmartBannerLandscape : kGADAdSizeSmartBannerPortrait];
-  bannerView.adUnitID = MXIsPhone() ? GAD_IPHONE_KEY : GAD_IPAD_KEY;
+  bannerView = [GADBannerView.alloc initWithAdSize:IPHONE ? kGADAdSizeBanner : kGADAdSizeLeaderboard];
+  bannerView.adUnitID = IPHONE ? GAD_IPHONE_KEY : GAD_IPAD_KEY;
   bannerView.rootViewController = self;
-  bannerView.backgroundColor = self.view.backgroundColor;
+  bannerView.backgroundColor = [UIColor clearColor];
   bannerView.delegate = self;
   bannerView.hidden = YES;
-
-  if (MXIsPhone()) {
-    bannerView.frame = CGRectMake(0, self.view.bounds.size.height - bannerView.bounds.size.height, bannerView.bounds.size.width, bannerView.bounds.size.height);
-  } else {
-    bannerView.frame = CGRectMake((self.view.bounds.size.width - GAD_IPAD_WIDTH) / 2, self.view.bounds.size.height - bannerView.bounds.size.height, GAD_IPAD_WIDTH, bannerView.bounds.size.height);
-    bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-  }
+  bannerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+  bannerView.frame = CGRectMake(bannerView.bounds.origin.x, self.view.bounds.size.height - bannerView.bounds.size.height, bannerView.bounds.size.width, bannerView.bounds.size.height);
 
   [self.view addSubview:bannerView];
+  [self reloadBanner];
+}
 
+- (void)reloadBanner {
   GADRequest *adRequest = [GADRequest request];
-  adRequest.testing = DEBUG ? YES : NO;
+  adRequest.testing = GAD_TESTING_MODE;
+
+  CLLocation *location = app.locationManager.location;
+  if (location) {
+    [adRequest setLocationWithLatitude:(CGFloat) location.coordinate.latitude longitude:(CGFloat) location.coordinate.longitude accuracy:(CGFloat) location.horizontalAccuracy];
+  }
+
   [bannerView loadRequest:adRequest];
 }
 
+- (void)adTimerTicked {
+  NSLog(@"%s ", __cmd);
+
+  if (bannerViewLoaded) {
+    if (self.navigationController.visibleViewController == self)
+      [self reloadBanner];
+    else
+      adReloadPending = YES;
+  }
+}
+
 - (void)adViewDidReceiveAd:(GADBannerView *)banner {
-  if (!bannerViewLoaded || MXIsPhone()) {
+  NSLog(@"%s ", __cmd);
+  if (!bannerViewLoaded) {
     bannerView.frame = CGRectMake(banner.frame.origin.x, self.view.bounds.size.height, banner.frame.size.width, banner.frame.size.height);
     [UIView animateWithDuration:0.25 animations:^{
       banner.hidden = NO;
       banner.frame = CGRectMake(banner.frame.origin.x, self.view.bounds.size.height - banner.frame.size.height, banner.frame.size.width, banner.frame.size.height);
-      tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - banner.bounds.size.height);
     }];
-  }
-
-  bannerViewLoaded = YES;
-}
-
-- (void)resetBannerFor:(UIInterfaceOrientation)orientation {
-  if (MXIsPhone()) {
-    bannerView.hidden = YES;
-    bannerView.adSize = UIInterfaceOrientationIsLandscape(orientation) ? kGADAdSizeSmartBannerLandscape : kGADAdSizeSmartBannerPortrait;
-    tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    bannerViewLoaded = YES;
   }
 }
+
+ - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error {
+   NSLog(@"adView:didFailToReceiveAdWithError: %@", error);
+ }
 
 #pragma mark - handlers
 

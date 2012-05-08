@@ -616,6 +616,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dmitry Sokurenko";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AllegroTime/AllegroTime-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=0";
 				INFOPLIST_FILE = "AllegroTime/AllegroTime-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -623,7 +624,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D628F0AB-AF3A-41DB-B348-A2F8C96927C4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "94080C6C-CF7E-44CC-A359-E487AB1E06AD";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
