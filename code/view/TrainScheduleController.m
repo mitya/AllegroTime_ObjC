@@ -1,8 +1,3 @@
-//
-//  Created by Dima on 03.04.12.
-//
-
-
 #import "TrainScheduleController.h"
 #import "Models.h"
 #import "Helpers.h"
