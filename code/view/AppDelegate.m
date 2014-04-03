@@ -10,6 +10,8 @@
 #import "MainViewController.h"
 #import "CrossingMapController.h"
 
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
+
 @implementation AppDelegate
 
 @synthesize window = _window;

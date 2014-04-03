@@ -103,7 +103,7 @@
   NSString *message = [console objectAtIndex:(console.count - 1 - indexPath.row)];
   UIFont *font = [UIFont systemFontOfSize:12];
   CGSize constraintSize = CGSizeMake(table.bounds.size.width - 20, MAXFLOAT);
-  CGSize labelSize = [message sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+  CGSize labelSize = [message sizeWithFont:font constrainedToSize:constraintSize lineBreakMode:NSLineBreakByWordWrapping ];
   return labelSize.height + 6;
 }
 

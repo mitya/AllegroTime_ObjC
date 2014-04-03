@@ -26,7 +26,7 @@ void MXLogString(char const *string) {
 }
 
 void MXLogSelector(SEL selector) {
-  NSLog(@">> %s", (char *) selector);
+  NSLog(@">> %s", sel_getName(selector));
 }
 
 void MXLogRect(NSString *title, CGRect rect) {

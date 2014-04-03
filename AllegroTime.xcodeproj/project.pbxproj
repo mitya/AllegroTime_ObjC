@@ -188,7 +188,6 @@
 		32BD4D65151F4AE20033BDDE = {
 			isa = PBXGroup;
 			children = (
-				32971D5318EDE90900763E72 /* Default-568h@2x.png */,
 				32BD4D7D151F4AE20033BDDE /* Supporting Files */,
 				32BD4D98151F4AE20033BDDE /* Tests */,
 				32BD4D73151F4AE20033BDDE /* Frameworks */,
@@ -264,6 +263,7 @@
 		32DE8873153EC81D00D130FB /* Std Images */ = {
 			isa = PBXGroup;
 			children = (
+				32971D5318EDE90900763E72 /* Default-568h@2x.png */,
 				32F5727D155050AE000B557C /* Default-Portrait@2x~ipad.png */,
 				32917CF41547078A006AF3F1 /* Default-Portrait~ipad.png */,
 				32F572791550509C000B557C /* Default-Landscape@2x~ipad.png */,
@@ -602,7 +602,6 @@
 				INFOPLIST_FILE = "AllegroTime/AllegroTime-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1\"",
 					"$(PROJECT_DIR)/GoogleAdMobSDKiOS-6.0.1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -623,7 +622,6 @@
 				INFOPLIST_FILE = "AllegroTime/AllegroTime-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../Vendors/GoogleAdMobAdsSdkiOS-6.0.1\"",
 					"$(PROJECT_DIR)/GoogleAdMobSDKiOS-6.0.1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
