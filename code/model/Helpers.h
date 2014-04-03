@@ -52,7 +52,7 @@ BOOL MXIsPhone();
 
 // General helpers
 
-@interface Helper
+@interface Helper : NSObject
 + (NSInteger)parseStringAsHHMM:(NSString *)string;
 + (NSComparisonResult)compareInteger:(int)num1 with:(int)num2;
 + (float)tableViewCellWidth;
